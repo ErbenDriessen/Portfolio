@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="darkreader-lock">
+<title>Erben Driessen — Software Developer</title>
+<meta name="description" content="Erben Driessen — 4th-year Software Development student. Frontend & backend. Available for internships and freelance.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portfolio.css?v=11">
+</head>
+<body>
+
+<!-- ============================ NAV ============================ -->
+<nav class="nav" id="nav">
+  <a class="brand" href="#top"><span class="dot"></span>erben.dev</a>
+  <div class="nav-links">
+    <a href="#work" class="label-hide">work</a>
+    <a href="#about" class="label-hide">about</a>
+    <a href="#stack" class="label-hide">stack</a>
+    <a href="#contact" class="cta">get in touch</a>
+  </div>
+</nav>
+
+<!-- ============================================================= -->
+<!--  HERO — full-viewport interactive split portrait              -->
+<!--  SWAP IMAGES: img/me-frontend.png (gaze LEFT) /               -->
+<!--               img/me-backend.png  (gaze RIGHT)                -->
+<!-- ============================================================= -->
+<header class="hero" id="top" role="img"
+        aria-label="Erben Driessen — split portrait: frontend developer on the left, backend developer on the right.">
+
+  <!-- FRONTEND (left) -->
+  <section class="panel front">
+    <div class="bg front"></div>
+    <div class="motifs">
+      <div class="grid-fe"></div>
+      <div class="m-card" style="left:3%;  top:16%; width:132px; height:76px;"><div class="bar"></div><div class="ln"></div><div class="ln s"></div></div>
+      <div class="m-card" style="left:10%; top:50%; width:100px; height:62px;"><div class="bar"></div><div class="ln"></div><div class="ln s"></div></div>
+      <div class="m-pill" style="left:5%;  top:73%; width:80px; background:var(--grad-fe);"></div>
+      <div class="m-pill" style="left:15%; top:80%; width:54px; background:var(--fe-cyan);"></div>
+      <svg style="position:absolute; left:0; top:0; width:42%; height:100%;" viewBox="0 0 480 800" fill="none" preserveAspectRatio="xMinYMid meet">
+        <path d="M30 440 C 120 410, 150 520, 250 470" stroke="#FF6B6B" stroke-width="14" stroke-linecap="round" opacity=".55"/>
+        <path d="M44 360 C 110 345, 140 410, 210 380" stroke="#4ECDC4" stroke-width="9"  stroke-linecap="round" opacity=".5"/>
+        <g transform="translate(150 250) rotate(18)" opacity=".75"><path d="M0 0 L40 14 L26 26 L36 50 L26 56 L18 32 L4 42 Z" fill="#2b2b2b"/></g>
+      </svg>
+    </div>
+    <img class="portrait" src="img/me-frontend.png" alt="Erben Driessen looking left — frontend developer">
+    <img class="portrait portrait-mid" src="img/me-camera.png" alt="" aria-hidden="true">
+    <a class="label front" href="#stack" aria-label="See my frontend work and stack">
+      <span class="word">frontend</span>
+      <span class="tag">Building beautiful, accessible interfaces.</span>
+    </a>
+  </section>
+
+  <!-- BACKEND (right) -->
+  <section class="panel back">
+    <div class="bg back"></div>
+    <div class="motifs">
+      <div class="grid-be"></div>
+      <div class="code" style="right:4%; top:13%; text-align:right;"><span class="k">async</span> <span class="b">function</span> handler() {
+  <span class="k">await</span> db.query(<span class="s">'SELECT *'</span>);
+  <span class="b">return</span> <span class="s">'200 OK'</span>;
+}</div>
+      <div class="code" style="right:6%; top:62%;"><span class="b">GET</span> /api/users  <span class="k">200</span>
+docker run -d node</div>
+      <span class="glyph" style="right:30%; top:28%; font-size:64px;">{ }</span>
+      <span class="glyph" style="right:9%;  top:45%; font-size:30px;">;</span>
+      <span class="glyph" style="right:24%; top:82%; font-size:26px; color:rgba(88,166,255,.22);">&lt;/&gt;</span>
+      <svg style="position:absolute; right:0; top:0; width:44%; height:100%;" viewBox="0 0 500 800" fill="none" preserveAspectRatio="xMaxYMid meet">
+        <g stroke="rgba(88,166,255,.3)" stroke-width="1.4" fill="none">
+          <path d="M500 180 H380 V300 H300"/><circle cx="300" cy="300" r="4" fill="rgba(0,255,156,.5)" stroke="none"/>
+          <path d="M500 420 H420 V560 H340"/><circle cx="340" cy="560" r="4" fill="rgba(88,166,255,.55)" stroke="none"/>
+          <path d="M470 650 H410 V700"/>
+        </g>
+      </svg>
+      <div class="term" style="right:5%; top:75%; width:152px;">
+        <div class="tbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="body">$ npm run build<br>✓ ready in 312ms</div>
+      </div>
+    </div>
+    <img class="portrait" src="img/me-backend.png" alt="Erben Driessen looking right — backend developer">
+    <img class="portrait portrait-mid" src="img/me-camera.png" alt="" aria-hidden="true">
+    <a class="label back" href="#stack" aria-label="See my backend work and stack">
+      <span class="word">{ backend }</span>
+      <span class="tag">Designing fast, reliable systems and APIs.</span>
+    </a>
+  </section>
+
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-mobile">
+    <a class="hm-link" href="#stack" aria-label="See my frontend and backend work">
+      <span class="hm-word fe">frontend</span>
+      <span class="hm-word be">{ backend }</span>
+      <span class="hm-tag">I build both sides, from pixel to packet.</span>
+    </a>
+  </div>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <div class="hero-intro">
+    <p class="role">Erben&nbsp;Driessen&nbsp;·&nbsp;Software&nbsp;Developer</p>
+    <p class="role-hint">drag&nbsp;⇆&nbsp;or tap a side</p>
+  </div>
+  <a class="scrollcue" href="#about" aria-label="Scroll down to read more">
+    <span class="sc-mouse"><span class="sc-wheel"></span></span>
+    <span class="sc-txt">scroll</span>
+  </a>
+</header>
+
+<!-- ============================ ABOUT ============================ -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <p class="eyebrow">about</p>
+      <span class="status"><span class="pulse"></span>Available for internships &amp; freelance</span>
+      <h2 class="h2">I build across the whole stack, from the <span class="grad-text">pixel</span> to the <span class="mono" style="color:var(--be-green)">packet</span>.</h2>
+      <p class="lead">Hi, I'm Erben, a <span class="hl">4th-year Software Development student</span> at ROC Aventus in Apeldoorn. I like building things that solve a real problem: mobile apps, web pages, the occasional game. I'm curious to learn, a bit of a perfectionist, and happiest when something I made actually gets used.</p>
+    </div>
+    <div class="reveal">
+      <!-- EDIT: quick facts -->
+      <div class="facts">
+        <div class="fact"><span class="k">role</span><span class="v">Software Developer</span></div>
+        <div class="fact"><span class="k">focus</span><span class="v">React&nbsp;Native · Python</span></div>
+        <div class="fact"><span class="k">study</span><span class="v">SD&nbsp;N4 · ROC&nbsp;Aventus</span></div>
+        <div class="fact"><span class="k">based</span><span class="v">Apeldoorn,&nbsp;NL</span></div>
+        <div class="fact"><span class="k">open&nbsp;to</span><span class="v">Internship · Freelance</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STACK / CAPABILITIES ============================ -->
+<section class="section" id="stack">
+  <div class="reveal">
+    <p class="eyebrow">what i do</p>
+    <h2 class="h2">Two sides, one developer.</h2>
+  </div>
+  <div class="cap-grid">
+    <div class="cap fe reveal">
+      <h3><span class="tagword">frontend</span></h3>
+      <p class="sub">Mobile &amp; web interfaces, currently focused on React&nbsp;Native + Expo.</p>
+      <ul>
+        <li>React Native</li><li>Expo</li><li>React</li><li>JavaScript</li>
+        <li>HTML</li><li>CSS</li><li>Responsive</li>
+      </ul>
+    </div>
+    <div class="cap be reveal">
+      <h3>{ backend }</h3>
+      <p class="sub">Python tools, queries and OOP fundamentals: the logic behind the screen.</p>
+      <ul>
+        <li>Python</li><li>SQL</li><li>Java</li><li>CLI tools</li>
+        <li>Git</li><li>Databases</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ WORK ============================ -->
+<section class="section" id="work">
+  <div class="reveal">
+    <p class="eyebrow">selected work</p>
+    <h2 class="h2">Things I've built.</h2>
+  </div>
+  <div class="work-grid">
+    <a class="card reveal" href="powerplant.html" aria-label="PowerPlan(t) — read the case study">
+      <div class="thumb thumb-img"><img src="media/s4.jpeg" alt="PowerPlan(t) app — the living window view"></div>
+      <div class="body">
+        <div class="tags"><span>React Native</span><span>Expo</span><span class="yr">2026</span></div>
+        <h3>PowerPlan(t)</h3>
+        <p>A calm, wellness planner app that grows a forest as you focus, with an animated window that tracks the time of day.</p>
+        <span class="more">Read case study <span class="arr">→</span></span>
+      </div>
+    </a>
+    <a class="card reveal" href="this-website.html" aria-label="This website — read the case study">
+      <div class="thumb thumb-img"><img src="media/site-thumb.jpg" alt="The split-portrait banner of this site"></div>
+      <div class="body">
+        <div class="tags"><span>HTML/CSS/JS</span><span>GSAP</span><span class="yr">2026</span></div>
+        <h3>This website</h3>
+        <p>The site you're on, a split-portrait banner that follows your cursor, and a signature that writes itself as you scroll.</p>
+        <span class="more">Read case study <span class="arr">→</span></span>
+      </div>
+    </a>
+    <a class="card reveal" href="planetpod.html" aria-label="PlanetPod — read the case study">
+      <div class="thumb thumb-img"><img src="media/planetpod-thumb2.jpg" alt="PlanetPod fleet dashboard — map of the Netherlands with pod statuses"></div>
+      <div class="body">
+        <div class="tags"><span>Grafana</span><span>SQL</span><span class="yr">2025</span></div>
+        <h3>PlanetPod — fleet monitoring</h3>
+        <p>Internship dashboards that spot a failing home battery before the customer notices, with a fleet map and a per-pod deep-dive.</p>
+        <span class="more">Read case study <span class="arr">→</span></span>
+      </div>
+    </a>
+  </div>
+
+  <!-- more projects — loaded live from Supabase; managed via the admin -->
+  <div class="more-projects" id="moreProjects">
+    <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="morePanel">
+      <span class="mt-label">More projects</span>
+      <span class="mt-count">0</span>
+      <span class="mt-chev">▾</span>
+    </button>
+    <div class="more-panel" id="morePanel" hidden>
+      <div class="more-filter" id="moreFilter"></div>
+      <div class="more-sort">
+        <span class="ms-label">sort</span>
+        <button class="ms-btn on" data-sort="new">Newest</button>
+        <button class="ms-btn" data-sort="old">Oldest</button>
+        <button class="ms-btn" data-sort="az">A–Z</button>
+        <button class="ms-btn" data-sort="type">By type</button>
+      </div>
+      <div class="more-grid" id="moreGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CONTACT ============================ -->
+<section class="section contact" id="contact">
+  <div class="reveal">
+    <p class="eyebrow" style="justify-content:center;">get in touch</p>
+    <h2 class="h2">Let's build something.</h2>
+    <p class="lead">Open to <span class="hl">internships</span> and <span class="hl">freelance</span> work. The fastest way to reach me is email.</p>
+    <div class="btn-row">
+      <a class="btn primary" href="mailto:erben.l.driessen@gmail.com">erben.l.driessen@gmail.com</a>
+      <a class="btn ghost" href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/erben-driessen-3837b429a/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>© <span id="year"></span> Erben Driessen</span>
+  <div class="socials">
+    <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/erben-driessen-3837b429a/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:erben.l.driessen@gmail.com">Email</a>
+    <a href="admin.html" style="opacity:.5;">admin</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---------------- nav scroll state ---------------- */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------------- reveal on scroll ---------------- */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.06});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ---------------- interactive split portrait ---------------- */
+  const hero = document.getElementById('top');
+  const REST = 0.5, DAMP = 12;
+  let current = REST, target = REST, raf = null;
+
+  const mqMobile = window.matchMedia('(max-width:640px)');
+  const mqReduce = window.matchMedia('(prefers-reduced-motion:reduce)');
+  const enabled  = () => !mqReduce.matches;   /* live effect on all sizes (mouse + touch); off only for reduced-motion */
+  const clamp = (v,a,b)=>v<a?a:v>b?b:v;
+  let userTouched = false;
+
+  function render(){
+    const t = clamp(current,0,1);
+    hero.style.setProperty('--seam', ((1 - t) * 100) + '%');
+    hero.style.setProperty('--t', t);
+  }
+  function frame(){
+    current += (target - current) / DAMP;
+    render();
+    if (Math.abs(target - current) > 0.0008){ raf = requestAnimationFrame(frame); }
+    else { current = target; render(); raf = null; }
+  }
+  function kick(){ if(!raf) raf = requestAnimationFrame(frame); }
+
+  function onMove(e){
+    if(!enabled()) return;
+    const r = hero.getBoundingClientRect();
+    target = clamp((e.clientX - r.left) / r.width, 0, 1);
+    if(!hero.classList.contains('touched')) hero.classList.add('touched');
+    kick();
+  }
+  function onDown(e){ userTouched = true; onMove(e); }
+  function onLeave(){ if(!enabled()) return; target = REST; kick(); }
+
+  hero.addEventListener('pointermove', onMove, {passive:true});
+  hero.addEventListener('pointerdown', onDown, {passive:true});
+  hero.addEventListener('pointerleave', onLeave);
+  hero.addEventListener('pointerup',   onLeave);
+  hero.addEventListener('pointercancel', onLeave);
+
+  /* one-time intro sweep — auto-demonstrates the gaze-follow effect where there's no cursor */
+  function introSweep(){
+    if(mqReduce.matches) return;
+    [[0.28,1500],[0.72,2300],[0.50,3150]].forEach(function(s){
+      setTimeout(function(){ if(!userTouched){ target=s[0]; kick(); } }, s[1]);
+    });
+  }
+
+  function applyMode(){
+    if(enabled()){ kick(); }
+    else { if(raf){ cancelAnimationFrame(raf); raf=null; } current=target=REST; render(); }
+  }
+  mqReduce.addEventListener('change', applyMode);
+  render(); applyMode();
+  if(mqMobile.matches) introSweep();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script src="more-projects.js"></script>
+</body>
+</html>
