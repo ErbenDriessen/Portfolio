@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="darkreader-lock">
+<title>This Website — Case study · Erben Driessen</title>
+<meta name="description" content="erben.dev — a portfolio that introduces me before I say a word. A live split-portrait banner that follows your gaze, and a signature that writes itself as you scroll.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="powerplant.css?v=4">
+<link rel="stylesheet" href="thiswebsite.css?v=8">
+</head>
+<body>
+
+<!-- ============================ NAV ============================ -->
+<nav class="pp-nav" id="ppnav">
+  <a class="pp-back" href="index.html#work"><span class="ar">←</span> Erben&nbsp;Driessen</a>
+  <div class="pp-nav-right">
+    <a href="#signature">the&nbsp;signature</a>
+    <a href="#features">features</a>
+    <a class="gh" href="index.html" target="_blank" rel="noopener">Open live ↗</a>
+  </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="pp-hero">
+  <div class="pp-hero-glow" aria-hidden="true"></div>
+  <div class="pp-hero-copy rev-in">
+    <p class="pp-eyebrow">Case study · Web</p>
+    <h1 class="pp-title">This <span class="t">website</span></h1>
+    <p class="pp-sub">A portfolio that introduces me before I say a word.</p>
+    <p class="pp-lead">The site you're on right now. One face, split down the middle (frontend on the left, backend on the right), with a slider that follows your cursor. Built by hand, no page-builder, no template.</p>
+    <div class="pp-meta">
+      <span class="pp-chip on">2026</span>
+      <span class="pp-chip">Web</span>
+      <span class="pp-chip">Solo build</span>
+      <span class="pp-chip">Live</span>
+    </div>
+    <div class="pp-cta">
+      <a class="pp-btn primary" href="index.html">Open the live site</a>
+      <a class="pp-btn ghost" href="#signature">The signature ↓</a>
+    </div>
+  </div>
+
+  <div class="pp-hero-stage rev-in">
+    <!-- LIVE laptop: real banner in an iframe, gaze auto-sweeps (no recording) -->
+    <div class="lapimg">
+      <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+      <div class="lapimg-screen">
+        <iframe data-live="gaze" src="banner.html" title="Live preview of the erben.dev banner" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+        <div class="lapimg-glare"></div>
+      </div>
+    </div>
+    <span class="live-cap"><span class="dot"></span>live preview · the eyes follow the split</span>
+  </div>
+</header>
+
+<!-- ============================ OVERVIEW ============================ -->
+<section class="pp-section">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">Overview</p>
+    <h2 class="pp-h2">A homepage that <span class="g">is</span> the introduction.</h2>
+  </div>
+  <div class="rev-in" style="max-width:62ch; margin-bottom:48px;">
+    <p class="pp-p">Most developer portfolios open with a wall of text. I wanted mine to <span class="hl">show</span> the frontend/backend split instead of explaining it. So the hero is a single portrait of me, cut down the middle: a bright, creative frontend on one side and a dark, technical backend on the other, and because each half looks the other way, my eyes follow your cursor across the seam.</p>
+  </div>
+  <div class="pp-concepts">
+    <div class="pp-concept rev-in"><div class="ic">🪞</div><h3>Dual identity</h3><p>One face, two sides: the whole frontend ↔ backend idea in a single image.</p></div>
+    <div class="pp-concept rev-in"><div class="ic">🎯</div><h3>Motion with intent</h3><p>Every animation earns its place: the gaze, the zoom-out, the signature.</p></div>
+    <div class="pp-concept rev-in"><div class="ic">📐</div><h3>Built to last</h3><p>Hand-written HTML/CSS/JS: fast, responsive, accessible, and easy to extend.</p></div>
+  </div>
+</section>
+
+<!-- ============================ SIGNATURE (signature feature) ============================ -->
+<section class="pp-spot" id="signature">
+  <div class="pp-spot-inner">
+    <div class="pp-spot-copy rev-in">
+      <p class="pp-kicker">Signature feature</p>
+      <h2 class="pp-h2">It signs itself.</h2>
+      <p class="pp-p" style="margin-top:18px;">Scroll past the hero and the banner pins, zooms back like a card being placed on a desk, and my signature <span class="hl">ED</span> gets drawn on top, stroke by stroke, in the exact order I write it by hand. It's an SVG mask wiping along the pen path, tied to scroll progress.</p>
+      <div class="pp-meta" style="margin-top:24px;">
+        <span class="pp-chip">Pinned scroll</span>
+        <span class="pp-chip">SVG mask write-on</span>
+        <span class="pp-chip">GSAP + Lenis</span>
+      </div>
+    </div>
+    <div class="pp-spot-stage rev-in">
+      <!-- LIVE laptop: v2 banner, auto-loops the zoom-out + signature write -->
+      <div class="lapimg">
+        <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+        <div class="lapimg-screen">
+          <iframe data-live="signature" src="index.html#zoforce" title="Live preview of the signature write-on" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+          <div class="lapimg-glare"></div>
+        </div>
+      </div>
+      <div style="text-align:center;"><span class="live-cap"><span class="dot"></span>live preview · writes on loop</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FEATURES ============================ -->
+<section class="pp-section" id="features">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">Details</p>
+    <h2 class="pp-h2">The small stuff that makes it feel alive.</h2>
+  </div>
+
+  <!-- Three portraits / gaze -->
+  <div class="pp-feat">
+    <div class="copy rev-in">
+      <p class="pp-kicker">The gaze</p>
+      <h3>Three of me, one look</h3>
+      <p>The banner blends three photos shot in the same spot: looking left, straight at you, and right. At rest you get eye-contact; the moment the split moves, the matching gaze fades in. No cross-eyed glitch, just a face that follows you.</p>
+      <div class="tags"><span>3 aligned photos</span><span>clip-path seam</span><span>opacity blend</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="device tilt-r" style="--screen-ar:1632/600; width:clamp(300px,42vw,460px); border-radius:18px;">
+        <div class="screen" style="border-radius:12px;"><img src="media/site-gaze.jpg" alt="Three aligned portraits: looking left, at camera, and right" style="object-position:center;"><span class="glare"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Responsive (live phone) -->
+  <div class="pp-feat rev">
+    <div class="copy rev-in">
+      <p class="pp-kicker">Responsive</p>
+      <h3>Reads on any screen</h3>
+      <p>A recruiter might open this on a train, on their phone. So on small screens the split collapses into a clean, centered <span class="hl">frontend / backend</span> lockup over the portrait, fully legible, no overlap, no horizontal scroll. Same idea, sized for a thumb.</p>
+      <div class="tags"><span>Mobile-first fallback</span><span>No layout shift</span><span>prefers-reduced-motion</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="device live tilt-l">
+        <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+        <div class="screen">
+          <iframe data-live="phone" src="banner.html" title="Live mobile preview" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+          <span class="glare"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ UNDER THE HOOD ============================ -->
+<section class="pp-section">
+  <div class="pp-stack">
+    <div class="rev-in">
+      <p class="pp-eyebrow">Under the hood</p>
+      <h2 class="pp-h2" style="margin-bottom:18px;">Hand-coded, every line.</h2>
+      <p class="pp-p" style="margin-bottom:24px;">No framework for the structure: just clean, semantic HTML and CSS so it stays fast and easy to edit. The scroll choreography runs on <span class="hl">GSAP + ScrollTrigger</span> with <span class="hl">Lenis</span> smooth scroll, and the signature is a hand-traced SVG path revealed through a mask.</p>
+      <div class="pp-stack-list">
+        <span>HTML</span><span>CSS</span><span>JavaScript</span><span>GSAP</span><span>ScrollTrigger</span><span>Lenis</span><span>SVG</span>
+      </div>
+    </div>
+    <div class="rev-in">
+      <div class="pp-facts">
+        <div class="pp-fact"><span class="k">type</span><span class="v">Portfolio site</span></div>
+        <div class="pp-fact"><span class="k">year</span><span class="v">2026</span></div>
+        <div class="pp-fact"><span class="k">build</span><span class="v">Solo</span></div>
+        <div class="pp-fact"><span class="k">my&nbsp;role</span><span class="v">Design + development</span></div>
+        <div class="pp-fact"><span class="k">status</span><span class="v">You're on it</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CLOSE ============================ -->
+<section class="pp-section pp-close">
+  <div class="rev-in">
+    <h2 class="pp-h2">You're looking at it.</h2>
+    <div class="pp-close-row">
+      <a class="pp-btn primary" href="index.html">Back to the top</a>
+      <a class="pp-btn ghost" href="index.html#work">← All work</a>
+    </div>
+  </div>
+</section>
+
+<footer class="pp-footer">
+  <span>© <span id="ppyear"></span> Erben Driessen — This site, about itself</span>
+  <div style="display:flex; gap:18px;">
+    <a href="index.html">Portfolio</a>
+    <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:erben.l.driessen@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const nav = document.getElementById('ppnav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  document.getElementById('ppyear').textContent = new Date().getFullYear();
+
+  /* reveal-on-scroll */
+  const els = [].slice.call(document.querySelectorAll('.rev-in'));
+  function check(){
+    for (var i=0;i<els.length;i++){ var el=els[i];
+      if(!el.classList.contains('vis')){
+        var r=el.getBoundingClientRect();
+        if(r.top < window.innerHeight*0.92 && r.bottom > 0) el.classList.add('vis');
+      }
+    }
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check);
+  check(); requestAnimationFrame(check); setTimeout(check, 250);
+
+  /* ---------- fit live iframes into their mockups ---------- */
+  /* glass-quad corners of media/laptop-frame.png as fractions of its W×H.
+     The screen is an orthographic projection of a flat rectangle, so the
+     quad is a parallelogram → an affine transform maps the iframe exactly. */
+  var GLASS={ tl:[0.3148,0.0870], tr:[0.9307,0.1767], bl:[0.2757,0.6529] };
+  function fitLaptops(){
+    document.querySelectorAll('.lapimg').forEach(function(el){
+      var img=el.querySelector('.lapimg-frame'); if(!img) return;
+      var W=img.clientWidth, H=img.clientHeight; if(!W||!H) return;
+      var tl=[GLASS.tl[0]*W, GLASS.tl[1]*H],
+          tr=[GLASS.tr[0]*W, GLASS.tr[1]*H],
+          bl=[GLASS.bl[0]*W, GLASS.bl[1]*H];
+      var a=(tr[0]-tl[0])/1280, b=(tr[1]-tl[1])/1280,
+          c=(bl[0]-tl[0])/800,  d=(bl[1]-tl[1])/800,
+          e=tl[0], f=tl[1];
+      var m='matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+      el.querySelectorAll('iframe,.lapimg-glare').forEach(function(n){ n.style.transform=m; });
+    });
+    document.querySelectorAll('.device.live .screen').forEach(function(sc){
+      var f=sc.querySelector('iframe'); if(!f) return;
+      sc.style.setProperty('--ph-scale', (sc.clientWidth/430).toFixed(4));
+    });
+  }
+  window.addEventListener('resize', fitLaptops);
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(fitLaptops);
+    document.querySelectorAll('.lapimg, .device.live .screen').forEach(function(el){ ro.observe(el); });
+  }
+  // re-fit once the frame image has its real dimensions
+  document.querySelectorAll('.lapimg-frame').forEach(function(img){
+    if(img.complete) return; img.addEventListener('load', fitLaptops);
+  });
+  fitLaptops(); setTimeout(fitLaptops, 200);
+
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ---------- drive the live previews once each iframe is ready ---------- */
+  function whenReady(frame, cb){
+    function go(){ try{ var d=frame.contentDocument; if(d && d.getElementById('top')) return cb(frame); }catch(e){} setTimeout(go, 120); }
+    if(frame.contentDocument && frame.contentDocument.readyState==='complete'){ go(); }
+    else frame.addEventListener('load', go);
+    go();
+  }
+
+  /* gaze: slowly oscillate the split so the eyes sweep side to side */
+  function driveGaze(frame){
+    var win=frame.contentWindow, doc=frame.contentDocument;
+    var hero=doc.getElementById('top'); if(!hero) return;
+    // make sure its own intro/handlers settle on the centred still
+    function setT(t){ hero.style.setProperty('--t', t); hero.style.setProperty('--seam', ((1-t)*100)+'%'); }
+    if(reduce){ setT(0.5); return; }
+    var start=null;
+    function loop(ts){
+      if(start===null) start=ts;
+      var e=(ts-start)/1000;
+      // ease-in-out sine, dwell near centre and edges
+      var t=0.5 + 0.5*Math.sin(e*0.7);
+      setT(t);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  /* signature: loop the v2 zoom-out + write-on via its exposed scrubber */
+  function driveSignature(frame){
+    var win=frame.contentWindow;
+    function ready(){ return typeof win.__zoScrub==='function'; }
+    function start(){
+      if(reduce){ try{ win.__zoScrub(1); }catch(e){} return; }
+      var start=null, DUR=5200, HOLD=900;
+      function loop(ts){
+        if(start===null) start=ts;
+        var e=(ts-start);
+        var cycle=DUR*2+HOLD;
+        var p=e % cycle;
+        var v;
+        if(p<DUR) v=p/DUR;                       // write on
+        else if(p<DUR+HOLD) v=1;                 // hold full
+        else v=1-((p-DUR-HOLD)/DUR);             // unwrite
+        try{ win.__zoScrub(Math.max(0,Math.min(1,v))); }catch(e){}
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    }
+    var tries=0;
+    (function wait(){ if(ready()) start(); else if(tries++<80) setTimeout(wait,150); })();
+  }
+
+  document.querySelectorAll('iframe[data-live]').forEach(function(f){
+    var kind=f.getAttribute('data-live');
+    whenReady(f, function(){
+      if(kind==='gaze') driveGaze(f);
+      else if(kind==='signature') driveSignature(f);
+      // 'phone' just shows the live responsive layout, no driving needed
+    });
+  });
+})();
+</script>
+</body>
+</html>

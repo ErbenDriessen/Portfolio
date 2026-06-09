@@ -1,0 +1,83 @@
+/* =================================================================
+   thiswebsite.css — image-based laptop mockup + live-iframe showcase
+   Loaded AFTER powerplant.css. Reuses the pp-* case-study theme.
+   ================================================================= */
+
+/* ---------- re-skin: this case study gets its OWN palette ----------
+   (the pp-* theme is forest-green for PowerPlant; here we echo the site's
+   own frontend↔backend identity with an azure→violet scheme) */
+:root{
+  --pp-bg:#0b0e1a;
+  --pp-bg2:#0f1426;
+  --pp-forest:#161d33;
+  --pp-card:#141a2b;
+  --pp-line:rgba(255,255,255,.09);
+  --pp-line-strong:rgba(255,255,255,.16);
+  --pp-lime:#5B9DFF;          /* primary accent (was lime) */
+  --pp-lime-bright:#86B8FF;
+  --pp-sun:#9B7CFF;           /* gradient end (was sun) */
+  --pp-cream:#EAEFFA;
+  --pp-dim:#9AA6C0;
+  --pp-faint:#5b6480;
+  --pp-grad:linear-gradient(120deg,#5B9DFF,#7C8CFF 50%,#9B7CFF);
+}
+body{
+  background:
+    radial-gradient(120% 70% at 80% -5%, rgba(155,124,255,.13), transparent 55%),
+    radial-gradient(100% 60% at 0% 0%, rgba(91,157,255,.12), transparent 50%),
+    var(--pp-bg) !important;
+}
+.pp-hero-glow{
+  background:radial-gradient(circle, rgba(91,157,255,.22), rgba(155,124,255,.10) 45%, transparent 68%) !important; }
+.pp-spot{
+  background:
+    radial-gradient(90% 120% at 85% 0%, rgba(91,157,255,.15), transparent 55%),
+    linear-gradient(180deg,var(--pp-bg2),var(--pp-bg)) !important; }
+.pp-close{
+  background:radial-gradient(80% 120% at 50% 0%, rgba(91,157,255,.11), transparent 60%) !important; }
+
+/* ---------- image-based 3/4 laptop mockup ----------
+   A pre-rendered silver laptop PNG (media/laptop-frame.png) is the frame.
+   The live banner iframe is mapped onto the angled glass via an affine
+   transform computed from the glass-quad corners (see the page script).
+   This keeps the mockup photoreal AND the screen genuinely live. */
+.lapimg{ position:relative; width:100%; max-width:680px; margin:0 auto; }
+/* hero laptop is the star — give the stage more room, stack the caption below */
+.pp-hero{ grid-template-columns:0.82fr 1.18fr; }
+.pp-hero-stage{ flex-direction:column; align-items:center; overflow:visible; }
+.pp-hero-stage .lapimg{ max-width:none; width:116%; margin:0; }
+.pp-hero-stage .live-cap{ align-self:center; }
+.lapimg-frame{ display:block; width:100%; height:auto;
+  filter:drop-shadow(0 38px 46px rgba(0,0,0,.5)); }
+.lapimg-screen{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.lapimg-screen iframe{
+  position:absolute; top:0; left:0; width:1280px; height:800px;
+  transform-origin:0 0; border:0; pointer-events:none; background:#0D1117;
+  /* transform (matrix) is set by JS to fit the angled glass */
+}
+.lapimg-glare{
+  position:absolute; top:0; left:0; width:1280px; height:800px;
+  transform-origin:0 0; pointer-events:none;
+  background:linear-gradient(116deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.04) 18%,
+            rgba(255,255,255,0) 42%, rgba(255,255,255,0) 100%); }
+
+@media (max-width:760px){
+  .pp-hero-stage .lapimg{ width:100%; max-width:540px; margin-right:auto; }
+  .lapimg{ max-width:540px; }
+}
+
+/* a live phone (reuse .device shell) showing the responsive mobile banner */
+.device.live .screen{ background:#0D1117; }
+.device.live .screen iframe{
+  position:absolute; top:0; left:0; width:430px; height:880px;
+  transform-origin:top left; transform:scale(var(--ph-scale,0.6));
+  border:0; pointer-events:none; }
+
+/* caption under a live mock */
+.live-cap{ display:inline-flex; align-items:center; gap:8px; margin-top:16px;
+  font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--pp-dim); }
+.live-cap .dot{ width:7px; height:7px; border-radius:50%; background:#FF5F57;
+  box-shadow:0 0 0 0 rgba(255,95,87,.6); animation:livePulse 2s infinite; }
+@keyframes livePulse{ 0%{box-shadow:0 0 0 0 rgba(255,95,87,.5)} 70%{box-shadow:0 0 0 7px rgba(255,95,87,0)} 100%{box-shadow:0 0 0 0 rgba(255,95,87,0)} }
+
+@media (prefers-reduced-motion:reduce){ .live-cap .dot{ animation:none; } }
