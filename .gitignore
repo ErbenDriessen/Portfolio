@@ -3,3 +3,6 @@ Thumbs.db
 *.log
 node_modules/
 .vscode/
+
+# local helper, not part of the site
+COMMIT_GUIDE.md
