@@ -1,6 +1,8 @@
 /* =================================================================
-   PowerPlan(t) — case study
-   Forest-green wellness theme, cohesive with the dark portfolio.
+   case-study.css — shared base for every case-study page
+   The pp-* design system: layout, type and motion. The default theme
+   is the forest-green PowerPlan(t) palette; planetpod.css and
+   this-website.css re-skin the pp-* variables on top.
    Fonts: Poppins (display) + JetBrains Mono (labels)
    ================================================================= */
 :root{
