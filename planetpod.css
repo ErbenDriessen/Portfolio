@@ -1,0 +1,66 @@
+/* =================================================================
+   planetpod.css — case study: fleet monitoring dashboards
+   Loaded AFTER powerplant.css. Re-skins pp-* to a teal/amber
+   "control-room" palette and adds the live-laptop mockup.
+   ================================================================= */
+:root{
+  --pp-bg:#0a0f12;
+  --pp-bg2:#0e151a;
+  --pp-forest:#10191f;
+  --pp-card:#111a20;
+  --pp-line:rgba(255,255,255,.09);
+  --pp-line-strong:rgba(255,255,255,.16);
+  --pp-lime:#37C2C4;          /* teal primary */
+  --pp-lime-bright:#5BD6D8;
+  --pp-sun:#FF9830;           /* amber */
+  --pp-cream:#E6EEF0;
+  --pp-dim:#93A1A6;
+  --pp-faint:#5a666b;
+  --pp-grad:linear-gradient(120deg,#37C2C4,#5BD6A0 48%,#FF9830);
+}
+body{
+  background:
+    radial-gradient(120% 70% at 82% -5%, rgba(255,152,48,.10), transparent 55%),
+    radial-gradient(100% 60% at 0% 0%, rgba(55,194,196,.13), transparent 50%),
+    var(--pp-bg) !important;
+}
+.pp-hero-glow{
+  background:radial-gradient(circle, rgba(55,194,196,.22), rgba(255,152,48,.10) 45%, transparent 68%) !important; }
+.pp-spot{
+  background:
+    radial-gradient(90% 120% at 85% 0%, rgba(55,194,196,.15), transparent 55%),
+    linear-gradient(180deg,var(--pp-bg2),var(--pp-bg)) !important; }
+.pp-close{
+  background:radial-gradient(80% 120% at 50% 0%, rgba(55,194,196,.11), transparent 60%) !important; }
+
+/* status legend chips (for the copy) */
+.statlegend{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.statlegend span{display:inline-flex; align-items:center; gap:8px; font-family:"JetBrains Mono",monospace;
+  font-size:12.5px; color:var(--pp-dim); border:1px solid var(--pp-line); padding:6px 12px; border-radius:999px;}
+.statlegend i{width:9px; height:9px; border-radius:50%;}
+
+/* ---------- image-based 3/4 laptop mockup (live dashboard) ---------- */
+.lapimg{ position:relative; width:100%; max-width:680px; margin:0 auto; }
+.pp-hero{ grid-template-columns:0.82fr 1.18fr; }
+.pp-hero-stage{ flex-direction:column; align-items:center; overflow:visible; }
+.pp-hero-stage .lapimg{ max-width:none; width:116%; margin:0; }
+.pp-hero-stage .live-cap{ align-self:center; }
+.lapimg-frame{ display:block; width:100%; height:auto; filter:drop-shadow(0 38px 46px rgba(0,0,0,.5)); }
+.lapimg-screen{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.lapimg-screen iframe{
+  position:absolute; top:0; left:0; width:1280px; height:800px;
+  transform-origin:0 0; border:0; pointer-events:none; background:#0b0c0e; }
+.lapimg-glare{
+  position:absolute; top:0; left:0; width:1280px; height:800px;
+  transform-origin:0 0; pointer-events:none;
+  background:linear-gradient(116deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.03) 18%,
+            rgba(255,255,255,0) 42%, rgba(255,255,255,0) 100%); }
+@media (max-width:760px){ .lapimg, .pp-hero-stage .lapimg{ max-width:520px; width:100%; margin:0 auto; } }
+
+/* caption under a live mock */
+.live-cap{ display:inline-flex; align-items:center; gap:8px; margin-top:16px;
+  font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--pp-dim); }
+.live-cap .dot{ width:7px; height:7px; border-radius:50%; background:var(--pp-lime);
+  box-shadow:0 0 0 0 rgba(55,194,196,.6); animation:livePulse 2s infinite; }
+@keyframes livePulse{ 0%{box-shadow:0 0 0 0 rgba(55,194,196,.5)} 70%{box-shadow:0 0 0 7px rgba(55,194,196,0)} 100%{box-shadow:0 0 0 0 rgba(55,194,196,0)} }
+@media (prefers-reduced-motion:reduce){ .live-cap .dot{ animation:none; } }

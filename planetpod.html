@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="darkreader-lock">
+<title>PlanetPod — Fleet Monitoring · Erben Driessen</title>
+<meta name="description" content="An internship assignment at PlanetPod: monitoring dashboards that spot a home-battery fault before the customer notices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="powerplant.css?v=4">
+<link rel="stylesheet" href="planetpod.css?v=1">
+</head>
+<body>
+
+<!-- ============================ NAV ============================ -->
+<nav class="pp-nav" id="ppnav">
+  <a class="pp-back" href="index.html#work"><span class="ar">←</span> Erben&nbsp;Driessen</a>
+  <div class="pp-nav-right">
+    <a href="#fleet">the&nbsp;map</a>
+    <a href="#detail">pod&nbsp;detail</a>
+    <a class="gh" href="planetpod-dashboard.html" target="_blank" rel="noopener">Try the recreation ↗</a>
+  </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="pp-hero">
+  <div class="pp-hero-glow" aria-hidden="true"></div>
+  <div class="pp-hero-copy rev-in">
+    <p class="pp-eyebrow">Internship assignment · PlanetPod</p>
+    <h1 class="pp-title">Fleet<span class="t">Monitor</span></h1>
+    <p class="pp-sub">Catch a failing battery before the customer ever notices.</p>
+    <p class="pp-lead">PlanetPod builds smart home batteries. One of my assignments: give customer support a way to <span class="hl">see</span> the whole fleet at a glance, which pods are healthy, which are in an error state, and which just threw a fatal error. So we could reach out <span class="hl">before</span> someone sat in the cold.</p>
+    <div class="pp-meta">
+      <span class="pp-chip on">2025</span>
+      <span class="pp-chip">Internship</span>
+      <span class="pp-chip">Grafana</span>
+      <span class="pp-chip">Data / backend</span>
+    </div>
+    <div class="pp-cta">
+      <a class="pp-btn primary" href="planetpod-dashboard.html" target="_blank" rel="noopener">Try the interactive recreation</a>
+      <a class="pp-btn ghost" href="#detail">Pod detail ↓</a>
+    </div>
+  </div>
+
+  <div class="pp-hero-stage rev-in">
+    <div class="lapimg">
+      <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+      <div class="lapimg-screen">
+        <iframe data-live="fleet" src="planetpod-dashboard.html" title="Live PlanetPod fleet dashboard" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+        <div class="lapimg-glare"></div>
+      </div>
+    </div>
+    <span class="live-cap"><span class="dot"></span>interactive recreation · made-up data, not the real dashboard</span>
+  </div>
+</header>
+
+<!-- ============================ OVERVIEW ============================ -->
+<section class="pp-section">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">The assignment</p>
+    <h2 class="pp-h2">Stop chasing faults. <span class="g">Get ahead of them.</span></h2>
+  </div>
+  <div class="rev-in" style="max-width:64ch; margin-bottom:40px;">
+    <p class="pp-p">Support used to hear about a problem when the <span class="hl">customer called</span>. By then the battery had already been down for hours. I built two Grafana dashboards on top of the device telemetry so the team could spot trouble first: one <span class="hl">fleet-wide view</span> to triage, and one <span class="hl">deep-dive</span> to debug a single pod.</p>
+  </div>
+  <div class="pp-concepts">
+    <div class="pp-concept rev-in"><div class="ic">🗺️</div><h3>See everything</h3><p>Every pod in the country on one map, coloured by health.</p></div>
+    <div class="pp-concept rev-in"><div class="ic">📞</div><h3>Reach out first</h3><p>A triage queue so support contacts the customer before they notice.</p></div>
+    <div class="pp-concept rev-in"><div class="ic">🔬</div><h3>Debug fast</h3><p>Per-pod sensor history and an error log to find the root cause.</p></div>
+  </div>
+</section>
+
+<!-- ============================ FLEET ============================ -->
+<section class="pp-spot" id="fleet">
+  <div class="pp-spot-inner">
+    <div class="pp-spot-copy rev-in">
+      <p class="pp-kicker">Dashboard 1 · Fleet overview</p>
+      <h2 class="pp-h2">The whole fleet, one screen.</h2>
+      <p class="pp-p" style="margin-top:18px;">A map of the Netherlands with a dot per pod: <span class="hl">green</span> is healthy, <span class="hl">yellow</span> a minor error, <span class="hl">red</span> a fatal one, grey is offline. Counters tally each state up top, and a queue lists the worst pods first so support can work top-to-bottom: link the pod to its customer and call them.</p>
+      <div class="statlegend">
+        <span><i style="background:#73BF69"></i> functional</span>
+        <span><i style="background:#F2CC0C"></i> minor error</span>
+        <span><i style="background:#F2495C"></i> fatal error</span>
+        <span><i style="background:#8e949c"></i> offline</span>
+      </div>
+    </div>
+    <div class="pp-spot-stage rev-in">
+      <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="lapimg" style="max-width:560px;">
+        <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+        <div class="lapimg-screen">
+          <iframe data-live="fleet" src="planetpod-dashboard.html" title="Fleet overview" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+          <div class="lapimg-glare"></div>
+        </div>
+      </div>
+      <span class="live-cap"><span class="dot"></span>recreation · illustrative data</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DETAIL ============================ -->
+<section class="pp-section" id="detail">
+  <div class="pp-feat">
+    <div class="copy rev-in">
+      <p class="pp-kicker">Dashboard 2 · Pod detail</p>
+      <h3>One pod, every signal</h3>
+      <p>Pick a pod by id and the whole story opens up: a live error log, the pack power flowing in and out, and a wall of sensor graphs: voltages, currents, cell temperatures, inverter heat, grid frequency. Everything you need to debug without ever touching the real unit.</p>
+      <div class="tags"><span>error log</span><span>9+ sensors</span><span>live tail</span><span>time-series</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="lapimg" style="max-width:560px;">
+        <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+        <div class="lapimg-screen">
+          <iframe data-live="detail" src="planetpod-dashboard.html" title="Pod detail" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+          <div class="lapimg-glare"></div>
+        </div>
+      </div>
+      <span class="live-cap"><span class="dot"></span>recreation · illustrative data</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ UNDER THE HOOD ============================ -->
+<section class="pp-section">
+  <div class="pp-stack">
+    <div class="rev-in">
+      <p class="pp-eyebrow">Under the hood</p>
+      <h2 class="pp-h2" style="margin-bottom:18px;">Real telemetry, made readable.</h2>
+      <p class="pp-p" style="margin-bottom:24px;">The pods stream a lot of sensor data; my job was turning that firehose into panels a human can read in two seconds. I designed the layout, wrote the queries and picked the visualisations that actually helped support: colour-coding by severity, sorting by urgency, and keeping the noise out.</p>
+      <div class="pp-stack-list">
+        <span>Grafana</span><span>SQL</span><span>Time-series data</span><span>Dashboard design</span><span>Alerting</span>
+      </div>
+      <p class="pp-p" style="margin-top:22px; font-size:14px; color:var(--pp-faint);">Note: the original dashboards are internal to PlanetPod and run on live customer data. What you see here is a faithful recreation I rebuilt from memory with made-up sample data. No real customer or device data is shown.</p>
+    </div>
+    <div class="rev-in">
+      <div class="pp-facts">
+        <div class="pp-fact"><span class="k">context</span><span class="v">Internship</span></div>
+        <div class="pp-fact"><span class="k">year</span><span class="v">2025</span></div>
+        <div class="pp-fact"><span class="k">company</span><span class="v">PlanetPod</span></div>
+        <div class="pp-fact"><span class="k">my&nbsp;role</span><span class="v">Dashboards + queries</span></div>
+        <div class="pp-fact"><span class="k">users</span><span class="v">Support team</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CLOSE ============================ -->
+<section class="pp-section pp-close">
+  <div class="rev-in">
+    <h2 class="pp-h2">Want to click around?</h2>
+    <div class="pp-close-row">
+      <a class="pp-btn primary" href="planetpod-dashboard.html" target="_blank" rel="noopener">Open the interactive recreation</a>
+      <a class="pp-btn ghost" href="index.html#work">← All work</a>
+    </div>
+  </div>
+</section>
+
+<footer class="pp-footer">
+  <span>© <span id="ppyear"></span> Erben Driessen — PlanetPod fleet monitoring (recreation)</span>
+  <div style="display:flex; gap:18px;">
+    <a href="index.html">Portfolio</a>
+    <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:erben.l.driessen@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const nav=document.getElementById('ppnav');
+  const onScroll=()=>nav.classList.toggle('scrolled', window.scrollY>30);
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  document.getElementById('ppyear').textContent=new Date().getFullYear();
+
+  const els=[].slice.call(document.querySelectorAll('.rev-in'));
+  function check(){ for(var i=0;i<els.length;i++){var el=els[i];
+    if(!el.classList.contains('vis')){var r=el.getBoundingClientRect();
+      if(r.top<window.innerHeight*0.92 && r.bottom>0) el.classList.add('vis');}}}
+  window.addEventListener('scroll',check,{passive:true});
+  window.addEventListener('resize',check); check(); setTimeout(check,250);
+
+  /* fit live dashboard iframes into the laptop glass (affine from frame corners) */
+  var GLASS={ tl:[0.3148,0.0870], tr:[0.9307,0.1767], bl:[0.2757,0.6529] };
+  function fit(){
+    document.querySelectorAll('.lapimg').forEach(function(el){
+      var img=el.querySelector('.lapimg-frame'); if(!img) return;
+      var W=img.clientWidth, H=img.clientHeight; if(!W||!H) return;
+      var tl=[GLASS.tl[0]*W,GLASS.tl[1]*H], tr=[GLASS.tr[0]*W,GLASS.tr[1]*H], bl=[GLASS.bl[0]*W,GLASS.bl[1]*H];
+      var a=(tr[0]-tl[0])/1280,b=(tr[1]-tl[1])/1280,c=(bl[0]-tl[0])/800,d=(bl[1]-tl[1])/800,e=tl[0],f=tl[1];
+      var m='matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+      el.querySelectorAll('iframe,.lapimg-glare').forEach(function(n){ n.style.transform=m; });
+    });
+  }
+  window.addEventListener('resize',fit);
+  if(window.ResizeObserver){ var ro=new ResizeObserver(fit);
+    document.querySelectorAll('.lapimg').forEach(function(el){ ro.observe(el); }); }
+  document.querySelectorAll('.lapimg-frame').forEach(function(img){ if(!img.complete) img.addEventListener('load',fit); });
+  fit(); setTimeout(fit,200);
+
+  /* the "detail" laptops open the Pod-detail tab inside their dashboard */
+  document.querySelectorAll('iframe[data-live="detail"]').forEach(function(f){
+    function go(){ try{ var t=f.contentDocument.querySelector('[data-tab=detail]'); if(t){ t.click(); return; } }catch(e){} setTimeout(go,200); }
+    if(f.contentDocument && f.contentDocument.readyState==='complete') go(); else f.addEventListener('load',go);
+    go();
+  });
+})();
+</script>
+</body>
+</html>
