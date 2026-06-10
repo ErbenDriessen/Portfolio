@@ -63,4 +63,10 @@
     if(img.complete) return; img.addEventListener('load', fitLaptops);
   });
   fitLaptops(); setTimeout(fitLaptops, 200);
+
+  // safety net: never leave a preview hidden, even if fitting is delayed or fails
+  setTimeout(function(){
+    document.querySelectorAll('.lapimg-screen iframe, .device.live .screen iframe')
+      .forEach(function(f){ f.classList.add('fitted'); });
+  }, 1200);
 })();
