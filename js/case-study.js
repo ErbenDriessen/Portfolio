@@ -45,11 +45,12 @@
           c=(bl[0]-tl[0])/800,  d=(bl[1]-tl[1])/800,
           e=tl[0], f=tl[1];
       var m='matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
-      el.querySelectorAll('iframe,.lapimg-glare').forEach(function(n){ n.style.transform=m; });
+      el.querySelectorAll('iframe,.lapimg-glare').forEach(function(n){ n.style.transform=m; n.classList.add('fitted'); });
     });
     document.querySelectorAll('.device.live .screen').forEach(function(sc){
       var f=sc.querySelector('iframe'); if(!f) return;
       sc.style.setProperty('--ph-scale', (sc.clientWidth/430).toFixed(4));
+      f.classList.add('fitted');
     });
   }
   window.addEventListener('resize', fitLaptops);

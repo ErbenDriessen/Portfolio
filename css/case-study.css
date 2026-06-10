@@ -202,3 +202,11 @@ a{ color:inherit; text-decoration:none; }
 .rev-in{ opacity:0; transform:translateY(26px); transition:opacity .7s var(--ease), transform .7s var(--ease); }
 .rev-in.vis{ opacity:1; transform:none; }
 @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } .rev-in{ opacity:1; transform:none; transition:none; } }
+
+/* live-preview iframes: hidden until JS has positioned them onto the mockup,
+   then fade in — prevents a flash of the un-scaled page on load.
+   Gated on html.js so the previews stay visible if JavaScript is disabled. */
+html.js .lapimg-screen iframe,
+html.js .device.live .screen iframe{ opacity:0; }
+.lapimg-screen iframe.fitted,
+.device.live .screen iframe.fitted{ opacity:1; transition:opacity .3s var(--ease, ease); }
