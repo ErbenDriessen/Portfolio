@@ -6,3 +6,6 @@ node_modules/
 
 # local helper, not part of the site
 COMMIT_GUIDE.md
+
+# designer exports / archives
+*.zip
