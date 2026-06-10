@@ -170,38 +170,9 @@
   </div>
 </footer>
 
+<script src="js/case-study.js"></script>
 <script>
 (function(){
-  const nav=document.getElementById('ppnav');
-  const onScroll=()=>nav.classList.toggle('scrolled', window.scrollY>30);
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-  document.getElementById('ppyear').textContent=new Date().getFullYear();
-
-  const els=[].slice.call(document.querySelectorAll('.rev-in'));
-  function check(){ for(var i=0;i<els.length;i++){var el=els[i];
-    if(!el.classList.contains('vis')){var r=el.getBoundingClientRect();
-      if(r.top<window.innerHeight*0.92 && r.bottom>0) el.classList.add('vis');}}}
-  window.addEventListener('scroll',check,{passive:true});
-  window.addEventListener('resize',check); check(); setTimeout(check,250);
-
-  /* fit live dashboard iframes into the laptop glass (affine from frame corners) */
-  var GLASS={ tl:[0.3148,0.0870], tr:[0.9307,0.1767], bl:[0.2757,0.6529] };
-  function fit(){
-    document.querySelectorAll('.lapimg').forEach(function(el){
-      var img=el.querySelector('.lapimg-frame'); if(!img) return;
-      var W=img.clientWidth, H=img.clientHeight; if(!W||!H) return;
-      var tl=[GLASS.tl[0]*W,GLASS.tl[1]*H], tr=[GLASS.tr[0]*W,GLASS.tr[1]*H], bl=[GLASS.bl[0]*W,GLASS.bl[1]*H];
-      var a=(tr[0]-tl[0])/1280,b=(tr[1]-tl[1])/1280,c=(bl[0]-tl[0])/800,d=(bl[1]-tl[1])/800,e=tl[0],f=tl[1];
-      var m='matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
-      el.querySelectorAll('iframe,.lapimg-glare').forEach(function(n){ n.style.transform=m; });
-    });
-  }
-  window.addEventListener('resize',fit);
-  if(window.ResizeObserver){ var ro=new ResizeObserver(fit);
-    document.querySelectorAll('.lapimg').forEach(function(el){ ro.observe(el); }); }
-  document.querySelectorAll('.lapimg-frame').forEach(function(img){ if(!img.complete) img.addEventListener('load',fit); });
-  fit(); setTimeout(fit,200);
-
   /* the "detail" laptops open the Pod-detail tab inside their dashboard */
   document.querySelectorAll('iframe[data-live="detail"]').forEach(function(f){
     function go(){ try{ var t=f.contentDocument.querySelector('[data-tab=detail]'); if(t){ t.click(); return; } }catch(e){} setTimeout(go,200); }

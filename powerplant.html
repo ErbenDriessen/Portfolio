@@ -204,29 +204,11 @@
   </div>
 </footer>
 
+<script src="js/case-study.js"></script>
 <script>
 (function(){
-  const nav = document.getElementById('ppnav');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
-  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
-  document.getElementById('ppyear').textContent = new Date().getFullYear();
-
-  // reveal-on-scroll via bounding rect (robust — no IntersectionObserver dependency)
-  const els = [].slice.call(document.querySelectorAll('.rev-in'));
-  function check(){
-    for (var i=0;i<els.length;i++){ var el=els[i];
-      if(!el.classList.contains('vis')){
-        var r=el.getBoundingClientRect();
-        if(r.top < window.innerHeight*0.92 && r.bottom > 0) el.classList.add('vis');
-      }
-    }
-  }
-  window.addEventListener('scroll', check, {passive:true});
-  window.addEventListener('resize', check);
-  check(); requestAnimationFrame(check); setTimeout(check, 250);
-
   // respect reduced motion: don't autoplay the ambient loop
-  const v = document.getElementById('heroVid');
+  var v = document.getElementById('heroVid');
   if (v && window.matchMedia('(prefers-reduced-motion:reduce)').matches){
     v.removeAttribute('autoplay'); try{ v.pause(); }catch(e){}
   }

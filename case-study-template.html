@@ -200,27 +200,6 @@
   </div>
 </footer>
 
-<script>
-(function(){
-  const nav = document.getElementById('ppnav');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
-  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
-  document.getElementById('ppyear').textContent = new Date().getFullYear();
-
-  // reveal-on-scroll via bounding rect (robust)
-  const els = [].slice.call(document.querySelectorAll('.rev-in'));
-  function check(){
-    for (var i=0;i<els.length;i++){ var el=els[i];
-      if(!el.classList.contains('vis')){
-        var r=el.getBoundingClientRect();
-        if(r.top < window.innerHeight*0.92 && r.bottom > 0) el.classList.add('vis');
-      }
-    }
-  }
-  window.addEventListener('scroll', check, {passive:true});
-  window.addEventListener('resize', check);
-  check(); requestAnimationFrame(check); setTimeout(check, 250);
-})();
-</script>
+<script src="js/case-study.js"></script>
 </body>
 </html>
