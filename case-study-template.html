@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="darkreader-lock">
+<title>Project Name — Case study · Erben Driessen</title>
+<meta name="description" content="One-line description of the project.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="powerplant.css?v=4">
+<style>
+  /* ---- template-only helpers (placeholders + per-project accent) ----
+     To re-skin a project, override the accent colours here, e.g.:
+       :root{ --pp-lime:#58A6FF; --pp-lime-bright:#7CC0FF; --pp-sun:#C9A0FF; }      */
+  .ph{ position:absolute; inset:0; display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center;
+       text-align:center; padding:18px; background:repeating-linear-gradient(135deg,#16271d,#16271d 14px,#13211a 14px,#13211a 28px);
+       color:var(--pp-dim); font-family:"JetBrains Mono",monospace; font-size:11.5px; line-height:1.5; }
+  .ph b{ color:var(--pp-cream); font-weight:700; }
+</style>
+</head>
+
+<!--  ============================================================================
+      CASE-STUDY TEMPLATE  ·  how to make a new project page
+      ----------------------------------------------------------------------------
+      1. Duplicate this file and rename it, e.g.  "My Project.html".
+      2. Put your screenshots / video in  media/  and replace each
+         <div class="ph">…</div> placeholder with a real <img> or <video>:
+            • screenshot →  <img src="media/your-shot.jpg" alt="…">
+            • video      →  <video src="media/your-clip.mp4" autoplay loop muted playsinline></video>
+         (If a screen recording has a black bar baked on one side, ask me to crop it
+          like the PowerPlan window video — it's a one-line CSS tweak.)
+      3. Replace every  [ … ]  placeholder text with your own copy.
+      4. Add a card on  index.html  →  "Things I've built":
+            <a class="card reveal" href="My Project.html" aria-label="…">
+              <div class="thumb thumb-img"><img src="media/your-thumb.jpg" alt="…"></div>
+              <div class="body"> … <span class="more">Read case study →</span> </div>
+            </a>
+      5. (Optional) Re-skin the accent colours in the <style> block above.
+      ============================================================================ -->
+
+<body>
+
+<!-- ============================ NAV ============================ -->
+<nav class="pp-nav" id="ppnav">
+  <a class="pp-back" href="index.html#work"><span class="ar">←</span> Erben&nbsp;Driessen</a>
+  <div class="pp-nav-right">
+    <a href="#features">features</a>
+    <!-- EDIT: repo / live link -->
+    <a class="gh" href="#" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="pp-hero">
+  <div class="pp-hero-glow" aria-hidden="true"></div>
+  <div class="pp-hero-copy rev-in">
+    <p class="pp-eyebrow">Case study · [ Type ]</p>
+    <h1 class="pp-title">Project<span class="t">Name</span></h1>
+    <p class="pp-sub">[ One-line tagline that sells the idea. ]</p>
+    <p class="pp-lead">[ Two or three sentences: what it is, who it's for, and why it matters. Keep it warm and concrete. ]</p>
+    <div class="pp-meta">
+      <span class="pp-chip on">2026</span>
+      <span class="pp-chip">[ Type ]</span>
+      <span class="pp-chip">[ Solo / Team ]</span>
+      <span class="pp-chip">[ Platform ]</span>
+    </div>
+    <div class="pp-cta">
+      <a class="pp-btn primary" href="#" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="pp-btn ghost" href="#features">See it ↓</a>
+    </div>
+  </div>
+
+  <div class="pp-hero-stage rev-in">
+    <!-- HERO MEDIA — swap the placeholder for a <video> (best) or <img>. -->
+    <div class="device">
+      <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+      <div class="screen">
+        <div class="ph"><b>Hero media</b>Replace with<br>&lt;video src="media/clip.mp4"<br>autoplay loop muted playsinline&gt;</div>
+        <span class="glare"></span>
+      </div>
+    </div>
+    <span class="pp-hero-cap">[ short caption for the hero ]</span>
+  </div>
+</header>
+
+<!-- ============================ OVERVIEW ============================ -->
+<section class="pp-section">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">Overview</p>
+    <h2 class="pp-h2">[ A one-line statement of the <span class="g">core idea</span>. ]</h2>
+  </div>
+  <div class="rev-in" style="max-width:62ch; margin-bottom:48px;">
+    <p class="pp-p">[ A short paragraph on the problem and your approach. Use <span class="hl">highlights</span> for the key words. ]</p>
+  </div>
+  <div class="pp-concepts">
+    <div class="pp-concept rev-in"><div class="ic">①</div><h3>[ Pillar one ]</h3><p>[ One sentence. ]</p></div>
+    <div class="pp-concept rev-in"><div class="ic">②</div><h3>[ Pillar two ]</h3><p>[ One sentence. ]</p></div>
+    <div class="pp-concept rev-in"><div class="ic">③</div><h3>[ Pillar three ]</h3><p>[ One sentence. ]</p></div>
+  </div>
+</section>
+
+<!-- ============================ SPOTLIGHT (signature feature) ============================ -->
+<section class="pp-spot" id="spotlight">
+  <div class="pp-spot-inner">
+    <div class="pp-spot-copy rev-in">
+      <p class="pp-kicker">Signature feature</p>
+      <h2 class="pp-h2">[ The one feature you're proudest of. ]</h2>
+      <p class="pp-p" style="margin-top:18px;">[ Explain what makes it special and why it matters to the user. ]</p>
+      <div class="pp-meta" style="margin-top:24px;">
+        <span class="pp-chip">[ tag ]</span><span class="pp-chip">[ tag ]</span><span class="pp-chip">[ tag ]</span>
+      </div>
+    </div>
+    <div class="pp-spot-stage rev-in">
+      <div class="device tilt-r">
+        <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+        <div class="screen"><div class="ph"><b>Screenshot / video</b>media/spotlight.jpg</div><span class="glare"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FEATURES (duplicate a row per feature) ============================ -->
+<section class="pp-section" id="features">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">Inside</p>
+    <h2 class="pp-h2">[ Section heading for the feature tour. ]</h2>
+  </div>
+
+  <!-- FEATURE ROW (copy this whole block for each feature; add class "rev" to flip image side) -->
+  <div class="pp-feat">
+    <div class="copy rev-in">
+      <p class="pp-kicker">[ Area ]</p>
+      <h3>[ Feature title ]</h3>
+      <p>[ Two sentences describing the feature. ]</p>
+      <div class="tags"><span>[ tag ]</span><span>[ tag ]</span><span>[ tag ]</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="device tilt-r"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+        <div class="screen"><div class="ph">media/feature-1.jpg</div><span class="glare"></span></div></div>
+    </div>
+  </div>
+
+  <div class="pp-feat rev">
+    <div class="copy rev-in">
+      <p class="pp-kicker">[ Area ]</p>
+      <h3>[ Feature title ]</h3>
+      <p>[ Two sentences describing the feature. ]</p>
+      <div class="tags"><span>[ tag ]</span><span>[ tag ]</span><span>[ tag ]</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="device tilt-l"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+        <div class="screen"><div class="ph">media/feature-2.jpg</div><span class="glare"></span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ UNDER THE HOOD ============================ -->
+<section class="pp-section">
+  <div class="pp-stack">
+    <div class="rev-in">
+      <p class="pp-eyebrow">Under the hood</p>
+      <h2 class="pp-h2" style="margin-bottom:18px;">[ A line about how it was built. ]</h2>
+      <p class="pp-p" style="margin-bottom:24px;">[ A short paragraph: your role, what was hard, what you're proud of. ]</p>
+      <div class="pp-stack-list">
+        <span>[ Tool ]</span><span>[ Tool ]</span><span>[ Tool ]</span><span>[ Tool ]</span>
+      </div>
+    </div>
+    <div class="rev-in">
+      <div class="pp-facts">
+        <div class="pp-fact"><span class="k">type</span><span class="v">[ … ]</span></div>
+        <div class="pp-fact"><span class="k">year</span><span class="v">2026</span></div>
+        <div class="pp-fact"><span class="k">build</span><span class="v">[ Solo / Team ]</span></div>
+        <div class="pp-fact"><span class="k">my&nbsp;role</span><span class="v">[ … ]</span></div>
+        <div class="pp-fact"><span class="k">platform</span><span class="v">[ … ]</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CLOSE ============================ -->
+<section class="pp-section pp-close">
+  <div class="rev-in">
+    <h2 class="pp-h2">Want the full picture?</h2>
+    <div class="pp-close-row">
+      <a class="pp-btn primary" href="#" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="pp-btn ghost" href="index.html#work">← Back to portfolio</a>
+    </div>
+  </div>
+</section>
+
+<footer class="pp-footer">
+  <span>© <span id="ppyear"></span> Erben Driessen — [ Project ] case study</span>
+  <div style="display:flex; gap:18px;">
+    <a href="index.html">Portfolio</a>
+    <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:erben.l.driessen@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const nav = document.getElementById('ppnav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  document.getElementById('ppyear').textContent = new Date().getFullYear();
+
+  // reveal-on-scroll via bounding rect (robust)
+  const els = [].slice.call(document.querySelectorAll('.rev-in'));
+  function check(){
+    for (var i=0;i<els.length;i++){ var el=els[i];
+      if(!el.classList.contains('vis')){
+        var r=el.getBoundingClientRect();
+        if(r.top < window.innerHeight*0.92 && r.bottom > 0) el.classList.add('vis');
+      }
+    }
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check);
+  check(); requestAnimationFrame(check); setTimeout(check, 250);
+})();
+</script>
+</body>
+</html>
