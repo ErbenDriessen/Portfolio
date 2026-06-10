@@ -17,25 +17,6 @@
     go();
   }
 
-  /* gaze: slowly oscillate the split so the eyes sweep side to side */
-  function driveGaze(frame){
-    var win=frame.contentWindow, doc=frame.contentDocument;
-    var hero=doc.getElementById('top'); if(!hero) return;
-    // make sure its own intro/handlers settle on the centred still
-    function setT(t){ hero.style.setProperty('--t', t); hero.style.setProperty('--seam', ((1-t)*100)+'%'); }
-    if(reduce){ setT(0.5); return; }
-    var start=null;
-    function loop(ts){
-      if(start===null) start=ts;
-      var e=(ts-start)/1000;
-      // ease-in-out sine, dwell near centre and edges
-      var t=0.5 + 0.5*Math.sin(e*0.7);
-      setT(t);
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-  }
-
   /* signature: loop the v2 zoom-out + write-on via its exposed scrubber */
   function driveSignature(frame){
     var win=frame.contentWindow;
@@ -61,12 +42,9 @@
     (function wait(){ if(ready()) start(); else if(tries++<80) setTimeout(wait,150); })();
   }
 
-  document.querySelectorAll('iframe[data-live]').forEach(function(f){
-    var kind=f.getAttribute('data-live');
-    whenReady(f, function(){
-      if(kind==='gaze') driveGaze(f);
-      else if(kind==='signature') driveSignature(f);
-      // 'phone' just shows the live responsive layout, no driving needed
-    });
+  // The gaze preview self-animates inside banner.html (#gaze); the phone
+  // preview is a static responsive layout. Only the signature needs driving.
+  document.querySelectorAll('iframe[data-live="signature"]').forEach(function(f){
+    whenReady(f, function(){ driveSignature(f); });
   });
 })();

@@ -72,4 +72,18 @@
   mqReduce.addEventListener('change', applyMode);
   render(); applyMode();
   if(mqMobile.matches) introSweep();
+
+  /* When embedded as the gaze preview (banner.html#gaze on the This Website
+     case study), sweep the split ourselves so the eyes oscillate left↔right —
+     no dependency on the parent page scripting into this iframe. */
+  if(location.hash === '#gaze' && !mqReduce.matches){
+    var gazeStart = null;
+    function gazeLoop(ts){
+      if(gazeStart === null) gazeStart = ts;
+      current = target = 0.5 + 0.5*Math.sin((ts - gazeStart)/1000 * 0.7);
+      render();
+      requestAnimationFrame(gazeLoop);
+    }
+    requestAnimationFrame(gazeLoop);
+  }
 })();
