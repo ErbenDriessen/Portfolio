@@ -118,7 +118,7 @@
       <div class="lapimg" style="max-width:560px;">
         <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
         <div class="lapimg-screen">
-          <iframe data-live="detail" src="planetpod-dashboard.html" title="Pod detail" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+          <iframe data-live="detail" src="planetpod-dashboard.html#detail" title="Pod detail" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
           <div class="lapimg-glare"></div>
         </div>
       </div>
@@ -173,15 +173,5 @@
 </footer>
 
 <script src="js/case-study.js"></script>
-<script>
-(function(){
-  /* the "detail" laptops open the Pod-detail tab inside their dashboard */
-  document.querySelectorAll('iframe[data-live="detail"]').forEach(function(f){
-    function go(){ try{ var t=f.contentDocument.querySelector('[data-tab=detail]'); if(t){ t.click(); return; } }catch(e){} setTimeout(go,200); }
-    if(f.contentDocument && f.contentDocument.readyState==='complete') go(); else f.addEventListener('load',go);
-    go();
-  });
-})();
-</script>
 </body>
 </html>

@@ -151,6 +151,8 @@ button{font-family:inherit; cursor:pointer;}
 <body>
 
 <div class="top">
+  <a id="backHome" href="index.html" title="Back to portfolio" style="display:flex;align-items:center;gap:5px;color:var(--muted);text-decoration:none;font-size:13px;margin-right:2px">←&nbsp;Portfolio</a>
+  <script>if(self!==top){var _b=document.getElementById('backHome');if(_b)_b.style.display='none';}</script>
   <div class="brand"><span class="leaf">P</span>PlanetPod</div>
   <div class="crumb">Fleet Monitoring <span>/</span> <b id="crumbView">Overview</b></div>
   <div class="spacer"></div>
@@ -435,6 +437,7 @@ button{font-family:inherit; cursor:pointer;}
 
   /* ---- init ---- */
   renderStats(); renderMap(); renderQueue(); fillSelect(); seed(); loadPod(pods[0].id);
+  if(location.hash==='#detail') switchTab('detail');
   setInterval(tick,1600);
 })();
 </script>
