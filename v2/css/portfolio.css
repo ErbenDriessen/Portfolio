@@ -1,0 +1,950 @@
+/* =================================================================
+   Erben Driessen — Portfolio
+   Dual identity: frontend (bright/creative) ↔ backend (dark/technical)
+   Fonts: Poppins (display) + JetBrains Mono (technical)
+   ================================================================= */
+
+:root{
+  /* frontend palette */
+  --fe-coral:#FF6B6B;  --fe-violet:#7C5CFC;  --fe-cyan:#4ECDC4;
+  --fe-ink:#2b2b2b;    --fe-ink-soft:#4a4a55;  --fe-paper:#f4f4f8;
+  /* backend palette */
+  --be-bg:#0D1117;     --be-slate:#161b22;     --be-line:#222b36;
+  --be-green:#00FF9C;  --be-blue:#58A6FF;      --be-dim:#9fb0c3;
+  --be-text:#e8edf3;
+
+  --grad-fe:linear-gradient(90deg,var(--fe-coral),var(--fe-violet),var(--fe-cyan));
+  --maxw:1240px;   /* the sections' width (content = this minus the side gutters) */
+  --gut:clamp(20px,5vw,56px);   /* the sections' side gutters */
+  --nav-h:68px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; scroll-padding-top:var(--nav-h); }
+body{
+  margin:0;
+  color-scheme:light; /* force light scheme so browser auto-dark can't invert our intentional colors */
+  background:var(--be-bg);
+  color:var(--be-text);
+  font-family:"Poppins",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{ color:inherit; }
+.mono{ font-family:"JetBrains Mono",monospace; }
+
+/* skip link: off-screen until a keyboard user tabs to it, then a green pill like .cta.
+   Fixed, so focusing it never scrolls the page back to the top */
+.skip{ position:fixed; left:-9999px; top:12px; z-index:60;
+  font-family:"JetBrains Mono",monospace; font-size:13.5px; font-weight:700; color:#06120c;
+  background:var(--be-green); padding:9px 16px; border-radius:999px; text-decoration:none; }
+.skip:focus{ left:16px; }
+
+/* ============================ NAV ============================ */
+.nav{
+  position:fixed; inset:0 0 auto 0; z-index:50;
+  height:var(--nav-h);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 clamp(20px,5vw,56px);
+  /* soft top scrim that fades into the banner (switched off over the banner by
+     .nav:not(.scrolled) below; kept here for any state that re-enables it) */
+  background:linear-gradient(180deg, rgba(13,17,23,.62) 0%, rgba(13,17,23,.26) 48%, rgba(13,17,23,0) 100%);
+  background-repeat:no-repeat; /* after the shorthand: stops the tile repeating into the 1px border strip */
+  border-bottom:1px solid transparent;
+  transition:background .35s var(--ease), border-color .35s var(--ease), -webkit-backdrop-filter .35s var(--ease), backdrop-filter .35s var(--ease);
+}
+.nav.scrolled{
+  background:rgba(13,17,23,.88);
+  -webkit-backdrop-filter:blur(14px) saturate(1.2);   /* Safari before 18 only knows the prefixed one */
+  backdrop-filter:blur(14px) saturate(1.2);
+  border-bottom-color:var(--be-line);
+}
+/* over the banner the nav is fully clear: the ink follows the seam instead (below + banner.js) */
+.nav:not(.scrolled){ background:none; }
+.brand{
+  font-family:"JetBrains Mono",monospace; font-weight:800; font-size:17px;
+  letter-spacing:-.01em; text-decoration:none; color:#fff; display:flex; align-items:center; gap:9px;
+}
+.brand .dot{ width:9px; height:9px; border-radius:50%; background:var(--be-green); box-shadow:0 0 12px var(--be-green); }
+.nav-links{ display:flex; align-items:center; gap:clamp(14px,2.4vw,34px); }
+.nav-links a{
+  font-family:"JetBrains Mono",monospace; font-size:13.5px; font-weight:500;
+  text-decoration:none; color:var(--be-dim); letter-spacing:.02em; transition:color .2s;
+}
+@media (hover:hover){ .nav-links a:hover{ color:#fff; } }
+/* the ink flips per pixel at the seam, like the intro line: the text is painted
+   by its background, light ink (--ink-d) with a dark-ink rect (--ink-l) over the
+   part of the item that sits on the visible lavender half. banner.js writes that
+   rect as --ink-box (x y / w h in the item's own box) and removes it (0×0, all
+   light) while the nav is solid. No colour transition: the seam is already damped. */
+.nav .brand{ --ink-l:var(--fe-ink); --ink-d:#fff; }
+.nav-links a.label-hide{ --ink-l:var(--fe-ink-soft); --ink-d:var(--be-dim); }
+@media (hover:hover){ .nav-links a.label-hide:hover{ --ink-l:var(--fe-ink); --ink-d:#fff; } }
+.nav .brand, .nav-links a.label-hide{
+  background:linear-gradient(var(--ink-l),var(--ink-l)) var(--ink-box, 0 0 / 0 0) no-repeat,
+             linear-gradient(var(--ink-d),var(--ink-d));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+/* clipped glyphs rasterise about 20% lighter than plain text, so the clip only runs
+   while the seam or the card's top edge splits the item. Wholly on one side,
+   banner.js sets .ink-flat (+ .ink-dark on the lavender) and the text paints
+   normally, as in v1. Only the fill switches, never `color`, so a toggle can't
+   start the links' colour fade, and a hover on the solid nav still fades like v1 */
+.nav .brand.ink-flat, .nav-links a.label-hide.ink-flat{ background:none; -webkit-text-fill-color:currentColor; }
+.nav .brand.ink-dark, .nav-links a.label-hide.ink-dark{ -webkit-text-fill-color:var(--ink-l); }
+.nav-links a.cta{
+  color:#06120c; background:var(--be-green); padding:9px 16px; border-radius:999px; font-weight:700;
+  box-shadow:0 0 0 0 rgba(0,255,156,.5); transition:box-shadow .3s, transform .2s;
+}
+@media (hover:hover){ .nav-links a.cta:hover{ transform:translateY(-1px); box-shadow:0 8px 24px -8px rgba(0,255,156,.7); } }
+@media (max-width:640px){ .nav-links a.label-hide{ display:none; } }
+/* touch: a 44px-tall hit area for the brand and the green button, same look */
+@media (pointer:coarse){
+  .nav .brand{ min-height:44px; }
+  .nav-links a.cta{ position:relative; }
+  .nav-links a.cta::after{ content:""; position:absolute; inset:-5px -3px; }
+  .nav-links a.label-hide{ padding:12px 6px; margin:-12px -6px; }
+}
+/* phones held sideways: a slimmer bar */
+@media (orientation:landscape) and (max-height:500px){ :root{ --nav-h:52px; } }
+
+/* ---- phone menu (≤640px; js/site-ui.js) ----
+   A quiet mono "menu" button between the brand and "get in touch" opens a
+   full-screen frosted sheet UNDER the nav bar (z 49 vs 50): the bar stays, the
+   button reads "close". Four big section links, then the availability pill + email. */
+.menu-btn, .menu{ display:none; }
+@media (max-width:640px){
+  .nav-links{ gap:12px; }
+  .menu-btn{ display:inline-grid; place-items:center; position:relative; height:36px; padding:0 14px; cursor:pointer;
+    font-family:"JetBrains Mono",monospace; font-size:13px; font-weight:500; letter-spacing:.04em; color:#fff;
+    background:rgba(13,17,23,.68); border:1px solid rgba(255,255,255,.22); border-radius:999px;
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); -webkit-tap-highlight-color:transparent;
+    transition:background .2s, border-color .2s; }
+  .menu-btn > span{ grid-area:1/1; transition:opacity .2s; }
+  .menu-btn .mb-close, .menu-btn[aria-expanded="true"] .mb-open{ opacity:0; }
+  .menu-btn[aria-expanded="true"] .mb-close{ opacity:1; }
+  .menu-btn[aria-expanded="true"]{ border-color:rgba(255,255,255,.34); }
+  .menu-btn::after{ content:""; position:absolute; inset:-5px -3px; }   /* 46px tall hit area */
+  .menu-btn:focus-visible{ outline:2px solid var(--be-green); outline-offset:3px; }
+
+  .menu{ position:fixed; inset:0; z-index:49; display:flex; flex-direction:column;
+    padding:calc(var(--nav-h) + clamp(8px,3vh,28px)) var(--gut,20px) calc(26px + env(safe-area-inset-bottom));
+    background:rgba(9,12,17,.84); -webkit-backdrop-filter:blur(20px) saturate(1.2); backdrop-filter:blur(20px) saturate(1.2);
+    overflow-y:auto; overscroll-behavior:contain;
+    opacity:0; visibility:hidden; transition:opacity .3s var(--ease), visibility 0s linear .3s; }
+  .menu.open{ opacity:1; visibility:visible; transition:opacity .3s var(--ease), visibility 0s; }
+  .menu-links{ list-style:none; margin:0; padding:0; border-top:1px solid rgba(255,255,255,.08); }
+  .menu-links li{ border-bottom:1px solid rgba(255,255,255,.08); }
+  .menu-links a{ display:flex; align-items:flex-start; gap:14px; padding:clamp(12px,2.2vh,18px) 2px; color:#fff; text-decoration:none;
+    font-weight:800; font-size:clamp(36px,11vw,48px); line-height:1.04; letter-spacing:-.025em; -webkit-tap-highlight-color:transparent;
+    opacity:0; translate:0 12px; transition:opacity .35s var(--ease), translate .5s var(--ease), color .15s; }
+  .menu.open .menu-links a{ opacity:1; translate:none; }
+  .menu.open .menu-links li:nth-child(2) a{ transition-delay:.04s, .04s, 0s; }
+  .menu.open .menu-links li:nth-child(3) a{ transition-delay:.08s, .08s, 0s; }
+  .menu.open .menu-links li:nth-child(4) a{ transition-delay:.12s, .12s, 0s; }
+  .menu-links .mn{ font-family:"JetBrains Mono",monospace; font-size:12px; font-weight:500; letter-spacing:.08em;
+    color:var(--be-green); padding-top:.75em; min-width:2.4ch; }
+  .menu-links a:active{ color:var(--be-green); }
+  .menu-links a:focus-visible{ outline:2px solid var(--be-green); outline-offset:-2px; border-radius:8px; }
+  .menu-foot{ margin-top:auto; padding-top:32px; display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
+  .menu-foot .status{ margin:0 0 4px; }
+  .menu-mail{ font-family:"JetBrains Mono",monospace; font-size:14px; color:var(--be-dim); text-decoration:none; padding:10px 0; }
+  .menu-mail:focus-visible{ outline:2px solid var(--be-green); outline-offset:2px; border-radius:6px; }
+
+  /* while it's open: the page behind stays put, and the bar is part of the sheet */
+  html.menu-open{ overflow:hidden; }
+  html.menu-open .nav{ background:none; -webkit-backdrop-filter:none; backdrop-filter:none; border-bottom-color:transparent; }
+  html.menu-open .nav .brand, html.menu-open .nav .brand.ink-dark{ background:none; -webkit-text-fill-color:#fff; }
+  html.menu-open .menu-btn{ background:rgba(255,255,255,.06); }
+}
+/* narrow phones: brand, menu and "get in touch" must share one line */
+.nav .brand, .nav-links a.cta, .menu-btn{ white-space:nowrap; }
+@media (max-width:400px){
+  .nav .brand{ font-size:16px; }
+  .nav-links{ gap:10px; }
+  .menu-btn{ padding:0 12px; }
+  .nav-links a.cta{ padding:9px 14px; }
+}
+@media (max-width:359px){
+  .nav .brand{ font-size:14.5px; gap:7px; }
+  .nav-links{ gap:7px; }
+  .menu-btn{ padding:0 10px; font-size:12.5px; }
+  .nav-links a.cta{ padding:9px 11px; font-size:12.5px; letter-spacing:0; }
+}
+/* phones held sideways (568x320): smaller links, so all four fit above the fold */
+@media (max-width:640px) and (max-height:500px){
+  .menu-links a{ font-size:clamp(24px,8vh,34px); padding:8px 2px; }
+  .menu-links .mn{ padding-top:.6em; }
+  .menu-foot{ padding-top:18px; }
+}
+@media (max-width:640px) and (prefers-reduced-motion:reduce){
+  .menu, .menu.open, .menu-links a, .menu-btn > span{ transition:none; }
+  .menu-links a{ translate:none; }
+}
+
+/* ============================ HERO / BANNER ============================ */
+/* the hero's own variables, typed: each is computed once on .hero (a length,
+   a percentage, a number) and handed down as that value, so the style
+   recalc that every seam move causes in the whole banner doesn't re-substitute
+   and re-evaluate their calc()s in every element (same values, same pixels).
+   --seam and --t (banner.js, every frame of a glide) don't inherit at all:
+   the few elements that use them take them on by name (the --seam/--t
+   :inherit chain below), so a seam move restyles those, not the whole banner */
+@property --seam{ syntax:"<percentage>"; inherits:false; initial-value:50%; }
+@property --t{ syntax:"<number>"; inherits:false; initial-value:.5; }
+@property --ph{ syntax:"<length>"; inherits:true; initial-value:0px; }
+@property --p-lift{ syntax:"<length>"; inherits:true; initial-value:0px; }
+@property --lock-top{ syntax:"<length>"; inherits:true; initial-value:0px; }
+@property --intro-b{ syntax:"<length>"; inherits:true; initial-value:0px; }
+@property --hm-fs{ syntax:"<length>"; inherits:true; initial-value:0px; }
+@property --lock-b{ syntax:"<length>"; inherits:true; initial-value:0px; }
+@property --shade-w{ syntax:"<length>"; inherits:true; initial-value:0px; }
+.hero{
+  --seam:50%; --t:.5;
+  --ph:min(80vh,800px);   /* the portrait's height (phones / portrait tablets below) */
+  position:relative;
+  width:100%; margin-top:0; height:calc(100svh - var(--nav-h)); min-height:560px;
+  overflow:hidden; isolation:isolate;
+  background:var(--be-bg);
+  cursor:crosshair; -webkit-user-select:none; user-select:none;   /* Safari: prefixed only */
+  touch-action:pan-y; /* horizontal drags slide the seam; vertical still scrolls the page */
+}
+
+/* mobile-only centred identity lockup (hidden on desktop) */
+.hero-scrim{ display:none; }
+.hero-mobile{ display:none; }
+.panel{ position:absolute; inset:0; overflow:hidden; }
+.panel, .divider, .portrait-head, .portrait-shade{ --seam:inherit; }
+.panel, .motifs, .label, .label .tag{ --t:inherit; }
+.panel.front{ clip-path:inset(0 calc(100% - var(--seam)) 0 0); }
+.panel.back { clip-path:inset(0 0 0 var(--seam)); }
+
+.bg{ position:absolute; inset:0; }
+.bg.front{
+  background:
+    radial-gradient(120% 90% at 16% 22%, rgba(124,92,252,.30), transparent 58%),
+    radial-gradient(110% 90% at 84% 30%, rgba(78,205,196,.28), transparent 55%),
+    radial-gradient(130% 110% at 46% 112%, rgba(255,107,107,.30), transparent 60%),
+    linear-gradient(160deg,#fbfbfe 0%, var(--fe-paper) 100%);
+}
+.bg.back{
+  background:
+    radial-gradient(90% 80% at 78% 26%, rgba(0,255,156,.10), transparent 55%),
+    radial-gradient(95% 90% at 60% 100%, rgba(88,166,255,.14), transparent 55%),
+    linear-gradient(165deg,#11161d 0%, var(--be-bg) 70%);
+}
+
+/* ---- motifs ---- */
+.motifs{ position:absolute; inset:0; pointer-events:none; }
+.front .motifs{ opacity:calc(.55 + .45*(1 - var(--t))); transform:translateX(calc(var(--t) * -34px)); }
+.back  .motifs{ opacity:calc(.55 + .45*var(--t));       transform:translateX(calc((1 - var(--t)) * 34px)); }
+
+.m-card{ position:absolute; border-radius:14px;
+  background:linear-gradient(158deg, rgba(255,255,255,.94), rgba(244,242,252,.84));
+  box-shadow:0 14px 30px -12px rgba(80,60,160,.45), 0 0 0 1px rgba(124,92,252,.12);
+  overflow:hidden; }
+.m-card .bar{ height:9px; background:var(--grad-fe); }
+.m-card .ln{ height:6px; margin:9px 11px 0; border-radius:4px; background:rgba(43,43,43,.14); }
+.m-card .ln.s{ width:46%; }
+.m-pill{ position:absolute; height:18px; border-radius:20px; }
+.grid-fe{ position:absolute; inset:0; opacity:.5;
+  background-image:linear-gradient(rgba(124,92,252,.10) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(124,92,252,.10) 1px,transparent 1px);
+  background-size:42px 42px; -webkit-mask-image:linear-gradient(105deg,#000 22%,transparent 44%);
+          mask-image:linear-gradient(105deg,#000 22%,transparent 44%); }
+
+.code{ position:absolute; font-family:"JetBrains Mono",monospace; font-size:13px; line-height:1.9;
+  color:rgba(159,176,195,.42); white-space:pre; letter-spacing:.2px; }
+.code .k{ color:rgba(0,255,156,.55); } .code .b{ color:rgba(88,166,255,.6); } .code .s{ color:rgba(255,107,107,.5); }
+.glyph{ position:absolute; font-family:"JetBrains Mono",monospace; font-weight:700; color:rgba(0,255,156,.16); }
+.term{ position:absolute; border-radius:10px; background:rgba(13,17,23,.7);
+  border:1px solid rgba(88,166,255,.28); box-shadow:0 18px 40px -16px rgba(0,0,0,.8); overflow:hidden; }
+.term .tbar{ height:22px; background:rgba(88,166,255,.10); display:flex; align-items:center; gap:6px; padding:0 9px; }
+.term .dot{ width:7px; height:7px; border-radius:50%; background:rgba(159,176,195,.5); }
+.term .body{ padding:9px 11px; font-family:"JetBrains Mono",monospace; font-size:11px; line-height:1.7; color:rgba(0,255,156,.6); }
+.grid-be{ position:absolute; inset:0; opacity:.55;
+  background-image:linear-gradient(rgba(88,166,255,.10) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(88,166,255,.08) 1px,transparent 1px);
+  background-size:46px 46px; -webkit-mask-image:linear-gradient(255deg,#000 22%,transparent 44%);
+          mask-image:linear-gradient(255deg,#000 22%,transparent 44%); }
+
+/* ---- portrait ----
+   The head is ONE unsplit layer in front of the split (.portrait-head: over the
+   panels and the seam, under the labels), so the seam runs behind him. His grade
+   is the frontend's; the part of him on the backend side of the seam is drawn
+   in the backend's darker grade on top of it, eased in around the seam
+   (live: depth-banner.js; static: .portrait-shade below), and the panels' light
+   in the live shader goes over both. Only his shadow stays split: each panel casts
+   it on its own backdrop, in its own colour, under the seam (.portrait-shadow). */
+.portrait{ position:absolute; bottom:0; left:50%; translate:-50% 0;
+  height:var(--ph); width:auto; pointer-events:none; -webkit-user-drag:none; }
+.portrait-head{ position:absolute; inset:0; z-index:5; overflow:hidden; pointer-events:none; }
+.portrait-head .portrait{ filter:saturate(1.12) brightness(.97) contrast(1.04); }
+/* the drop-shadow it stands for (0 22px 34px): his cutout as a mask, offset,
+   then blurred (blur after the mask, so on the box: the mask is on ::before).
+   blur(34px) is what Chrome draws for drop-shadow's 34px (measured: same pixels).
+   The static cutout's outline: his live head turn is a few px at most, under a
+   34px blur. Same entrance as the portrait (.portrait) */
+.portrait.portrait-shadow{ aspect-ratio:2021/1696; filter:blur(34px); }
+/* the mask is a 256px copy of his cutout's alpha (4 KB): under the 34px blur it
+   draws the same pixels, and a css mask is a CORS fetch, so pointing it at the
+   portrait itself downloaded the whole 171 KB image a second time */
+.portrait-shadow::before{ content:""; position:absolute; inset:0; translate:0 22px;
+  -webkit-mask:url(../../img/me-v2-portrait-mask.webp) 0 0/100% 100% no-repeat;
+          mask:url(../../img/me-v2-portrait-mask.webp) 0 0/100% 100% no-repeat; }
+.front .portrait-shadow::before{ background:rgba(90,60,150,.45); }
+.back  .portrait-shadow::before{ background:rgba(0,0,0,.65); }
+/* the live portrait (js/depth-banner.js): one canvas in .portrait-head, same box
+   and grade as the img under it (the canvas's own pixel size is the backing
+   store, so the ratio is set here). It fades in over the img once its first
+   frame is drawn; the img only goes once it's covered, so nothing dips at the swap. */
+.portrait.portrait-live{ aspect-ratio:2021/1696; opacity:0; animation:none; transition:opacity .45s var(--ease); }
+.hero.depth-on .portrait-live{ opacity:1; }
+.hero.depth-on img.portrait{ opacity:0; transition:opacity .3s linear .45s; }
+/* over everything else in the head layer (.portrait-shade: the static img's own
+   extra) as it fades in: it draws the shade itself */
+.portrait-head .portrait-live{ z-index:1; }
+/* the shade on the static img (no WebGL, reduced motion): the part of him on the
+   backend side of the seam takes the backend's darker grade, as the old split
+   portrait had it. A copy of the img in that grade (same box, same entrance:
+   .portrait), masked to the seam: eased in over --shade-w (a smoothstep in 4
+   stops). The live canvas draws its own (depth-banner.js SHADE: same grade, same
+   width), so this fades out with the img under it */
+.portrait-shade{ position:absolute; inset:0; pointer-events:none;
+  --shade-w:calc(var(--ph) * 2021 / 1696 * .05);   /* 5% of the portrait's width: depth-banner.js SHADE_SOFT */
+  -webkit-mask:linear-gradient(90deg, transparent calc(var(--seam) - var(--shade-w) / 2), rgba(0,0,0,.156) calc(var(--seam) - var(--shade-w) / 4),
+               rgba(0,0,0,.5) var(--seam), rgba(0,0,0,.844) calc(var(--seam) + var(--shade-w) / 4), #000 calc(var(--seam) + var(--shade-w) / 2));
+          mask:linear-gradient(90deg, transparent calc(var(--seam) - var(--shade-w) / 2), rgba(0,0,0,.156) calc(var(--seam) - var(--shade-w) / 4),
+               rgba(0,0,0,.5) var(--seam), rgba(0,0,0,.844) calc(var(--seam) + var(--shade-w) / 4), #000 calc(var(--seam) + var(--shade-w) / 2)); }
+/* the same file the <picture> picked (AVIF where it decodes, else WebP), so it's one download */
+.portrait-head .portrait-shade .portrait{ aspect-ratio:2021/1696;
+  background:url(../../img/me-v2-portrait-c.webp) 0 0/100% 100% no-repeat;
+  background-image:image-set(url(../../img/me-v2-portrait-c.avif) type("image/avif"), url(../../img/me-v2-portrait-c.webp) type("image/webp"));
+  filter:saturate(.9) brightness(.84) contrast(1.08); }   /* the back grade: depth-banner.js GRADE.back */
+.hero.depth-on .portrait-shade{ opacity:0; visibility:hidden; transition:opacity .3s linear .45s, visibility 0s linear .75s; }
+
+/* ---- big split labels ----
+   In their own split layers over the head (.panel-labels: clipped like the
+   panels): on squarer screens and at 1280x720 '{ backend }' reaches onto his shirt */
+.panel-labels{ z-index:5; pointer-events:none; }
+.panel-labels .label{ pointer-events:auto; }
+.label{ position:absolute; bottom:11%; z-index:4; text-decoration:none;
+  display:flex; flex-direction:column; gap:8px; outline:none; transition:transform .25s var(--ease); }
+/* 'frontend' has to end before the shirt's shoulder. The portrait is sized by the
+   height (80vh, capped at 1000px tall) and the words by the width, so on squarer
+   screens (16:10, 4:3 tablets) the shoulder reaches into the word: the second
+   term caps the size from the aspect ratio (fitted on 1024x768 … 1920x1200, keeps
+   ≥7px clear). 16:9 and wider keep 5.6vw. Both words stay the same size. */
+.label .word{ font-weight:800; line-height:.9; letter-spacing:-.02em; white-space:nowrap;
+  font-size:clamp(40px, min(5.6vw, 10.3vw - min(8.9vh, 89px) + 5px), 108px); }
+.label .tag{ font-size:clamp(13px,1.4vw,18px); font-weight:500; line-height:1.35; max-width:26ch; }
+/* same story for the front tagline: two shorter lines keep 'accessible' off the shirt */
+@media (max-aspect-ratio:16/10){ .label.front .tag{ max-width:20ch; } }
+/* both words full ink at the 50/50 rest, dimming to .5 once the other side leads;
+   taglines .85 at rest, 1 when their side leads, 0 when the other side dominates */
+.label.front{ left:clamp(20px,5vw,72px); align-items:flex-start; opacity:clamp(.5, calc(1 + (.5 - var(--t)) * 2), 1); }
+.label.front .word{ color:var(--fe-ink); }
+.label.front .tag{ color:var(--fe-ink-soft); opacity:clamp(0, calc(.85 + (.5 - var(--t)) * 3.4), 1); transition:opacity .15s linear; }
+.label.back{ right:clamp(20px,5vw,72px); align-items:flex-end; text-align:right; opacity:clamp(.5, calc(1 + (var(--t) - .5) * 2), 1); }
+.label.back .word{ font-family:"JetBrains Mono",monospace; color:var(--be-green); text-shadow:0 0 22px rgba(0,255,156,.4); }
+.label.back .tag{ font-family:"JetBrains Mono",monospace; color:var(--be-dim); font-weight:500; opacity:clamp(0, calc(.85 + (var(--t) - .5) * 3.4), 1); transition:opacity .15s linear; }
+.label:focus-visible{ transform:translateY(-3px); }
+.label.front:focus-visible .word{ outline:3px solid var(--fe-violet); outline-offset:6px; border-radius:6px; }
+.label.back:focus-visible  .word{ outline:3px solid var(--be-blue);   outline-offset:6px; border-radius:6px; }
+
+/* ---- seam ----
+   over the panels, behind the head (.portrait-head comes after it in the markup) */
+/* moved by transform, never by left: a hero-wide box slid --seam of its own
+   width (= the hero's), the line on its left edge. No layout per frame, and no
+   layout shift (CLS) while it glides */
+.divider{ position:absolute; top:0; bottom:0; left:0; width:100%; z-index:5; translate:var(--seam) 0; pointer-events:none; }
+.divider::before{ content:""; position:absolute; top:0; bottom:0; left:-1px; width:2px;
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(0,255,156,.7),rgba(255,255,255,0));
+  box-shadow:0 0 14px 1px rgba(255,255,255,.45), 0 0 26px 3px rgba(0,255,156,.28); }
+
+/* ---- hero overlay copy ---- */
+.hero-intro{ position:absolute; top:clamp(78px,10vh,116px); left:0; right:0; z-index:6; text-align:center;
+  pointer-events:none; mix-blend-mode:difference; color:#fff; }
+.hero-intro .role{ font-family:"JetBrains Mono",monospace; font-size:clamp(12px,1.5vw,15px); font-weight:400;
+  letter-spacing:.42em; text-transform:uppercase; margin:0; }
+.role-hint{ font-family:"JetBrains Mono",monospace; font-size:clamp(10px,1.15vw,12px);
+  letter-spacing:.18em; text-transform:uppercase; margin:11px 0 0; color:rgba(255,255,255,.9);
+  transition:opacity .5s; }
+.hero.touched .role-hint{ opacity:0; }
+/* the hint names the gesture each device actually uses */
+.role-hint .hint-touch{ display:none; }
+@media (hover:none){ .role-hint .hint-mouse{ display:none; } .role-hint .hint-touch{ display:inline; } }
+
+/* ---- scroll cue ---- */
+.scrollcue{ position:absolute; left:50%; bottom:22px; translate:-50% 0; z-index:6;
+  display:flex; flex-direction:column; align-items:center; gap:9px; text-decoration:none;
+  color:#fff; mix-blend-mode:difference; }
+.scrollcue .sc-mouse{ width:25px; height:40px; border:2px solid currentColor; border-radius:13px; position:relative; }
+/* the wheel rolls 4 times, then settles in its slot (wheelIn), and stops at the
+   first scroll (banner.js: .cue-still): nothing on the page runs forever */
+.scrollcue .sc-wheel{ position:absolute; left:50%; top:7px; width:3px; height:7px; border-radius:2px;
+  background:currentColor; translate:-50% 0; animation:wheel 1.7s var(--ease) 4, wheelIn .6s var(--ease) 6.8s forwards; }
+.scrollcue .sc-txt{ font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:.34em; text-transform:uppercase; }
+@keyframes wheel{ 0%{opacity:0; transform:translateY(0)} 25%{opacity:1} 60%{opacity:1} 100%{opacity:0; transform:translateY(13px)} }
+@keyframes wheelIn{ from{opacity:0} to{opacity:1} }
+/* touch: no mouse icon, a thin line with a green dot running down it (same 4 runs) */
+.scrollcue .sc-line{ display:none; }
+@media (hover:none){
+  .scrollcue{ mix-blend-mode:normal; }
+  .scrollcue .sc-mouse{ display:none; }
+  .scrollcue .sc-line{ display:block; position:relative; width:1px; height:34px;
+    background:linear-gradient(180deg, rgba(234,242,233,.06), rgba(234,242,233,.42)); }
+  .scrollcue .sc-dot{ position:absolute; left:50%; top:0; width:5px; height:5px; margin-left:-2.5px; border-radius:50%;
+    background:var(--be-green); box-shadow:0 0 8px rgba(0,255,156,.7); opacity:0;
+    animation:cueDot 2s var(--ease) .9s 4, cueDotIn .6s var(--ease) 8.9s forwards; }
+  .scrollcue .sc-txt{ color:rgba(234,242,233,.7); }
+}
+@keyframes cueDot{ 0%{opacity:0; transform:translateY(0)} 20%{opacity:1} 70%{opacity:1} 100%{opacity:0; transform:translateY(29px)} }
+@keyframes cueDotIn{ from{opacity:0; transform:translateY(29px)} to{opacity:1; transform:translateY(29px)} }
+.hero.cue-still .scrollcue .sc-wheel{ animation:none; }
+.hero.cue-still .scrollcue .sc-dot{ animation:none; opacity:1; transform:translateY(29px); }
+
+/* ---- hero entrance (first-paint WOW) ---- */
+@keyframes heroFadeDown{ from{opacity:0; transform:translateY(-12px)} to{opacity:1; transform:none} }
+@keyframes heroRise{ from{transform:translateY(36px)} to{transform:none} }
+@keyframes heroPortrait{ from{opacity:0; transform:translateY(22px) scale(.985)} to{opacity:1; transform:none} }
+@keyframes seamDraw{ from{opacity:0; transform:scaleY(0)} to{opacity:1; transform:scaleY(1)} }
+@media (prefers-reduced-motion:no-preference){
+  .hero-intro{ animation:heroFadeDown .9s var(--ease) .3s both; }
+  /* backwards, not both: a held end state would pin opacity at 1, and the img
+     has to fade out under the live portrait */
+  .portrait{ animation:heroPortrait 1.1s var(--ease) .05s backwards; }
+  .label.front{ animation:heroRise .9s var(--ease) .5s both; }
+  .label.back{ animation:heroRise .9s var(--ease) .62s both; }
+  .divider{ animation:seamDraw 1s var(--ease) .2s both; transform-origin:center; }
+  .scrollcue{ animation:heroFadeDown .8s var(--ease) 1.05s both; }
+}
+
+/* ============================ SECTIONS ============================
+   Order: work → about → two sides → contact (the nav's order).
+   Hover effects live under (hover:hover); touch gets a short press instead. */
+.section{ max-width:var(--maxw); margin:0 auto; padding:clamp(72px,11vh,140px) var(--gut); }
+/* the first section after the hero sits closer to the card's hand-off */
+#work{ padding-top:clamp(40px,6vh,76px); }
+.eyebrow{ font-family:"JetBrains Mono",monospace; font-size:13px; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--be-green); margin:0 0 18px; display:flex; align-items:center; gap:12px; }
+.eyebrow::before{ content:""; width:30px; height:1px; background:var(--be-green); display:inline-block; }
+.h2{ font-size:clamp(30px,4.4vw,52px); font-weight:800; line-height:1.05; letter-spacing:-.02em; margin:0 0 22px; text-wrap:balance; }
+.lead{ font-size:clamp(17px,2vw,21px); line-height:1.6; color:#cdd6e0; max-width:62ch; margin:0; text-wrap:pretty; }
+.lead .hl{ color:#fff; }
+.grad-text{ background:var(--grad-fe); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.packet{ color:var(--be-green); }
+.sr-only{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+/* one focus ring for the links and buttons below the hero (cards keep their own offset).
+   The ring follows each element's own shape (pills stay pills, cards keep 18px):
+   only the plain text links, which have no shape of their own, get a rounded one */
+main a:focus-visible, main button:focus-visible, .footer a:focus-visible{
+  outline:2px solid var(--be-green); outline-offset:4px; }
+.seen a:focus-visible, .footer a:focus-visible{ border-radius:6px; }
+
+/* ---------- about: the h2 left, the lead right, the facts as one spec strip ---------- */
+.about-intro{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:28px clamp(32px,6vw,96px); align-items:end; }
+.about .h2{ margin:0; max-width:16ch; }
+.about .lead{ font-size:clamp(17px,1.55vw,19.5px); line-height:1.65; }
+.status{ display:inline-flex; align-items:center; gap:10px; font-family:"JetBrains Mono",monospace; font-size:13px; white-space:nowrap;
+  color:var(--be-green); background:rgba(0,255,156,.08); border:1px solid rgba(0,255,156,.28);
+  padding:8px 14px; border-radius:999px; margin-bottom:24px; }
+/* the pulse is a ring that scales + fades (transform/opacity only: no repaint per frame) */
+.status .pulse{ position:relative; flex:none; width:8px; height:8px; border-radius:50%; background:var(--be-green); }
+.status .pulse::after{ content:""; position:absolute; inset:0; border-radius:50%; background:var(--be-green);
+  animation:pulseRing 2s cubic-bezier(.2,.6,.35,1) infinite; }
+@keyframes pulseRing{ 0%{ transform:scale(1); opacity:.5; } 70%,100%{ transform:scale(3.4); opacity:0; } }
+/* auto tracks: each fact gets its own width plus an equal share of the rest, so none wraps */
+.facts{ display:grid; grid-template-columns:repeat(5,auto); margin:clamp(40px,6vh,64px) 0 0;
+  border-top:1px solid var(--be-line); border-bottom:1px solid var(--be-line); }
+.fact{ display:flex; flex-direction:column; gap:7px; padding:18px 18px 20px 0; font-family:"JetBrains Mono",monospace; }
+.fact + .fact{ padding-left:20px; border-left:1px solid var(--be-line); }
+.fact dt{ font-size:12px; color:var(--be-dim); }
+.fact dd{ margin:0; font-size:14px; color:#fff; white-space:nowrap; }
+@media (max-width:1180px){
+  .fact{ padding-right:14px; }
+  .fact + .fact{ padding-left:16px; }
+  .fact dd{ font-size:13.5px; }
+}
+@media (max-width:1000px){
+  .facts{ grid-template-columns:1fr; border-bottom:0; }
+  .fact, .fact + .fact{ flex-direction:row; justify-content:space-between; gap:18px; padding:15px 0; border-left:0; border-bottom:1px solid var(--be-line); }
+  .fact dt{ font-size:13px; }
+  .fact dd{ text-align:right; }
+}
+@media (max-width:900px){
+  .about-intro{ grid-template-columns:1fr; align-items:start; }
+  .about .h2{ max-width:20ch; }
+}
+
+/* ---------- two sides: the hero's split, as type on a seam ---------- */
+.stack .h2{ margin-bottom:clamp(30px,5vh,52px); }
+.sides{ display:grid; grid-template-columns:minmax(0,1fr) 2px minmax(0,1fr); gap:clamp(24px,5vw,72px); }
+.sides-seam{ background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.7) 30%,rgba(0,255,156,.65) 70%,rgba(255,255,255,0));
+  box-shadow:0 0 14px 1px rgba(255,255,255,.14), 0 0 22px 2px rgba(0,255,156,.12); }
+.side{ padding:6px 0; }
+.sides > .side{ display:flex; flex-direction:column; }   /* a column, so the 'seen in' line can sit at its bottom */
+.side-word{ margin:0 0 12px; font-size:clamp(34px,4.4vw,58px); font-weight:800; line-height:1.05; letter-spacing:-.02em; }
+.side.be{ text-align:right; }
+.side.be .side-word{ font-family:"JetBrains Mono",monospace; color:var(--be-green); letter-spacing:-.04em; text-shadow:0 0 18px rgba(0,255,156,.24); }
+.side-sub{ font-size:15.5px; line-height:1.55; color:var(--be-dim); margin:0 0 20px; max-width:34ch; text-wrap:balance; }
+.side.be .side-sub{ margin-left:auto; }
+/* inline items + balance: when a list wraps, it breaks into even lines instead of leaving one word behind */
+.side-list{ list-style:none; margin:0; padding:0; font-family:"JetBrains Mono",monospace; font-size:13.5px; line-height:2.15; text-wrap:balance; }
+.side-list li{ display:inline-flex; align-items:center; gap:9px; margin-right:22px; white-space:nowrap; }
+/* a round pixel-side dot vs a square packet-side one */
+.side-list li::before{ content:""; width:5px; height:5px; flex:none; }
+.side.fe .side-list li{ color:#dcd2ff; }
+.side.fe .side-list li::before{ border-radius:50%; background:var(--fe-violet); box-shadow:0 0 0 2px rgba(124,92,252,.18); }
+.side.be .side-list{ text-align:right; }
+.side.be .side-list li{ color:#bff7e1; margin:0 0 0 22px; }
+.side.be .side-list li::before{ background:var(--be-green); box-shadow:0 0 0 2px rgba(0,255,156,.14); }
+/* one mono line under each side: where to see it. Pinned to the side's bottom
+   (the grid row stretches both sides), so the two lines share a baseline however
+   each side's text wraps */
+.seen{ margin:auto 0 0; padding-top:22px; font-family:"JetBrains Mono",monospace; font-size:12.5px; letter-spacing:.02em; color:var(--be-dim); }
+.seen .dot{ margin:0 2px; }
+.seen a{ color:#e8edf3; text-decoration:none; padding-bottom:2px;
+  background:linear-gradient(rgba(255,255,255,.22),rgba(255,255,255,.22)) 0 100%/100% 1px no-repeat; transition:color .2s, background-color .2s; }
+@media (max-width:700px){
+  .sides{ grid-template-columns:1fr; gap:28px; }
+  .sides-seam{ height:2px; background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.7) 30%,rgba(0,255,156,.65) 70%,rgba(255,255,255,0)); }
+  .side.be{ text-align:left; }
+  .side.be .side-sub{ margin-left:0; }
+  .side.be .side-list{ text-align:left; }
+  .side.be .side-list li{ margin:0 22px 0 0; }
+  .seen{ margin-top:22px; padding-top:0; }   /* stacked: each line right under its own list */
+}
+
+/* ---------- selected work: featured + two ---------- */
+.work-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:46px; }
+/* the thumb clips the image to the top corners (not the card), so the hover strip below can sit outside it */
+.card{ display:flex; flex-direction:column; text-decoration:none; border-radius:18px; position:relative; background:var(--be-slate);
+  border:1px solid var(--be-line); transition:transform .35s var(--ease), border-color .35s, box-shadow .35s;
+  -webkit-tap-highlight-color:transparent; }
+.card:focus-visible{ outline:2px solid var(--be-green); outline-offset:3px; border-color:rgba(0,255,156,.4); }
+.card .thumb{ aspect-ratio:16/10; flex-shrink:0; display:grid; place-items:center; position:relative; overflow:hidden;
+  border-radius:17px 17px 0 0; background:linear-gradient(135deg,#10151c,#161b22); }
+.card .thumb.thumb-img{ padding:0; position:relative; }
+.card .thumb.thumb-img img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 26%; display:block; transition:transform .5s var(--ease); }
+.card:nth-child(2) .thumb{ background:linear-gradient(135deg,rgba(0,255,156,.32),rgba(88,166,255,.22)); }
+.card:nth-child(3) .thumb{ background:linear-gradient(135deg,rgba(255,107,107,.4),rgba(124,92,252,.25)); }
+.card .body{ padding:22px 24px 24px; flex:1; display:flex; flex-direction:column; }
+.card .tags{ display:flex; gap:7px; margin-bottom:14px; }
+.card .tags span{ font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--be-dim);
+  border:1px solid var(--be-line); padding:3px 9px; border-radius:6px; }
+.card .tags .yr{ margin-left:auto; border-color:transparent; color:var(--be-green); padding-right:0; }
+.card h3{ font-size:clamp(24px,2.3vw,28px); line-height:1.1; letter-spacing:-.02em; margin:0 0 10px; font-weight:700; color:#fff; text-wrap:balance; }
+.card p{ font-size:15px; line-height:1.6; color:var(--be-dim); margin:0 0 18px; text-wrap:pretty; }
+/* role, then the CTA: pinned to the card's bottom (margin-top:auto), so a row's
+   role lines and CTAs share one baseline */
+.card .role{ display:flex; justify-content:space-between; gap:16px; margin:auto 0 0; padding:9px 0;
+  border-top:1px solid var(--be-line); border-bottom:1px solid var(--be-line); font-family:"JetBrains Mono",monospace; font-size:12.5px; }
+.card .role dt{ color:var(--be-dim); }
+.card .role dd{ margin:0; color:#fff; text-align:right; text-wrap:balance; }
+.card .more{ padding-top:16px; align-self:flex-start; font-family:"JetBrains Mono",monospace; font-size:13px; color:var(--be-green);
+  display:inline-flex; align-items:center; gap:7px; }
+.card .more .arr{ transition:transform .25s var(--ease); }
+.card:focus-visible .more .arr{ transform:translateX(5px); }
+
+/* featured: PowerPlan(t) spans the row, stage | text. The stage is the frontend
+   paper (lavender → mint) with three real app screens rising from its bottom edge.
+   The phones are sized in container units (cqw) of the stage, px before as the fallback */
+.card-feature{ grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); }
+.work-grid .card-feature .thumb{ aspect-ratio:auto; min-height:clamp(340px,33vw,440px); border-radius:17px 0 0 17px;
+  container-type:inline-size; isolation:isolate;
+  background:
+    radial-gradient(60% 90% at 10% 14%, rgba(124,92,252,.30), transparent 60%),
+    radial-gradient(55% 80% at 92% 22%, rgba(78,205,196,.30), transparent 58%),
+    radial-gradient(70% 90% at 52% 118%, rgba(255,107,107,.16), transparent 62%),
+    linear-gradient(135deg,#f1edff 0%, #f6f6fb 45%, #e9f7f4 100%); }
+.card-feature .thumb::before{ content:""; position:absolute; inset:0; z-index:-1;
+  background-image:linear-gradient(rgba(124,92,252,.10) 1px,transparent 1px), linear-gradient(90deg,rgba(124,92,252,.10) 1px,transparent 1px);
+  background-size:42px 42px; -webkit-mask-image:radial-gradient(70% 80% at 50% 40%,#000,transparent 75%); mask-image:radial-gradient(70% 80% at 50% 40%,#000,transparent 75%); }
+.phones{ position:absolute; inset:0; display:flex; justify-content:center; align-items:flex-start;
+  gap:26px; gap:4cqw; padding-top:44px; padding-top:7cqw; transition:transform .6s var(--ease); }
+.phone{ display:block; height:auto; flex:none; background:#12151a;
+  border:6px solid #12151a; border-width:max(4px,1cqw); border-radius:26px; border-radius:4.6cqw;
+  box-shadow:0 44px 70px -34px rgba(70,46,160,.6), 0 0 0 1px rgba(124,92,252,.16); }
+.phone.main{ width:200px; width:31cqw; position:relative; z-index:1; }
+.phone.side{ width:160px; width:24.5cqw; margin-top:60px; margin-top:9.5cqw; }
+.card-feature > .body{ align-self:center; padding:clamp(28px,3.6vw,52px); }
+.card-feature h3{ font-size:clamp(32px,3.3vw,40px); line-height:1.02; letter-spacing:-.025em; margin-bottom:14px; }
+.card-feature p{ font-size:15.5px; max-width:44ch; }
+.card-feature .role{ margin-top:4px; }
+
+/* "This website": the depth map | the photo, on a seam like the hero's */
+.thumb-split::after{ content:""; position:absolute; top:0; bottom:0; left:50%; width:2px; translate:-50% 0; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.75) 32%,rgba(0,255,156,.75) 72%,rgba(255,255,255,0));
+  box-shadow:0 0 12px 1px rgba(0,255,156,.3); }
+.card .thumb.thumb-split img{ object-position:center center; }
+.thumb-split .tl{ position:absolute; z-index:2; bottom:12px; font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.04em;
+  line-height:1; padding:5px 8px; border-radius:6px; background:rgba(13,17,23,.7); color:var(--be-dim); }
+.thumb-split .tl.l{ left:12px; }
+.thumb-split .tl.r{ right:12px; color:var(--be-green); }
+/* PlanetPod: the KPI tiles + map, read from the top-left */
+.card .thumb.thumb-dash img{ object-position:left top; }
+
+/* portrait tablets + phones: the featured card stacks (stage over text) so the phones keep
+   their size. Phones held sideways keep stage | text: stacked, the stage outgrows the screen */
+@media (max-width:700px), (max-width:900px) and (orientation:portrait){
+  .card-feature{ display:flex; }
+  .work-grid .card-feature .thumb{ min-height:0; aspect-ratio:16/10; border-radius:17px 17px 0 0; }
+  .card-feature > .body{ align-self:stretch; padding:22px 24px 24px; }
+}
+@media (max-height:500px) and (orientation:landscape){
+  .work-grid .card-feature .thumb{ min-height:300px; }
+}
+/* two half-width cards side by side on tablets: the role value goes under its label,
+   so both role rows keep one height (the long one would wrap beside it) */
+@media (min-width:601px) and (max-width:900px){
+  .card:not(.card-feature) .role{ flex-direction:column; gap:3px; }
+  .card:not(.card-feature) .role dd{ text-align:left; }
+}
+@media (max-width:600px){
+  .work-grid{ grid-template-columns:1fr; gap:18px; margin-top:32px; }
+  .work-grid .card-feature .thumb{ aspect-ratio:1/.9; }
+  /* phones overlap: the window screen in front, the other two tucked behind it */
+  .phones{ gap:0; padding-top:9cqw; }
+  .phone.main{ width:44cqw; }
+  .phone.side{ width:33cqw; margin-top:16cqw; }
+  .phone.side:first-child{ margin-right:-9cqw; }
+  .phone.side:last-child{ margin-left:-9cqw; }
+  .card .body, .card-feature > .body{ padding:20px 20px 22px; }
+  .card .tags span{ font-size:12px; }
+  .card p, .card-feature p{ font-size:15px; }
+}
+
+/* ---- also built: the smaller work, from Supabase (js/more-projects.js) ---- */
+.also{ margin-top:clamp(56px,8vh,88px); }
+.also[hidden]{ display:none; }
+.also-label{ display:flex; align-items:center; gap:16px; margin:0 0 20px; font-family:"JetBrains Mono",monospace; font-size:12px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--be-dim); }
+.also-label::after{ content:""; flex:1; height:1px; background:var(--be-line); }
+.also-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+/* hold the space while the rows load, so nothing below jumps */
+.also.is-loading .also-grid{ min-height:clamp(380px,30vw,432px); }   /* about one row of today's three */
+.also-all{ margin-top:20px; display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  font-family:"JetBrains Mono",monospace; font-size:13px; color:var(--be-green); background:none;
+  border:1px solid rgba(0,255,156,.35); border-radius:999px; padding:11px 18px; transition:background .2s, border-color .2s; }
+.also-all[hidden]{ display:none; }
+.mini-card{ display:flex; flex-direction:column; text-decoration:none; border-radius:14px; position:relative; min-width:0;
+  background:var(--be-slate); border:1px solid var(--be-line); -webkit-tap-highlight-color:transparent;
+  transition:transform .3s var(--ease), border-color .3s, box-shadow .3s; }
+.mini-card[hidden]{ display:none; }
+.mini-card:focus-visible{ outline:2px solid var(--be-green); outline-offset:3px; border-color:rgba(0,255,156,.4); }
+.mini-card.no-link{ cursor:default; }
+.mini-thumb{ aspect-ratio:16/10; flex-shrink:0; overflow:hidden; border-radius:13px 13px 0 0; background:#10151c; }
+.mini-thumb img{ width:100%; height:100%; object-fit:cover; object-position:center top; display:block; transition:transform .5s var(--ease); }
+/* no image: the project's initials, ghosted on the case-study cards' dark thumb gradient */
+.mini-thumb .mini-glyph{ height:100%; display:grid; place-items:center; background:linear-gradient(135deg,#10151c,#161b22);
+  font-family:"JetBrains Mono",monospace; font-size:40px; font-weight:800; color:rgba(255,255,255,.07); }
+.mini-body{ padding:15px 16px 17px; flex:1; display:flex; flex-direction:column; min-width:0; }
+.mini-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:9px; align-items:center; }
+.mini-tags span{ font-family:"JetBrains Mono",monospace; font-size:10.5px; color:var(--be-dim);
+  border:1px solid var(--be-line); padding:2px 8px; border-radius:6px; }
+.mini-tags .yr{ margin-left:auto; border-color:transparent; color:var(--be-green); padding-right:0; }
+.mini-body h4{ font-size:17px; margin:0 0 6px; font-weight:700; color:#fff; letter-spacing:-.01em; }
+.mini-desc{ font-size:13.5px; line-height:1.55; color:var(--be-dim); margin:0; }
+.mini-more{ margin-top:auto; padding-top:12px; align-self:flex-start; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--be-green);
+  display:inline-flex; align-items:center; gap:6px; }
+.mini-more .arr{ transition:transform .25s var(--ease); }
+.mini-card:focus-visible .mini-more .arr{ transform:translateX(4px); }
+/* phones + small tablets: compact rows, a small thumbnail left, the text right */
+@media (max-width:760px){
+  .also-grid{ grid-template-columns:1fr; gap:10px; }
+  .also.is-loading .also-grid{ min-height:clamp(440px,calc(1130px - 177vw),560px); }
+  .also .mini-card{ flex-direction:row; align-items:stretch; }
+  .also .mini-thumb{ position:relative; width:112px; aspect-ratio:auto; border-radius:13px 0 0 13px; }
+  .also .mini-thumb img{ position:absolute; inset:0; }
+  .also .mini-body{ padding:12px 14px 13px; }
+  .also .mini-tags{ margin-bottom:6px; }
+  .also .mini-body h4{ font-size:16px; margin-bottom:3px; }
+  .also .mini-desc{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .also .mini-more{ padding-top:8px; }
+}
+/* the narrowest phones (320): a slimmer thumbnail and tighter tags, so the year stays on the tags' line */
+@media (max-width:359px){
+  .also .mini-thumb{ width:96px; }
+  .also .mini-tags{ gap:5px; }
+  .also .mini-tags span{ padding:2px 6px; }
+  .also .mini-tags .yr{ padding-right:0; }
+}
+
+/* ---------- contact ---------- */
+.contact{ text-align:center; position:relative; }
+/* top rule spans the content column only (insets = .section's side padding) */
+.contact::before{ content:""; position:absolute; top:0; left:var(--gut); right:var(--gut); height:1px; background:var(--be-line); }
+.contact .eyebrow{ justify-content:center; }
+.contact .h2{ margin-bottom:14px; }
+.contact .lead{ margin:0 auto 34px; max-width:46ch; text-wrap:balance; }
+.btn-row{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.mail-group{ display:flex; gap:8px; align-items:stretch; }
+.btn{ font-family:"JetBrains Mono",monospace; font-size:15px; font-weight:700; line-height:1.25; text-decoration:none; white-space:nowrap;
+  padding:15px 28px; border-radius:999px; -webkit-tap-highlight-color:transparent;
+  transition:transform .2s, box-shadow .3s, background .2s, color .2s, border-color .2s; }
+.btn.primary{ background:var(--be-green); color:#06120c; box-shadow:0 0 0 0 rgba(0,255,156,.5); }
+.btn.ghost{ border:1px solid var(--be-line); color:#fff; }
+/* the copy button: both labels share one grid cell, so the width never changes */
+.btn.copy{ display:inline-grid; place-items:center; cursor:pointer; padding:15px 18px; font-size:13px; font-weight:500;
+  color:var(--be-green); background:transparent; border:1px solid rgba(0,255,156,.32); }
+.btn.copy > span{ grid-area:1/1; transition:opacity .2s; }
+.btn.copy .c-done{ opacity:0; }
+.btn.copy.is-copied{ background:rgba(0,255,156,.1); border-color:rgba(0,255,156,.55); }
+.btn.copy.is-copied .c-idle{ opacity:0; }
+.btn.copy.is-copied .c-done{ opacity:1; }
+/* phones: the email and its copy button share the first row (copy stays with
+   the address it copies; "copied" shortens to its tick, so the button keeps the
+   width of "copy"), then GitHub and LinkedIn as an even pair under it */
+@media (max-width:600px){
+  .btn-row{ gap:10px; }
+  .mail-group{ flex:1 1 100%; min-width:0; }
+  .mail-group .btn.primary{ flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; text-align:center;
+    padding:16px 12px; font-size:clamp(12px,3.6vw,14.5px); }
+  .btn.copy{ font-size:13px; padding:13px 16px; }
+  .btn.copy .c-word{ display:none; }
+  .btn.ghost{ flex:1 1 0; text-align:center; padding:13px 20px; font-size:14px; }
+}
+@media (max-width:359px){
+  .btn-row{ gap:8px; }
+  .mail-group .btn.primary{ font-size:12px; padding:15px 10px; }
+  .btn.ghost{ padding:13px; font-size:13px; }   /* 44px tall */
+  .btn.copy{ padding:12px 11px; font-size:12.5px; }
+  /* the footer line stacks instead of leaving its dot at a line end */
+  .foot-line{ flex-direction:column; }
+  .foot-line .sep{ display:none; }
+}
+
+/* ---------- footer: the ED signature as a sign-off ---------- */
+.footer{ border-top:1px solid var(--be-line); padding:36px var(--gut) calc(34px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;
+  font-family:"JetBrains Mono",monospace; font-size:13px; color:var(--be-dim); }
+/* translateZ: its own layer. WebKit draws a drop-shadow on an element painted in
+   the page's root layer wrongly: a see-through square (the shadow's reach, ~22px)
+   at the page's top-left corner, over the nav brand. In its own layer it's fine */
+.ed-mark{ display:block; height:34px; width:auto; filter:drop-shadow(0 0 8px rgba(0,255,156,.22)); transform:translateZ(0); }
+.foot-line{ display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px 12px; }
+.footer a{ color:var(--be-dim); text-decoration:none; transition:color .2s; }
+
+/* reveal on scroll — on the individual translate property, so it never overrides
+   a hover transform (.card:hover lifts with transform) */
+/* overflow-anchor:none: WebKit's scroll anchoring counts the translate, so a reveal
+   picked as the anchor while it rises pulled the page up by up to its 26px (a jump
+   to #work landed 26px short). Never an anchor: the page holds still, as in Chrome */
+.reveal{ opacity:0; translate:0 26px; transition:opacity .7s var(--ease), translate .7s var(--ease); overflow-anchor:none; }
+.reveal.in{ opacity:1; translate:none; }
+.card.reveal{ transition:opacity .7s var(--ease), translate .7s var(--ease), transform .35s var(--ease), border-color .35s, box-shadow .35s; }
+@media (prefers-reduced-motion:no-preference){
+  /* the cases arrive in sequence (delays on opacity + translate only, so hover isn't delayed) */
+  .work-grid .card:nth-child(2){ transition-delay:.08s,.08s,0s,0s,0s; }
+  .work-grid .card:nth-child(3){ transition-delay:.16s,.16s,0s,0s,0s; }
+}
+
+/* ---------- hover: only where there is one ---------- */
+@media (hover:hover){
+  .card:hover{ transform:translateY(-6px); border-color:rgba(0,255,156,.4); box-shadow:0 26px 50px -26px rgba(0,0,0,.8); }
+  /* the lift moves the hit box up; while hovered, a strip below the card keeps the spot
+     it left, so a pointer resting near the bottom edge doesn't flicker the hover */
+  .card:hover::after, .mini-card:not(.no-link):hover::after{ content:""; position:absolute; left:0; right:0; top:100%; height:8px; }
+  .card:hover .thumb.thumb-img img{ transform:scale(1.05); }
+  .card:hover .phones{ transform:translateY(-8px); }
+  .card:hover .more .arr{ transform:translateX(5px); }
+  .mini-card:not(.no-link):hover{ transform:translateY(-4px); border-color:rgba(0,255,156,.4); box-shadow:0 20px 38px -22px rgba(0,0,0,.8); }
+  .mini-card:not(.no-link):hover .mini-thumb img{ transform:scale(1.05); }
+  .mini-card:hover .mini-more .arr{ transform:translateX(4px); }
+  .also-all:hover{ background:rgba(0,255,156,.08); border-color:rgba(0,255,156,.6); }
+  .seen a:hover{ color:var(--be-green); background-image:linear-gradient(currentColor,currentColor); }
+  .btn.primary:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -10px rgba(0,255,156,.7); }
+  .btn.ghost:hover{ border-color:var(--be-green); color:var(--be-green); }
+  .btn.copy:hover{ background:rgba(0,255,156,.08); border-color:rgba(0,255,156,.55); }
+  .footer a:hover{ color:#fff; }
+}
+/* touch: a short press instead (a tapped card doesn't stay "lifted") */
+@media (hover:none){
+  .card:active, .mini-card:not(.no-link):active{ transform:scale(.985); border-color:rgba(0,255,156,.45); transition-duration:.12s; }
+  .btn:active, .also-all:active{ transform:scale(.97); transition-duration:.1s; }
+}
+/* touch: bigger hit areas for the small text links, same look (padding cancelled by margin) */
+@media (pointer:coarse){
+  .seen a, .footer a{ display:inline-block; padding:12px 4px; margin:-12px -4px; background-position:4px calc(100% - 12px); background-size:calc(100% - 8px) 1px; }
+}
+
+/* ---------- phones: tighter rhythm ---------- */
+@media (max-width:600px){
+  .section{ padding-top:56px; padding-bottom:56px; }
+  #work{ padding-top:clamp(40px,6vh,56px); }
+  .stack .h2{ margin-bottom:28px; }
+  .facts{ margin-top:32px; }
+  .seen{ margin-top:18px; }
+  .contact .lead{ margin-bottom:26px; }
+}
+@media (max-width:400px){ .status{ font-size:12px; padding:8px 12px; gap:8px; } }
+/* the pill stays on one line down to 320px */
+@media (max-width:359px){ .status{ font-size:11px; letter-spacing:-.02em; padding:7px 10px; gap:7px; } }
+
+@media (prefers-reduced-motion:reduce){
+  .status .pulse::after{ animation:none; opacity:0; }
+  .phones, .mini-thumb img, .card .thumb.thumb-img img, .card .more .arr, .mini-more .arr{ transition:none; }
+}
+
+/* ===================== mobile / tablet hero ===================== */
+@media (max-width:1023px){
+  /* taglines are the desktop hover-reveal — hide them on touch/static */
+  .label .tag{ display:none; }
+}
+
+/* phones + portrait tablets: swap the two edge-labels for a clean centred lockup
+   on a scrim (on a portrait tablet the dark 'frontend' sits on the dark shirt).
+   banner.js uses the same query for the intro gaze sweep. */
+@media (max-width:640px), (max-width:1023px) and (orientation:portrait){
+  /* hide the desktop in-panel labels (they'd be clipped by the seam if centred) */
+  .label{ display:none; }
+  .role-hint{ display:none; }
+
+  /* darkening scrim so the centred lockup stays legible over BOTH halves.
+     Over the head layer (z 5) too, so it still darkens his shirt; that puts it
+     over the seam as well, which now fades into it on the way down */
+  .hero-scrim{ display:block; position:absolute; left:0; right:0; bottom:0; height:54%; z-index:6;
+    background:linear-gradient(180deg, transparent, rgba(7,11,15,.42) 38%, rgba(7,11,15,.94)); pointer-events:none; }
+
+  /* face: a touch smaller so there's headroom above the head */
+  .hero{ --ph:min(68vh,580px); }
+
+  /* the lockup — sits above the scrim (z 6, after it) and the seam, never clipped by it */
+  .hero-mobile{ display:block; position:absolute; left:0; right:0; bottom:92px; z-index:6; text-align:center; padding:0 20px; }
+  .hm-link{ text-decoration:none; display:inline-flex; flex-direction:column; align-items:center; gap:2px; outline:none; }
+  .hm-word{ font-weight:800; line-height:.94; letter-spacing:-.02em; font-size:clamp(36px,13vw,60px); }
+  .hm-word.fe{ background:var(--grad-fe); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hm-word.be{ font-family:"JetBrains Mono",monospace; color:var(--be-green); text-shadow:0 0 18px rgba(0,255,156,.4); }
+  .hm-tag{ display:block; margin-top:14px; font-family:"JetBrains Mono",monospace; font-size:12px;
+    letter-spacing:.04em; color:rgba(234,242,233,.82); }
+  .hm-link:focus-visible .hm-word.fe{ outline:3px solid var(--fe-violet); outline-offset:5px; border-radius:6px; }
+
+  /* trim the scroll cue so it doesn't crowd the lockup */
+  .scrollcue{ bottom:18px; }
+  .scrollcue .sc-txt{ display:none; }
+}
+/* portrait tablets: the same lockup, scaled up; they keep the tap hint */
+@media (min-width:641px) and (max-width:1023px) and (orientation:portrait){
+  .hm-word{ font-size:clamp(56px,9vw,84px); }
+  .hm-tag{ font-size:14px; }
+  .hero{ --ph:min(74vh,820px); }
+  .hero-mobile{ bottom:120px; }
+  .role-hint{ display:block; }
+}
+/* phones only: tighter tracking so the name line fits (it can't wrap), and the
+   first code doodle drops below it (!important beats its inline top:13%). The
+   pills + terminal keep their old low spots behind the scrim: the desktop ones
+   would sit beside the jaw, half under the hair. */
+@media (max-width:640px){
+  .hero-intro{ padding:0 16px; }
+  .hero-intro .role{ font-size:11px; letter-spacing:.2em; }
+  .back .code{ font-size:10.5px; line-height:1.7; }
+  .back .motifs > .code:nth-child(2){ top:20% !important; }
+  .front .motifs > .m-pill:nth-child(4){ top:73% !important; }
+  .front .motifs > .m-pill:nth-child(5){ top:80% !important; }
+  .back .motifs > .term{ top:75% !important; }
+}
+
+/* ---- phones held upright: the first screen ----
+   The face is tied to the lockup, not to the bottom of the screen: his chin
+   (row 1045 of the 1696px cutout = .616 of --ph) sits 12px above the top of
+   'frontend', so the words never start on his mouth, whatever the toolbars
+   leave of the screen. The lockup's height comes from its own font size: two
+   words at line-height .94 + the 2 flex gaps + the tagline's 14px margin + 16px
+   line. The face keeps its old size (68svh, max 580px) unless that would push
+   his hair (row 69 = .041) up into the name lines: then it shrinks to fit.
+   --p-lift: how far the portrait layers sit above the hero's bottom (negative =
+   below it, on tall phones: only shirt goes). */
+@media (max-width:640px) and (orientation:portrait){
+  .hero{
+    --hm-fs:clamp(36px,12vw,60px);
+    --lock-b:62px;                                                   /* the lockup's bottom: the touch scroll cue fits under it */
+    --lock-top:calc(var(--lock-b) + var(--hm-fs) * 1.88 + 34px);    /* its top, from the hero's bottom */
+    --intro-b:calc(clamp(78px,10vh,116px) + 44px);                  /* below the two name lines, from the hero's top */
+    /* at least tall enough that his shirt reaches the bottom edge (chin + .384 of it) */
+    --ph:min((100svh - var(--lock-top) - 12px - var(--intro-b) - 18px) / .575,
+             max(min(68svh, 580px), (var(--lock-top) + 12px) / .384));
+    --p-lift:calc(var(--lock-top) + 12px - var(--ph) * .384);
+  }
+  .portrait{ bottom:var(--p-lift); }
+  .hero-mobile{ bottom:var(--lock-b); }
+  .hm-word{ font-size:var(--hm-fs); }
+  /* the scrim starts at his chin (clear face above it) and is dark by the words */
+  .hero-scrim{ height:calc(var(--lock-top) + 12px + 56px);
+    background:linear-gradient(180deg, transparent, rgba(7,11,15,.14) 56px, rgba(7,11,15,.5) 72px,
+      rgba(7,11,15,.94) calc(100% - max(var(--p-lift), 0px) - 8px), #070b0f calc(100% - max(var(--p-lift), 0px))); }
+  .scrollcue{ bottom:14px; }
+  /* the tagline is one line (the face's formula counts one); narrow phones get it smaller */
+  .hm-tag{ white-space:nowrap; }
+
+  /* the name in two lines: his name readable at a glance, the role under it, dimmer */
+  .hero-intro .role{ font-size:14px; letter-spacing:.2em; line-height:1.3; }
+  .hero-intro .role .r-name, .hero-intro .role .r-job{ display:block; }
+  .hero-intro .role .r-sep{ display:none; }
+  .hero-intro .role .r-job{ margin-top:5px; font-size:10px; letter-spacing:.22em; opacity:.66; }
+  .hero-intro .role .r-city{ display:inline; }
+  /* the tap hint: once, for a few seconds after the intro glance (banner.js: .hinting) */
+  .role-hint{ display:block; margin-top:9px; font-size:10px; opacity:0; transition:opacity .6s var(--ease); }
+  .hero.hinting:not(.touched) .role-hint{ opacity:.9; }
+
+  /* motifs clear of the text and the screen's edges (the back ones sit 17px
+     further right at rest: their --t drift). The pills and the terminal card go:
+     with the lockup tied to his chin, the terminal sat right behind 'frontend' */
+  .front .motifs > .m-pill, .back .motifs > .term{ display:none; }
+  .front .motifs > .m-card:nth-child(2){ left:7% !important; top:calc(var(--intro-b) + 22px) !important; }
+  .back .code{ font-size:9.5px; }
+  .back .motifs > .code:nth-child(2){ right:calc(3% + 17px) !important; top:calc(var(--intro-b) + 22px) !important; }
+}
+/* the scroll scene on an upright phone or tablet (every screen with the centred
+   lockup, the query banner.js uses, held upright): no marquee (it only ever
+   showed as loose fragments beside the narrow card), and the ED signed across
+   the lower third of the card, over his shirt, like a signed print (on desktop
+   and on screens held sideways it stays a flourish over the whole card).
+   The hand-off: the page comes up over the empty strip under the card (the
+   stage's bottom 19%) as a sheet with rounded top corners, meeting the card's
+   bottom edge as the pin lets go, so there's no dark gap; and a slightly
+   shorter scroll track. The sheet only while the scene runs (not the
+   reduced-motion / no-script hero) */
+@media (max-width:1023px) and (orientation:portrait){
+  .hero-stage .zo-marquee{ display:none; }
+  .hero-stage .zo-sign{ width:74vw; top:70.5%; }
+  .hero-mobile{ --zo-lock:0; }   /* the card's lockup fades out completely (signature-scroll.js) */
+  body:not(.zo-static) .hero-track{ height:235vh; }
+  body:not(.zo-static) main{ position:relative; z-index:3; margin-top:calc(-19svh - 10px);
+    background:var(--be-bg); border-radius:28px 28px 0 0;
+    box-shadow:0 -1px 0 rgba(234,242,233,.09), 0 -28px 48px -20px rgba(0,0,0,.75); }
+}
+@media (max-width:370px) and (orientation:portrait){
+  .hm-tag{ font-size:10.5px; letter-spacing:.02em; }
+}
+/* 320px: the scene's caption ('ED  Erben Driessen · Portfolio') stays on one line
+   (beats signature-scroll.css, which loads after this file) */
+@media (max-width:359px){
+  .hero-stage .zo-label{ gap:10px; }
+  .hero-stage .zo-label .zo-cap{ font-size:11px; letter-spacing:.18em; white-space:nowrap; }
+}
+/* phones held sideways (the desktop layout on a short screen): no tap hint or
+   scroll cue, the code block below the name line, a smaller signature */
+@media (hover:none) and (orientation:landscape) and (max-height:500px){
+  .role-hint, .scrollcue{ display:none; }
+  .back .motifs > .code:nth-child(2){ top:27% !important; font-size:11px; line-height:1.7; }
+  .hero-stage .zo-sign{ width:min(46vw, 84svh); }
+}
+/* desktop: the name line is one line; the city is the phone's second line only */
+.role .r-city{ display:none; }
+/* the availability pulse pauses while the pill is off screen (banner.js) */
+#availability.pulse-off .pulse::after{ animation-play-state:paused; }
+/* and its copy in the phone menu while the menu is closed (hidden, but a running
+   animation in it still costs the main thread a frame every vsync) */
+.menu:not(.open) .pulse::after{ animation-play-state:paused; }
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  .scrollcue .sc-wheel{ animation:none; }
+  .scrollcue .sc-dot{ animation:none; opacity:1; transform:translateY(29px); }
+  .role-hint{ display:none; }   /* banner.js turns the drag/gaze off, so don't invite it */
+  .reveal{ opacity:1; translate:none; transition:none; }
+  .card.reveal{ transition:border-color .35s, box-shadow .35s; }
+}

@@ -6,16 +6,36 @@
 <meta name="color-scheme" content="dark">
 <style>html{background:#0D1117}</style>
 <meta name="darkreader-lock">
-<title>Erben Driessen — Software Developer</title>
-<meta name="description" content="Erben Driessen — 4th-year Software Development student. Frontend & backend. Available for internships and freelance.">
+<title>Erben Driessen · Software Developer in Apeldoorn</title>
+<meta name="description" content="I&rsquo;m Erben, a 4th-year Software Development student in Apeldoorn. I build mobile apps, websites and the backend behind them. Open to internships and freelance work.">
+<link rel="canonical" href="https://erbendriessen.nl/">
+<meta name="theme-color" content="#0D1117">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- share preview (LinkedIn / WhatsApp / mail). og-cover = 1200x630 crop of the split hero -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://erbendriessen.nl/">
+<meta property="og:title" content="Erben Driessen · Software Developer">
+<meta property="og:description" content="Frontend and backend, from pixel to packet. Open to internships and freelance.">
+<meta property="og:image" content="https://erbendriessen.nl/img/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Erben Driessen&rsquo;s split portrait: frontend on the left, backend on the right">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://erbendriessen.nl/img/og-cover.jpg">
+<meta name="twitter:image:alt" content="Erben Driessen&rsquo;s split portrait: frontend on the left, backend on the right">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/portfolio.css">
-<link rel="stylesheet" href="css/signature-scroll.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="v2/css/portfolio.css?v=20261012-wk2">
+<link rel="stylesheet" href="v2/css/signature-scroll.css?v=20261012-wk">
+<!-- the static portrait is the LCP (and the no-WebGL / reduced-motion view): fetch it first -->
+<link rel="preload" as="image" type="image/avif" href="img/me-v2-portrait-c.avif" fetchpriority="high">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <!-- ============================ NAV ============================ -->
 <nav class="nav" id="nav">
@@ -24,7 +44,23 @@
     <a href="#work" class="label-hide">work</a>
     <a href="#about" class="label-hide">about</a>
     <a href="#stack" class="label-hide">stack</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu"><span class="mb-open">menu</span><span class="mb-close" aria-hidden="true">close</span></button>
     <a href="#contact" class="cta">get in touch</a>
+  </div>
+</nav>
+<!-- phones (≤640px): the section links in a full-screen frosted sheet, under the
+     nav bar (the menu button there turns into "close"). js/site-ui.js: focus trap,
+     Esc, scroll lock; the availability pill is copied in from #about. -->
+<nav class="menu" id="menu" aria-label="Sections">
+  <ol class="menu-links">
+    <li><a href="#work"><span class="mn">01</span>work</a></li>
+    <li><a href="#about"><span class="mn">02</span>about</a></li>
+    <li><a href="#stack"><span class="mn">03</span>stack</a></li>
+    <li><a href="#contact"><span class="mn">04</span>contact</a></li>
+  </ol>
+  <div class="menu-foot">
+    <span class="menu-pill" data-pill></span>
+    <a class="menu-mail" href="mailto:erben.l.driessen@gmail.com">erben.l.driessen@gmail.com</a>
   </div>
 </nav>
 
@@ -32,7 +68,17 @@
 <!--  HERO (v2) — pinned zoom-out + ED signature write-on          -->
 <!--  The v1 banner is UNCHANGED, just wrapped so it can scale.     -->
 <!--  Tune feel in the script: ZOOM_TO, PIN (track height in css).  -->
-<!--  SWAP IMAGES: img/me-frontend.png / img/me-backend.png         -->
+<!--  PORTRAIT: img/me-v2-portrait-c.webp is the static fallback; -->
+<!--  the live portrait (js/depth-banner.js: depth parallax + eyes -->
+<!--  that follow the cursor) is drawn over it, same 2021x1696.     -->
+<!--  He smiles when he looks sideways (frontend / backend); the    -->
+<!--  still looks ahead, so it keeps a straight face.               -->
+<!--  SEAM: the head is ONE layer (.portrait-head) in front of the  -->
+<!--  split, so the seam runs behind him, hidden.                   -->
+<!--  SHADE: the part of his face on the backend side of the seam   -->
+<!--  takes the backend's darker grade, eased in around the seam    -->
+<!--  and moving with it: depth-banner.js draws it live,            -->
+<!--  .portrait-shade (portfolio.css) on the static img.            -->
 <!-- ============================================================= -->
 <div class="hero-track" id="heroTrack">
 <div class="hero-stage" id="heroStage">
@@ -44,46 +90,41 @@
   </div>
 
   <div class="hero-scaler" id="heroScaler">
-<header class="hero" id="top" role="img"
-        aria-label="Erben Driessen — split portrait: frontend developer on the left, backend developer on the right.">
+<header class="hero" id="top">
 
   <!-- FRONTEND (left) -->
   <section class="panel front">
     <div class="bg front"></div>
-    <div class="motifs">
+    <div class="motifs" aria-hidden="true">
       <div class="grid-fe"></div>
       <div class="m-card" style="left:3%;  top:16%; width:132px; height:76px;"><div class="bar"></div><div class="ln"></div><div class="ln s"></div></div>
       <div class="m-card" style="left:10%; top:50%; width:100px; height:62px;"><div class="bar"></div><div class="ln"></div><div class="ln s"></div></div>
-      <div class="m-pill" style="left:5%;  top:73%; width:80px; background:var(--grad-fe);"></div>
-      <div class="m-pill" style="left:15%; top:80%; width:54px; background:var(--fe-cyan);"></div>
+      <div class="m-pill" style="left:5%;  top:64%; width:80px; background:var(--grad-fe);"></div>
+      <div class="m-pill" style="left:5%;  top:59%; width:54px; background:var(--fe-cyan);"></div>
       <svg style="position:absolute; left:0; top:0; width:42%; height:100%;" viewBox="0 0 480 800" fill="none" preserveAspectRatio="xMinYMid meet">
         <path d="M30 440 C 120 410, 150 520, 250 470" stroke="#FF6B6B" stroke-width="14" stroke-linecap="round" opacity=".55"/>
         <path d="M44 360 C 110 345, 140 410, 210 380" stroke="#4ECDC4" stroke-width="9"  stroke-linecap="round" opacity=".5"/>
         <g transform="translate(150 250) rotate(18)" opacity=".75"><path d="M0 0 L40 14 L26 26 L36 50 L26 56 L18 32 L4 42 Z" fill="#2b2b2b"/></g>
       </svg>
     </div>
-    <img class="portrait" src="img/me-frontend.png" alt="Erben Driessen looking left — frontend developer">
-    <img class="portrait portrait-mid" src="img/me-camera.png" alt="" aria-hidden="true">
-    <a class="label front" href="#stack" aria-label="See my frontend work and stack">
-      <span class="word">frontend</span>
-      <span class="tag">Building beautiful, accessible interfaces.</span>
-    </a>
+    <!-- his shadow on this panel's backdrop, in its colour (he himself is .portrait-head, over the seam) -->
+    <div class="portrait portrait-shadow" aria-hidden="true"></div>
   </section>
 
   <!-- BACKEND (right) -->
   <section class="panel back">
     <div class="bg back"></div>
-    <div class="motifs">
+    <div class="motifs" aria-hidden="true">
       <div class="grid-be"></div>
-      <div class="code" style="right:4%; top:13%; text-align:right;"><span class="k">async</span> <span class="b">function</span> handler() {
+      <div class="code" style="right:4%; top:13%;"><span class="k">async</span> <span class="b">function</span> handler() {
   <span class="k">await</span> db.query(<span class="s">'SELECT *'</span>);
   <span class="b">return</span> <span class="s">'200 OK'</span>;
 }</div>
-      <div class="code" style="right:6%; top:62%;"><span class="b">GET</span> /api/users  <span class="k">200</span>
+      <div class="code" style="right:6%; top:47%;"><span class="b">GET</span> /api/users  <span class="k">200</span>
 docker run -d node</div>
       <span class="glyph" style="right:30%; top:28%; font-size:64px;">{ }</span>
-      <span class="glyph" style="right:9%;  top:45%; font-size:30px;">;</span>
-      <span class="glyph" style="right:24%; top:82%; font-size:26px; color:rgba(88,166,255,.22);">&lt;/&gt;</span>
+      <span class="glyph" style="right:22%; top:50%; font-size:30px;">;</span>
+      <span class="glyph" style="right:7%;  top:38%; font-size:26px; color:rgba(88,166,255,.22);">&lt;/&gt;</span>
       <svg style="position:absolute; right:0; top:0; width:44%; height:100%;" viewBox="0 0 500 800" fill="none" preserveAspectRatio="xMaxYMid meet">
         <g stroke="rgba(88,166,255,.3)" stroke-width="1.4" fill="none">
           <path d="M500 180 H380 V300 H300"/><circle cx="300" cy="300" r="4" fill="rgba(0,255,156,.5)" stroke="none"/>
@@ -91,17 +132,13 @@ docker run -d node</div>
           <path d="M470 650 H410 V700"/>
         </g>
       </svg>
-      <div class="term" style="right:5%; top:75%; width:152px;">
+      <div class="term" style="right:5%; top:58%; width:152px;">
         <div class="tbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         <div class="body">$ npm run build<br>✓ ready in 312ms</div>
       </div>
     </div>
-    <img class="portrait" src="img/me-backend.png" alt="Erben Driessen looking right — backend developer">
-    <img class="portrait portrait-mid" src="img/me-camera.png" alt="" aria-hidden="true">
-    <a class="label back" href="#stack" aria-label="See my backend work and stack">
-      <span class="word">{ backend }</span>
-      <span class="tag">Designing fast, reliable systems and APIs.</span>
-    </a>
+    <!-- his shadow on this panel's backdrop, in its colour (he himself is .portrait-head, over the seam) -->
+    <div class="portrait portrait-shadow" aria-hidden="true"></div>
   </section>
 
   <div class="hero-scrim" aria-hidden="true"></div>
@@ -115,42 +152,193 @@ docker run -d node</div>
 
   <div class="divider" aria-hidden="true"></div>
 
-  <div class="hero-intro">
-    <p class="role">Erben&nbsp;Driessen&nbsp;·&nbsp;Software&nbsp;Developer</p>
-    <p class="role-hint">drag&nbsp;⇆&nbsp;or tap a side</p>
+  <!-- the head: one unsplit layer in front of the split, the seam runs behind him.
+       The img is the LCP and the no-WebGL / reduced-motion view (one img, front grade);
+       js/depth-banner.js puts the live canvas in after it. .portrait-shade (the backend's
+       grade past the seam): on the static img only (the live canvas draws its own) -->
+  <div class="portrait-head">
+    <picture><source type="image/avif" srcset="img/me-v2-portrait-c.avif"><img class="portrait" src="img/me-v2-portrait-c.webp" width="2021" height="1696" fetchpriority="high" alt="Erben Driessen"></picture>
+    <div class="portrait-shade" aria-hidden="true"><div class="portrait"></div></div>
   </div>
-  <a class="scrollcue" href="#about" aria-label="Scroll down to read more">
+
+  <!-- the big labels: split like the panels, but over the head (they reach onto his shirt) -->
+  <div class="panel front panel-labels">
+    <a class="label front" href="#stack" aria-label="See my frontend work and stack">
+      <span class="word">frontend</span>
+      <span class="tag">Building beautiful, accessible interfaces.</span>
+    </a>
+  </div>
+  <div class="panel back panel-labels">
+    <a class="label back" href="#stack" aria-label="See my backend work and stack">
+      <span class="word">{ backend }</span>
+      <span class="tag">Designing fast, reliable systems and APIs.</span>
+    </a>
+  </div>
+
+  <div class="hero-intro">
+    <h1 class="role"><span class="r-name">Erben&nbsp;Driessen</span><span class="r-sep">&nbsp;·&nbsp;</span><span class="r-job">Software&nbsp;Developer<span class="r-city">&nbsp;·&nbsp;Apeldoorn</span></span></h1>
+    <p class="role-hint"><span class="hint-mouse">move&nbsp;your&nbsp;cursor&nbsp;⇆</span><span class="hint-touch">drag&nbsp;⇆&nbsp;or tap a side</span></p>
+  </div>
+  <a class="scrollcue" href="#work" aria-label="Scroll down to read more">
     <span class="sc-mouse"><span class="sc-wheel"></span></span>
+    <span class="sc-line"><span class="sc-dot"></span></span>
     <span class="sc-txt">scroll</span>
   </a>
 </header>
+  <!-- touch only: darkens the card as it zooms back (stands in for the desktop filter) -->
+  <div class="zo-dim" id="zoDim" aria-hidden="true"></div>
   </div><!-- /.hero-scaler -->
 
-  <!-- small caption above the signature -->
+  <!-- small caption above the card: the ED mark + name on one line -->
   <div class="zo-label" id="zoLabel" aria-hidden="true">
     <span class="zo-mark">ED</span>
     <span class="zo-cap">Erben Driessen · Portfolio</span>
   </div>
 
-  <!-- ED signature — written on via the pen-mask (4 guide paths, in order).
-       The filled signature group is injected from media/signature.svg. -->
+  <!-- ED signature, written stroke by stroke with a pen tip.
+       #zoPen is the pen: one <g data-stroke> per stroke (e, d, tail, dot; order + direction are
+       PEN_ORDER in js/signature-scroll.js). Each stroke is clipped to the artwork's own filled path
+       it belongs to (#zoF-*, plus, at a crossing, the other path's ink inside its own corridor:
+       the stroke's own edges carried smoothly across), so a stroke never uncovers another
+       stroke's ink: a crossing stroke shows up only when its own pen gets there. Strokes are made
+       of parts (cut at the cusps, where the pen reverses), parts of segments: pieces of the
+       stroke's centerline, stroked just wider than the ink there, round caps. Drawing a segment
+       on with stroke-dashoffset uncovers exactly the ink under the pen tip, so the artwork keeps
+       its own width variation. A part's clip (#zoR-*) only keeps out the ink of LATER parts of
+       its path; where parts overlap (a cusp, a turn) the earlier pen lays the ink down, so a part
+       being written always ends in its own round tip. data-c = curvature (per mille): the pen
+       slows down in tight turns. The E is written before the D: its stem lands with its own round
+       start inside the top bar, which the D's top bar covers when it passes. Generated from the
+       filled artwork (skeleton centerlines, each with a corridor measured from its own ink edges).
+       #zoSignSettle is the finished artwork itself (fades in at the end; the reduced-motion still). -->
   <svg class="zo-sign" id="zoSign" viewBox="0 0 2892 1312" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <defs>
-      <mask id="zoM1" maskUnits="userSpaceOnUse" x="0" y="0" width="2892" height="1312">
-        <path class="zo-guide" id="zoG1" style="stroke-width:170px" d="M 972 488 L 972 488 L 972 489 L 972 489 L 972 492 L 971 499 L 970 513 L 967 530 L 963 549 L 959 569 L 954 589 L 948 608 L 941 628 L 934 647 L 925 667 L 917 689 L 908 715 L 901 740 L 892 759 L 883 772 L 875 782 L 869 789 L 867 793 L 867 795 L 868 796 L 872 796 L 879 794 L 890 790 L 904 786 L 921 783 L 943 782 L 969 781 L 993 778 L 1014 774 L 1034 769 L 1053 765 L 1073 760 L 1092 756 L 1110 752 L 1129 747 L 1148 743 L 1168 738 L 1188 733 L 1208 729 L 1228 724 L 1248 720 L 1267 715 L 1286 711 L 1305 706 L 1323 702 L 1342 698 L 1362 693 L 1382 689 L 1402 684 L 1422 680 L 1441 675 L 1460 671 L 1479 667 L 1497 663 L 1512 659 L 1525 657 L 1536 654 L 1545 653 L 1552 651 L 1558 650"/>
-      </mask>
-      <mask id="zoM2" maskUnits="userSpaceOnUse" x="0" y="0" width="2892" height="1312">
-        <path class="zo-guide" id="zoG2" style="stroke-width:150px" d="M 570 499 L 570 499 L 573 499 L 578 497 L 587 494 L 599 490 L 614 485 L 631 480 L 648 474 L 666 469 L 685 463 L 704 457 L 723 452 L 743 446 L 762 441 L 781 436 L 800 431 L 819 426 L 838 421 L 858 417 L 878 412 L 898 407 L 918 403 L 938 399 L 957 395 L 975 391 L 993 387 L 1010 383 L 1028 380 L 1047 376 L 1066 373 L 1086 369 L 1105 365 L 1125 362 L 1145 359 L 1165 355 L 1184 352 L 1204 349 L 1224 346 L 1243 343 L 1263 341 L 1283 338 L 1303 335 L 1323 333 L 1343 331 L 1363 329 L 1383 327 L 1402 325 L 1422 323 L 1442 321 L 1461 319 L 1482 318 L 1501 317 L 1521 315 L 1541 314 L 1562 313 L 1582 312 L 1602 312 L 1622 311 L 1642 311 L 1662 311 L 1681 311 L 1701 311 L 1721 311 L 1741 312 L 1762 312 L 1782 313 L 1803 314 L 1823 315 L 1842 316 L 1861 318 L 1881 319 L 1901 322 L 1921 324 L 1941 327 L 1961 330 L 1981 333 L 2001 336 L 2020 340 L 2039 344 L 2058 349 L 2078 354 L 2097 360 L 2116 366 L 2134 373 L 2152 381 L 2170 389 L 2186 398 L 2201 408 L 2215 418 L 2227 429 L 2237 440 L 2246 453 L 2253 466 L 2259 482 L 2261 501 L 2261 523 L 2256 546 L 2247 570 L 2235 590 L 2222 607 L 2209 621 L 2196 634 L 2182 646 L 2167 657 L 2151 668 L 2135 679 L 2119 689 L 2102 699 L 2086 708 L 2069 717 L 2052 726 L 2035 735 L 2018 743 L 2000 752 L 1981 760 L 1963 768 L 1944 776 L 1926 783 L 1908 791 L 1889 798 L 1870 805 L 1852 812 L 1833 819 L 1814 826 L 1795 832 L 1776 839 L 1757 845 L 1737 851 L 1719 857 L 1700 862 L 1680 868 L 1661 874 L 1642 879 L 1623 885 L 1604 890 L 1584 895 L 1565 900 L 1546 905 L 1527 910 L 1508 915 L 1489 919 L 1469 924 L 1450 929 L 1430 934 L 1410 938 L 1390 943 L 1371 947 L 1351 951 L 1332 955 L 1312 959 L 1293 963 L 1274 967 L 1254 971 L 1235 975 L 1215 979 L 1195 982 L 1175 986 L 1155 989 L 1135 992 L 1115 996 L 1096 999 L 1077 1001 L 1058 1004 L 1038 1007 L 1018 1010 L 998 1013 L 979 1015 L 959 1018 L 939 1020 L 919 1023 L 900 1025 L 881 1027 L 861 1029 L 841 1031 L 821 1033 L 801 1035 L 780 1036 L 760 1037 L 739 1039 L 719 1040 L 699 1041 L 680 1042 L 660 1042 L 640 1043 L 621 1043 L 601 1043 L 582 1043 L 562 1042 L 542 1042 L 522 1041 L 502 1039 L 482 1037 L 461 1035 L 442 1032 L 422 1029 L 403 1025 L 384 1019 L 366 1012 L 350 1003 L 338 993 L 330 983 L 325 975 L 322 966 L 321 955 L 321 942 L 324 924 L 332 902 L 346 880 L 362 863 L 378 849 L 394 837 L 410 827 L 427 817 L 443 807 L 460 798 L 477 789 L 494 780 L 511 771 L 529 763 L 547 754 L 566 746 L 584 738 L 603 731 L 622 723 L 640 716 L 659 709 L 677 702 L 696 695 L 714 689 L 733 682 L 752 676 L 771 669 L 790 663 L 809 657 L 827 652 L 844 646 L 862 641 L 879 635 L 898 630 L 917 624 L 935 619 L 954 613 L 972 608 L 990 603 L 1010 597 L 1028 592 L 1046 587 L 1063 582 L 1081 577 L 1099 573 L 1118 568 L 1137 563 L 1156 558 L 1175 553 L 1195 548 L 1214 543 L 1234 538 L 1253 533 L 1272 528 L 1291 524 L 1309 519 L 1327 515 L 1344 511 L 1362 507 L 1377 503 L 1390 500 L 1398 498 L 1401 497 L 1402 497 L 1401 497 L 1400 498 L 1513 479 L 1529 471"/>
-      </mask>
-      <mask id="zoM3" maskUnits="userSpaceOnUse" x="0" y="0" width="2892" height="1312">
-        <path class="zo-guide" id="zoG3" style="stroke-width:100px" d="M 1705 670 L 1708 668 L 1713 664 L 1722 656 L 1735 645 L 1752 633 L 1770 622 L 1785 613 L 1797 606 L 1830 542 L 1810 605 L 1816 607 L 1789 668 L 1832 605 L 1847 600 L 1866 593 L 1883 588 L 1895 585 L 1902 551 L 1919 583 L 1936 581 L 1954 576 L 1973 572 L 1991 568 L 2010 564 L 2029 560 L 2048 555 L 2068 550 L 2087 545 L 2107 539 L 2126 533 L 2145 528 L 2164 522 L 2183 516 L 2202 510 L 2221 505 L 2240 499 L 2258 493 L 2274 488 L 2289 483 L 2305 478 L 2323 472 L 2343 466 L 2362 460 L 2381 454 L 2400 448 L 2419 442 L 2438 436 L 2456 431 L 2473 426 L 2489 421 L 2503 418 L 2513 415 L 2523 412 L 2610 402 L 2611 402 L 2611 401 L 2611 400 L 2611 400 L 2612 399 L 2612 398 L 2613 397 L 2613 396 L 2614 395 L 2614 394 L 2614 393 L 2615 393 L 2615 392 L 2615 391 L 2616 391 L 2616 390 L 2616 389 L 2617 388 L 2617 387 L 2618 386 L 2618 386 L 2618 385 L 2618 385 L 2618 384"/>
-      </mask>
-      </defs>
-    <g fill="#00FF9C">
-      <path mask="url(#zoM1)" d="M786.38,853.79 C782.85,851.08 781.96,849.75 779.83,844.00 C776.88,836.08 777.44,832.31 783.25,820.85 C788.36,810.78 788.69,810.38 795.66,806.00 C804.40,800.51 819.23,790.26 824.07,786.37 C849.54,765.91 878.91,734.06 887.59,717.50 C889.03,714.75 892.87,708.58 896.13,703.80 C899.38,699.01 903.37,691.85 904.98,687.89 C906.59,683.93 909.45,678.17 911.32,675.09 C918.63,663.13 924.77,648.99 930.46,631.00 C932.29,625.23 935.11,617.35 936.74,613.50 C938.36,609.65 939.98,604.29 940.35,601.59 C940.71,598.88 942.16,592.13 943.56,586.59 C944.97,581.04 946.99,572.45 948.05,567.50 C949.11,562.55 951.10,553.60 952.48,547.61 C953.86,541.63 955.44,531.73 956.00,525.61 C956.56,519.50 957.69,510.90 958.51,506.50 C960.48,495.98 963.81,460.56 965.18,435.50 C965.78,424.50 966.72,414.94 967.26,414.25 C969.78,411.05 996.64,404.30 998.68,406.35 C999.24,406.91 997.37,450.37 996.61,454.52 C996.41,455.61 995.95,459.65 995.58,463.50 C995.21,467.35 994.68,472.98 994.38,476.00 C992.20,498.78 984.91,543.63 981.47,555.52 C980.14,560.09 977.69,571.16 976.01,580.12 C974.33,589.08 972.52,598.00 971.98,599.95 C971.45,601.90 970.14,607.14 969.08,611.58 C968.02,616.02 965.12,624.12 962.63,629.58 C960.14,635.04 955.18,646.97 951.59,656.11 C942.99,678.05 940.25,683.94 926.92,709.17 C912.18,737.06 904.55,749.01 889.38,767.88 C881.06,778.22 876.77,787.00 880.04,787.00 C880.61,787.00 887.24,785.28 894.79,783.17 C910.60,778.75 922.54,775.65 936.00,772.48 C941.23,771.25 953.38,768.09 963.00,765.47 C991.50,757.69 994.18,757.06 1001.50,756.43 C1005.35,756.10 1010.30,755.46 1012.50,755.01 C1014.70,754.57 1020.33,753.46 1025.00,752.55 C1029.67,751.64 1041.60,748.91 1051.50,746.50 C1069.26,742.16 1080.20,739.83 1089.00,738.49 C1092.77,737.92 1109.57,734.12 1126.50,730.01 C1138.76,727.03 1166.07,722.00 1169.97,722.00 C1172.46,722.00 1177.65,721.13 1181.50,720.06 C1185.35,718.99 1193.00,717.01 1198.50,715.66 C1204.00,714.30 1216.50,711.13 1226.27,708.60 C1236.04,706.07 1245.40,704.00 1247.07,704.00 C1248.75,704.00 1252.00,703.57 1254.31,703.04 C1256.61,702.52 1262.78,701.13 1268.00,699.97 C1273.22,698.81 1284.81,696.09 1293.74,693.93 C1302.68,691.77 1311.08,690.00 1312.42,690.00 C1314.76,690.00 1327.40,687.66 1341.67,684.59 C1345.43,683.78 1352.33,682.40 1357.00,681.52 C1361.67,680.65 1370.90,678.64 1377.50,677.06 C1384.10,675.49 1395.35,672.80 1402.50,671.09 C1409.65,669.39 1416.85,667.99 1418.50,667.98 C1420.15,667.98 1425.78,666.86 1431.00,665.49 C1449.73,660.59 1457.13,659.01 1466.12,657.99 C1471.15,657.42 1479.37,656.06 1484.38,654.98 C1489.40,653.89 1496.88,652.58 1501.00,652.05 C1505.12,651.52 1515.69,649.04 1524.48,646.53 C1533.28,644.03 1544.53,641.51 1549.48,640.94 C1554.44,640.37 1563.90,639.26 1570.50,638.47 C1577.10,637.68 1586.55,636.81 1591.50,636.53 C1596.45,636.25 1603.42,635.75 1607.00,635.41 C1612.73,634.87 1613.83,635.06 1616.31,637.02 C1619.88,639.84 1619.69,643.92 1615.89,645.73 C1611.03,648.05 1571.56,659.05 1559.00,661.59 C1547.22,663.97 1541.54,665.40 1511.00,673.67 C1504.12,675.53 1491.97,678.37 1484.00,679.97 C1476.03,681.58 1463.20,684.52 1455.50,686.52 C1437.97,691.07 1413.71,697.12 1381.50,704.98 C1320.30,719.92 1299.03,725.41 1292.50,727.98 C1288.59,729.51 1282.37,731.00 1278.42,731.35 C1274.52,731.70 1265.07,733.74 1257.42,735.88 C1249.76,738.03 1239.90,740.58 1235.50,741.55 C1221.62,744.62 1155.73,761.30 1103.50,774.95 C1089.20,778.69 1074.35,782.49 1070.50,783.40 C1062.60,785.26 1035.87,791.99 1010.50,798.51 C1001.15,800.91 983.60,805.41 971.50,808.52 C941.91,816.11 937.90,817.18 920.50,822.06 C912.25,824.37 899.20,828.03 891.50,830.19 C883.80,832.35 873.45,835.18 868.50,836.49 C848.10,841.85 835.01,845.32 826.50,847.60 C791.65,856.94 790.69,857.09 786.38,853.79 Z"></path>
-      <path mask="url(#zoM2)" d="M603.50,1070.96 C599.65,1070.53 578.27,1069.91 556.00,1069.58 C513.13,1068.93 504.12,1068.59 486.50,1066.92 C480.45,1066.35 472.80,1065.65 469.50,1065.36 C466.20,1065.07 450.82,1063.09 435.32,1060.96 C328.85,1046.29 275.00,1014.68 272.28,965.24 C271.32,947.82 273.04,939.77 281.53,921.87 C295.02,893.44 315.97,868.76 346.00,845.90 C352.88,840.67 363.24,832.77 369.02,828.35 C374.81,823.93 381.77,819.08 384.49,817.56 C389.89,814.54 396.22,810.32 402.60,805.47 C404.85,803.75 410.03,800.63 414.10,798.53 C418.17,796.44 426.06,791.86 431.64,788.37 C437.22,784.88 443.88,781.12 446.44,780.03 C449.00,778.93 453.10,776.65 455.55,774.97 C458.00,773.28 464.20,770.16 469.32,768.02 C474.45,765.89 484.01,761.45 490.57,758.16 C503.90,751.47 521.84,743.00 522.66,743.00 C522.95,743.00 529.56,740.12 537.34,736.59 C545.13,733.07 560.95,726.37 572.50,721.70 C595.86,712.26 616.65,703.76 628.00,698.99 C638.44,694.61 662.36,686.27 689.50,677.56 C702.15,673.49 721.73,667.18 733.00,663.52 C822.57,634.46 850.36,625.82 868.00,621.55 C882.21,618.11 895.65,614.26 898.50,612.81 C900.15,611.97 904.65,610.49 908.50,609.51 C923.42,605.73 932.64,602.73 936.01,600.55 C941.73,596.87 943.61,596.61 946.16,599.16 C948.19,601.19 949.22,601.39 956.46,601.11 C965.23,600.78 966.31,600.12 965.63,595.46 C964.10,584.85 971.71,581.27 975.67,590.75 C977.42,594.94 978.49,594.85 985.33,589.95 C991.34,585.65 994.86,584.60 1034.00,575.52 C1042.53,573.54 1058.76,569.23 1070.08,565.94 C1081.39,562.66 1094.15,559.30 1098.44,558.48 C1102.72,557.66 1112.81,555.02 1120.86,552.62 C1139.83,546.96 1145.48,545.52 1157.00,543.46 C1162.22,542.52 1176.17,539.34 1188.00,536.40 C1199.83,533.45 1213.33,530.11 1218.00,528.96 C1222.67,527.82 1229.65,526.03 1233.50,524.98 C1237.35,523.94 1243.88,522.41 1248.00,521.58 C1252.12,520.75 1257.75,519.38 1260.50,518.55 C1263.25,517.71 1266.79,517.02 1268.37,517.01 C1269.96,517.00 1276.26,515.46 1282.37,513.58 C1288.49,511.70 1298.00,509.39 1303.50,508.44 C1317.77,505.97 1323.97,504.64 1337.00,501.23 C1343.33,499.58 1351.65,497.70 1355.50,497.05 C1370.33,494.55 1373.83,493.78 1383.99,490.83 C1394.30,487.84 1394.56,487.81 1399.57,489.39 C1402.38,490.28 1406.01,491.00 1407.64,491.00 C1410.51,491.00 1425.08,486.41 1435.65,482.17 C1439.64,480.57 1441.56,480.31 1444.15,481.00 C1453.48,483.50 1459.39,482.81 1477.50,477.07 C1489.84,473.15 1495.40,472.62 1500.99,474.80 C1506.24,476.85 1507.13,479.17 1503.95,482.56 C1501.20,485.49 1497.42,486.73 1474.00,492.43 C1463.83,494.90 1451.45,498.04 1446.50,499.39 C1441.55,500.75 1431.88,503.24 1425.00,504.94 C1418.12,506.63 1405.30,510.04 1396.50,512.51 C1387.70,514.98 1369.25,519.74 1355.50,523.09 C1311.99,533.70 1248.66,549.71 1223.50,556.47 C1218.55,557.79 1204.15,561.63 1191.50,565.00 C1178.85,568.36 1164.67,572.18 1160.00,573.49 C1155.33,574.80 1139.58,579.10 1125.00,583.03 C1095.76,590.93 1060.28,601.06 1041.00,607.00 C1034.12,609.12 1020.85,612.94 1011.50,615.48 C983.63,623.08 970.72,626.99 966.72,629.05 C962.60,631.18 957.99,631.59 956.38,629.98 C955.68,629.28 953.89,629.60 950.76,630.99 C948.23,632.11 943.79,633.47 940.88,634.02 C933.96,635.33 933.74,635.71 933.58,646.50 C933.50,651.24 933.35,651.52 930.64,651.83 C928.66,652.05 926.95,651.39 925.14,649.70 C918.24,643.27 915.89,643.39 891.18,651.42 C835.35,669.57 711.07,711.95 695.00,718.31 C691.42,719.73 676.58,725.45 662.00,731.02 C647.42,736.60 631.67,742.66 627.00,744.49 C618.70,747.74 589.97,760.03 581.00,764.17 C578.52,765.32 572.67,767.94 568.00,770.00 C563.33,772.06 555.52,775.60 550.65,777.87 C545.78,780.14 541.65,782.00 541.46,782.00 C541.16,782.00 522.32,791.10 487.34,808.13 C481.75,810.86 472.30,815.69 466.34,818.87 C460.38,822.06 450.55,827.29 444.50,830.49 C438.45,833.70 431.82,837.37 429.77,838.66 C427.72,839.95 425.81,841.00 425.53,841.00 C424.97,841.00 416.52,846.35 399.00,857.80 C392.68,861.93 384.35,867.37 380.50,869.88 C358.00,884.56 330.93,908.02 319.23,923.00 C311.51,932.88 309.87,945.22 314.91,955.46 C327.16,980.34 366.20,997.00 440.00,1008.83 C468.04,1013.33 481.59,1015.12 491.50,1015.63 C496.45,1015.89 505.00,1016.51 510.50,1017.03 C516.00,1017.54 528.83,1018.21 539.00,1018.52 C549.17,1018.82 559.98,1019.29 563.00,1019.56 C569.46,1020.13 655.95,1020.09 664.00,1019.51 C667.02,1019.30 680.30,1018.87 693.50,1018.56 C706.70,1018.26 724.92,1017.36 734.00,1016.56 C743.08,1015.77 759.95,1014.85 771.50,1014.51 C799.98,1013.69 806.23,1013.26 822.50,1011.04 C830.20,1009.98 839.88,1008.87 844.00,1008.56 C856.86,1007.59 880.99,1005.11 893.00,1003.52 C899.33,1002.68 913.75,1001.09 925.06,999.98 C936.37,998.88 947.15,997.53 949.03,996.99 C950.90,996.45 959.43,995.31 967.97,994.44 C976.51,993.58 989.12,992.01 996.00,990.97 C1002.88,989.93 1016.15,988.16 1025.50,987.04 C1034.85,985.92 1046.33,984.34 1051.00,983.53 C1055.67,982.71 1063.10,981.61 1067.50,981.09 C1071.90,980.56 1079.33,979.44 1084.00,978.60 C1088.67,977.75 1097.94,976.62 1104.59,976.10 C1111.24,975.57 1121.37,974.01 1127.09,972.63 C1132.82,971.25 1141.78,969.63 1147.00,969.03 C1159.91,967.55 1170.52,965.72 1197.00,960.41 C1209.38,957.93 1225.35,955.00 1232.50,953.90 C1244.17,952.10 1251.11,950.72 1262.00,948.03 C1263.92,947.56 1267.53,946.86 1270.00,946.49 C1272.47,946.12 1281.70,944.10 1290.50,942.00 C1299.30,939.89 1310.33,937.65 1315.00,937.02 C1319.67,936.39 1325.97,935.26 1329.00,934.51 C1332.03,933.76 1341.47,931.73 1350.00,930.00 C1358.53,928.27 1367.75,926.23 1370.50,925.47 C1373.25,924.72 1382.28,922.74 1390.57,921.07 C1398.86,919.41 1411.91,916.49 1419.57,914.59 C1427.23,912.69 1442.28,909.02 1453.00,906.44 C1480.37,899.84 1523.72,888.98 1548.50,882.52 C1560.05,879.50 1575.12,875.88 1582.00,874.46 C1588.88,873.04 1602.60,869.46 1612.50,866.50 C1622.40,863.54 1636.58,859.48 1644.00,857.49 C1651.42,855.49 1666.31,851.19 1677.07,847.93 C1687.84,844.67 1697.32,842.00 1698.15,842.00 C1701.77,842.00 1808.16,808.14 1828.50,800.51 C1833.45,798.65 1843.12,794.91 1850.00,792.20 C1856.88,789.49 1867.67,785.57 1874.00,783.49 C1880.33,781.42 1887.97,778.49 1891.00,776.98 C1896.84,774.08 1914.60,767.01 1934.66,759.61 C1941.35,757.14 1949.46,753.78 1952.69,752.16 C1955.91,750.53 1960.44,748.69 1962.75,748.07 C1965.05,747.45 1971.34,744.76 1976.72,742.09 C1982.10,739.42 1988.28,736.67 1990.45,735.98 C1992.62,735.28 1999.15,732.34 2004.95,729.44 C2010.75,726.54 2018.65,722.94 2022.50,721.44 C2030.56,718.30 2039.72,713.83 2045.28,710.32 C2056.83,703.03 2094.66,683.42 2109.00,677.28 C2113.68,675.28 2120.88,671.56 2125.00,669.00 C2129.12,666.44 2135.37,662.82 2138.87,660.97 C2142.62,658.98 2146.94,655.61 2149.37,652.78 C2153.95,647.43 2159.42,643.44 2163.57,642.39 C2165.07,642.02 2169.72,638.96 2173.90,635.59 C2178.08,632.23 2183.97,627.63 2187.00,625.38 C2191.95,621.69 2200.84,614.07 2219.92,597.18 C2223.45,594.06 2227.32,590.83 2228.52,590.00 C2233.88,586.32 2253.99,559.49 2258.87,549.50 C2264.58,537.80 2266.35,523.91 2263.39,513.93 C2261.32,506.93 2253.44,487.42 2251.05,483.37 C2247.79,477.83 2233.04,460.25 2226.84,454.52 C2218.51,446.80 2188.40,427.10 2175.88,421.17 C2170.17,418.46 2161.22,414.22 2156.00,411.74 C2139.69,404.01 2135.23,402.10 2120.24,396.42 C2104.79,390.56 2072.76,381.12 2051.39,376.12 C2001.13,364.36 1983.83,360.71 1966.00,358.09 C1930.08,352.82 1920.72,351.59 1905.00,350.07 C1894.40,349.04 1884.56,347.90 1869.00,345.91 C1864.33,345.31 1853.30,344.43 1844.50,343.96 C1817.62,342.51 1793.98,341.13 1784.07,340.43 C1747.97,337.88 1602.30,337.95 1565.00,340.53 C1561.42,340.78 1552.20,341.43 1544.50,341.98 C1536.80,342.53 1522.85,343.21 1513.50,343.50 C1504.15,343.79 1492.00,344.48 1486.50,345.02 C1481.00,345.56 1474.47,346.21 1472.00,346.46 C1469.53,346.71 1459.85,347.41 1450.50,348.01 C1434.56,349.05 1425.61,349.90 1393.50,353.40 C1386.35,354.18 1376.90,355.06 1372.50,355.36 C1368.10,355.65 1361.35,356.37 1357.50,356.95 C1353.65,357.53 1341.95,358.90 1331.50,359.99 C1280.06,365.34 1254.49,368.69 1214.00,375.39 C1209.33,376.17 1201.67,377.32 1197.00,377.96 C1169.00,381.77 1084.53,395.56 1062.00,400.00 C1041.81,403.97 1033.60,405.54 1017.68,408.46 C1007.52,410.33 1003.03,411.62 1000.68,413.35 C996.45,416.48 995.08,416.91 984.29,418.55 C979.23,419.31 973.43,420.63 971.41,421.47 C967.96,422.92 967.47,422.88 963.36,420.82 C959.33,418.81 958.49,418.73 952.74,419.82 C949.31,420.47 944.92,421.24 943.00,421.54 C929.51,423.62 894.38,430.55 872.00,435.55 C868.42,436.35 858.75,438.37 850.50,440.06 C791.41,452.10 705.83,473.41 660.00,487.50 C650.38,490.46 636.42,494.66 629.00,496.84 C612.57,501.66 571.96,513.86 543.50,522.51 C518.47,530.12 500.70,535.00 498.02,535.00 C496.95,535.00 495.57,534.07 494.96,532.93 C493.18,529.59 495.84,526.90 506.14,521.60 C511.29,518.95 517.30,515.13 519.50,513.11 C526.15,507.01 537.91,501.33 559.00,494.05 C570.02,490.24 580.49,486.35 582.27,485.41 C584.05,484.47 588.42,482.22 592.00,480.42 C603.28,474.73 738.71,430.26 780.50,418.52 C827.57,405.29 841.17,401.67 852.00,399.49 C856.67,398.55 865.23,396.30 871.00,394.50 C876.77,392.69 886.23,390.21 892.00,388.99 C897.77,387.77 908.12,385.20 915.00,383.27 C921.88,381.34 936.95,377.39 948.50,374.48 C960.05,371.56 977.83,366.94 988.00,364.20 C1004.04,359.88 1018.17,356.91 1058.00,349.50 C1062.67,348.63 1071.45,346.65 1077.50,345.10 C1084.59,343.28 1091.51,342.21 1096.95,342.08 C1102.31,341.96 1109.83,340.81 1117.45,338.95 C1124.08,337.34 1133.10,335.58 1137.50,335.05 C1141.90,334.51 1149.33,333.61 1154.00,333.04 C1158.67,332.47 1168.58,330.67 1176.00,329.02 C1183.42,327.38 1191.97,326.02 1195.00,326.01 C1198.03,326.00 1204.29,325.08 1208.92,323.97 C1213.55,322.86 1221.65,321.25 1226.92,320.41 C1232.19,319.56 1239.58,318.22 1243.35,317.43 C1247.12,316.63 1253.64,316.02 1257.85,316.05 C1262.71,316.10 1268.41,315.34 1273.49,313.99 C1279.76,312.31 1285.34,311.75 1299.49,311.38 C1311.19,311.08 1319.08,310.42 1322.00,309.48 C1324.47,308.69 1329.40,307.78 1332.94,307.46 C1336.49,307.14 1339.84,306.60 1340.40,306.25 C1340.96,305.91 1346.61,305.30 1352.96,304.91 C1359.31,304.51 1368.55,303.23 1373.50,302.06 C1378.66,300.84 1385.27,300.00 1389.00,300.09 C1392.58,300.18 1398.42,299.95 1402.00,299.56 C1405.58,299.18 1410.97,298.71 1414.00,298.53 C1424.74,297.87 1444.39,295.88 1445.23,295.36 C1446.35,294.67 1473.91,292.74 1486.18,292.49 C1491.51,292.38 1497.81,291.80 1500.18,291.20 C1504.17,290.19 1548.22,288.32 1568.00,288.32 C1572.67,288.32 1582.12,287.79 1589.00,287.13 C1622.93,283.89 1736.19,284.03 1754.00,287.33 C1758.38,288.14 1762.95,288.26 1768.00,287.69 C1776.56,286.73 1815.75,287.57 1827.00,288.95 C1831.12,289.45 1838.55,289.62 1843.50,289.32 C1850.42,288.91 1855.04,289.28 1863.50,290.95 C1870.49,292.33 1881.43,293.45 1893.50,294.01 C1903.95,294.49 1915.88,295.57 1920.00,296.39 C1924.12,297.22 1929.44,297.92 1931.82,297.95 C1937.32,298.01 1956.39,300.58 1965.50,302.47 C1969.35,303.27 1974.97,304.17 1978.00,304.47 C1989.30,305.57 1999.15,307.14 2002.77,308.41 C2007.15,309.96 2018.51,312.31 2032.50,314.56 C2038.00,315.45 2046.55,317.23 2051.50,318.52 C2060.30,320.80 2073.82,323.49 2081.18,324.43 C2083.21,324.68 2086.69,325.82 2088.91,326.96 C2091.14,328.09 2095.84,329.69 2099.36,330.50 C2102.88,331.32 2110.20,333.72 2115.63,335.84 C2134.41,343.16 2146.37,347.37 2150.42,348.08 C2157.00,349.24 2177.71,357.53 2183.33,361.25 C2186.17,363.14 2190.63,365.63 2193.23,366.78 C2195.84,367.93 2199.44,369.99 2201.23,371.35 C2203.03,372.71 2206.53,374.91 2209.00,376.24 C2229.87,387.49 2259.89,410.94 2264.17,419.34 C2265.34,421.62 2267.95,425.51 2269.98,427.99 C2279.68,439.83 2288.17,457.17 2290.48,469.88 C2292.98,483.63 2293.15,487.43 2292.01,503.88 C2289.64,538.02 2283.13,557.90 2264.40,588.22 C2250.39,610.90 2241.25,623.55 2235.16,628.71 C2232.04,631.34 2224.55,638.02 2218.50,643.54 C2196.14,663.96 2174.86,680.55 2154.89,693.11 C2149.06,696.78 2139.61,702.92 2133.89,706.76 C2128.18,710.60 2121.03,714.98 2118.00,716.49 C2114.97,718.00 2109.47,721.24 2105.77,723.68 C2096.75,729.64 2086.70,735.02 2060.50,747.95 C1995.69,779.92 1972.49,790.34 1926.50,808.15 C1922.10,809.86 1914.00,813.18 1908.50,815.53 C1903.00,817.89 1890.85,822.60 1881.50,826.00 C1872.15,829.40 1861.80,833.30 1858.50,834.66 C1839.80,842.37 1788.88,859.60 1724.50,880.01 C1673.25,896.25 1658.61,900.58 1621.00,910.58 C1601.47,915.77 1579.20,921.81 1571.50,924.00 C1555.96,928.42 1518.32,937.83 1476.00,947.88 C1466.92,950.04 1450.50,954.06 1439.50,956.83 C1428.50,959.59 1417.47,962.15 1415.00,962.53 C1412.53,962.90 1403.75,964.94 1395.50,967.06 C1387.25,969.18 1376.45,971.57 1371.50,972.37 C1366.55,973.17 1352.60,976.06 1340.50,978.79 C1328.40,981.52 1315.80,984.27 1312.50,984.89 C1292.23,988.70 1269.79,993.25 1265.50,994.43 C1262.75,995.18 1258.25,996.11 1255.50,996.49 C1249.94,997.26 1208.32,1004.75 1192.00,1007.92 C1186.22,1009.04 1172.95,1011.33 1162.50,1013.00 C1152.05,1014.67 1141.47,1016.49 1139.00,1017.04 C1136.53,1017.60 1129.55,1018.76 1123.50,1019.64 C1117.45,1020.51 1096.97,1023.62 1078.00,1026.55 C1059.03,1029.48 1037.20,1032.79 1029.50,1033.90 C1021.80,1035.01 1006.05,1037.28 994.50,1038.94 C982.95,1040.61 971.25,1042.24 968.50,1042.57 C960.36,1043.54 916.52,1049.79 903.00,1051.90 C890.47,1053.86 883.95,1054.46 863.50,1055.54 C857.45,1055.85 848.23,1056.54 843.00,1057.07 C825.18,1058.86 797.52,1061.03 785.50,1061.58 C778.90,1061.89 767.20,1062.77 759.50,1063.54 C751.80,1064.32 737.62,1065.42 728.00,1065.99 C718.38,1066.56 703.98,1067.46 696.00,1067.98 C688.02,1068.51 671.38,1069.20 659.00,1069.51 C646.62,1069.82 634.48,1070.49 632.00,1071.00 C626.70,1072.08 613.37,1072.06 603.50,1070.96 Z M1516.00,475.62 C1516.00,472.42 1520.48,470.47 1524.40,471.96 C1527.58,473.17 1527.40,474.96 1523.92,476.74 C1519.70,478.89 1516.00,478.37 1516.00,475.62 Z"></path>
-      <path mask="url(#zoM3)" d="M1686.26,702.23 C1671.73,699.85 1688.40,661.21 1710.52,645.99 C1712.89,644.36 1716.43,641.14 1718.40,638.84 C1720.37,636.54 1723.68,633.47 1725.74,632.02 C1727.81,630.57 1732.88,626.11 1737.00,622.10 C1741.12,618.09 1746.75,613.01 1749.50,610.79 C1752.25,608.58 1759.00,602.60 1764.50,597.51 C1770.00,592.41 1777.20,585.99 1780.50,583.24 C1783.80,580.48 1788.53,576.11 1791.00,573.52 C1793.47,570.93 1800.45,565.05 1806.50,560.45 C1812.55,555.84 1819.30,550.49 1821.50,548.54 C1838.68,533.33 1846.96,551.06 1838.92,585.83 C1836.56,596.07 1836.56,596.00 1838.96,596.00 C1840.21,596.00 1843.93,592.49 1849.13,586.41 C1853.64,581.13 1862.32,572.58 1868.42,567.41 C1874.51,562.24 1882.88,555.02 1887.00,551.37 C1899.05,540.71 1905.38,538.96 1908.69,545.38 C1911.28,550.37 1914.96,563.01 1915.65,569.25 C1916.48,576.80 1917.38,576.67 1926.91,567.59 C1931.19,563.51 1937.35,558.49 1940.60,556.43 C1943.84,554.38 1948.40,550.96 1950.73,548.85 C1955.38,544.61 1957.15,544.31 1964.41,546.51 C1970.71,548.42 1976.62,548.40 1982.12,546.45 C1984.53,545.59 1992.35,544.00 1999.50,542.91 C2017.96,540.09 2046.88,534.55 2062.32,530.87 C2069.57,529.15 2080.68,526.51 2087.00,525.01 C2093.32,523.51 2106.82,519.68 2117.00,516.51 C2127.18,513.34 2139.55,509.66 2144.50,508.34 C2166.31,502.53 2177.16,499.37 2202.65,491.43 C2228.96,483.23 2230.01,482.99 2236.79,483.62 C2243.31,484.22 2243.83,484.12 2244.45,482.16 C2245.28,479.55 2249.66,476.00 2252.06,476.00 C2253.04,476.00 2255.14,477.08 2256.71,478.41 L2259.57,480.82 L2267.54,475.94 C2271.92,473.25 2276.12,471.04 2276.88,471.03 C2277.86,471.01 2278.08,470.17 2277.67,468.08 C2276.91,464.30 2280.10,460.00 2283.68,460.00 C2285.07,460.00 2288.30,461.18 2290.86,462.62 L2295.52,465.23 L2316.51,458.77 C2328.05,455.21 2344.47,450.36 2353.00,447.99 C2361.53,445.63 2379.30,440.43 2392.50,436.45 C2405.70,432.47 2420.10,428.23 2424.50,427.04 C2428.90,425.84 2438.12,423.12 2445.00,421.00 C2463.77,415.19 2476.85,412.57 2492.50,411.50 C2495.25,411.31 2501.99,409.97 2507.47,408.52 C2517.92,405.77 2536.91,403.02 2545.63,403.01 C2554.72,402.99 2555.34,408.39 2546.81,413.35 C2538.20,418.35 2471.75,442.06 2388.00,469.99 C2301.23,498.94 2299.06,499.78 2293.58,506.47 C2288.13,513.11 2281.65,513.41 2279.05,507.13 C2277.94,504.44 2277.43,504.15 2274.65,504.63 C2269.55,505.51 2269.00,505.83 2269.00,507.97 C2269.00,511.44 2265.48,514.00 2260.72,514.00 C2257.99,514.00 2248.44,516.74 2234.47,521.54 C2177.39,541.14 2051.41,580.88 2025.50,587.45 C1977.66,599.58 1970.47,600.98 1955.90,600.99 C1944.10,601.00 1941.36,601.89 1932.50,608.55 C1928.65,611.45 1923.70,614.58 1921.50,615.51 C1892.48,627.80 1887.83,627.47 1884.83,612.95 C1883.18,604.95 1881.35,603.26 1876.84,605.56 C1874.17,606.92 1864.31,614.52 1862.00,616.99 C1861.72,617.29 1858.35,620.22 1854.51,623.51 C1850.67,626.81 1847.03,629.95 1846.42,630.50 C1845.82,631.05 1843.57,632.93 1841.41,634.67 C1800.37,667.88 1793.26,672.26 1788.69,667.21 C1782.56,660.44 1782.30,647.96 1788.00,633.76 C1790.20,628.28 1792.00,623.61 1792.00,623.39 C1792.00,620.63 1780.77,628.22 1768.91,639.00 C1745.53,660.25 1735.76,668.89 1724.00,678.75 C1722.62,679.90 1717.74,684.00 1713.15,687.85 C1699.14,699.62 1692.38,703.23 1686.26,702.23 Z M2603.07,416.37 C2597.73,409.58 2605.47,384.89 2616.58,373.27 C2621.53,368.08 2623.17,367.97 2627.73,372.53 L2631.25,376.05 L2630.81,383.79 C2630.24,393.61 2625.40,403.39 2616.52,412.67 C2609.59,419.92 2606.53,420.76 2603.07,416.37 Z"></path>
+      <clipPath id="zoF-e"><path d="M786.38,853.79 C782.85,851.08 781.96,849.75 779.83,844.00 C776.88,836.08 777.44,832.31 783.25,820.85 C788.36,810.78 788.69,810.38 795.66,806.00 C804.40,800.51 819.23,790.26 824.07,786.37 C849.54,765.91 878.91,734.06 887.59,717.50 C889.03,714.75 892.87,708.58 896.13,703.80 C899.38,699.01 903.37,691.85 904.98,687.89 C906.59,683.93 909.45,678.17 911.32,675.09 C918.63,663.13 924.77,648.99 930.46,631.00 C932.29,625.23 935.11,617.35 936.74,613.50 C938.36,609.65 939.98,604.29 940.35,601.59 C940.71,598.88 942.16,592.13 943.56,586.59 C944.97,581.04 946.99,572.45 948.05,567.50 C949.11,562.55 951.10,553.60 952.48,547.61 C953.86,541.63 955.44,531.73 956.00,525.61 C956.56,519.50 957.69,510.90 958.51,506.50 C960.48,495.98 963.81,460.56 965.18,435.50 C965.78,424.50 966.72,414.94 967.26,414.25 C969.78,411.05 996.64,404.30 998.68,406.35 C999.24,406.91 997.37,450.37 996.61,454.52 C996.41,455.61 995.95,459.65 995.58,463.50 C995.21,467.35 994.68,472.98 994.38,476.00 C992.20,498.78 984.91,543.63 981.47,555.52 C980.14,560.09 977.69,571.16 976.01,580.12 C974.33,589.08 972.52,598.00 971.98,599.95 C971.45,601.90 970.14,607.14 969.08,611.58 C968.02,616.02 965.12,624.12 962.63,629.58 C960.14,635.04 955.18,646.97 951.59,656.11 C942.99,678.05 940.25,683.94 926.92,709.17 C912.18,737.06 904.55,749.01 889.38,767.88 C881.06,778.22 876.77,787.00 880.04,787.00 C880.61,787.00 887.24,785.28 894.79,783.17 C910.60,778.75 922.54,775.65 936.00,772.48 C941.23,771.25 953.38,768.09 963.00,765.47 C991.50,757.69 994.18,757.06 1001.50,756.43 C1005.35,756.10 1010.30,755.46 1012.50,755.01 C1014.70,754.57 1020.33,753.46 1025.00,752.55 C1029.67,751.64 1041.60,748.91 1051.50,746.50 C1069.26,742.16 1080.20,739.83 1089.00,738.49 C1092.77,737.92 1109.57,734.12 1126.50,730.01 C1138.76,727.03 1166.07,722.00 1169.97,722.00 C1172.46,722.00 1177.65,721.13 1181.50,720.06 C1185.35,718.99 1193.00,717.01 1198.50,715.66 C1204.00,714.30 1216.50,711.13 1226.27,708.60 C1236.04,706.07 1245.40,704.00 1247.07,704.00 C1248.75,704.00 1252.00,703.57 1254.31,703.04 C1256.61,702.52 1262.78,701.13 1268.00,699.97 C1273.22,698.81 1284.81,696.09 1293.74,693.93 C1302.68,691.77 1311.08,690.00 1312.42,690.00 C1314.76,690.00 1327.40,687.66 1341.67,684.59 C1345.43,683.78 1352.33,682.40 1357.00,681.52 C1361.67,680.65 1370.90,678.64 1377.50,677.06 C1384.10,675.49 1395.35,672.80 1402.50,671.09 C1409.65,669.39 1416.85,667.99 1418.50,667.98 C1420.15,667.98 1425.78,666.86 1431.00,665.49 C1449.73,660.59 1457.13,659.01 1466.12,657.99 C1471.15,657.42 1479.37,656.06 1484.38,654.98 C1489.40,653.89 1496.88,652.58 1501.00,652.05 C1505.12,651.52 1515.69,649.04 1524.48,646.53 C1533.28,644.03 1544.53,641.51 1549.48,640.94 C1554.44,640.37 1563.90,639.26 1570.50,638.47 C1577.10,637.68 1586.55,636.81 1591.50,636.53 C1596.45,636.25 1603.42,635.75 1607.00,635.41 C1612.73,634.87 1613.83,635.06 1616.31,637.02 C1619.88,639.84 1619.69,643.92 1615.89,645.73 C1611.03,648.05 1571.56,659.05 1559.00,661.59 C1547.22,663.97 1541.54,665.40 1511.00,673.67 C1504.12,675.53 1491.97,678.37 1484.00,679.97 C1476.03,681.58 1463.20,684.52 1455.50,686.52 C1437.97,691.07 1413.71,697.12 1381.50,704.98 C1320.30,719.92 1299.03,725.41 1292.50,727.98 C1288.59,729.51 1282.37,731.00 1278.42,731.35 C1274.52,731.70 1265.07,733.74 1257.42,735.88 C1249.76,738.03 1239.90,740.58 1235.50,741.55 C1221.62,744.62 1155.73,761.30 1103.50,774.95 C1089.20,778.69 1074.35,782.49 1070.50,783.40 C1062.60,785.26 1035.87,791.99 1010.50,798.51 C1001.15,800.91 983.60,805.41 971.50,808.52 C941.91,816.11 937.90,817.18 920.50,822.06 C912.25,824.37 899.20,828.03 891.50,830.19 C883.80,832.35 873.45,835.18 868.50,836.49 C848.10,841.85 835.01,845.32 826.50,847.60 C791.65,856.94 790.69,857.09 786.38,853.79 Z M997.7 431.6L965.8 429.9 967 407.9 967.1 406.4 967.4 404.8 967.9 403.3 968.5 401.9 969.2 400.5 970.1 399.2 971.1 398 972.2 396.9 973.4 395.9 974.8 395 976.1 394.3 977.6 393.7 979.1 393.3 980.6 393 982.2 392.8 983.8 392.8 985.3 393 986.9 393.3 988.4 393.8 989.8 394.4 991.2 395.1 992.5 396 993.7 397 994.8 398.1 995.8 399.3 996.6 400.6 997.4 402 998 403.5 998.4 405 998.7 406.5 998.9 408.1 998.9 409.6Z"/></clipPath>
+      <clipPath id="zoF-d"><path d="M603.50,1070.96 C599.65,1070.53 578.27,1069.91 556.00,1069.58 C513.13,1068.93 504.12,1068.59 486.50,1066.92 C480.45,1066.35 472.80,1065.65 469.50,1065.36 C466.20,1065.07 450.82,1063.09 435.32,1060.96 C328.85,1046.29 275.00,1014.68 272.28,965.24 C271.32,947.82 273.04,939.77 281.53,921.87 C295.02,893.44 315.97,868.76 346.00,845.90 C352.88,840.67 363.24,832.77 369.02,828.35 C374.81,823.93 381.77,819.08 384.49,817.56 C389.89,814.54 396.22,810.32 402.60,805.47 C404.85,803.75 410.03,800.63 414.10,798.53 C418.17,796.44 426.06,791.86 431.64,788.37 C437.22,784.88 443.88,781.12 446.44,780.03 C449.00,778.93 453.10,776.65 455.55,774.97 C458.00,773.28 464.20,770.16 469.32,768.02 C474.45,765.89 484.01,761.45 490.57,758.16 C503.90,751.47 521.84,743.00 522.66,743.00 C522.95,743.00 529.56,740.12 537.34,736.59 C545.13,733.07 560.95,726.37 572.50,721.70 C595.86,712.26 616.65,703.76 628.00,698.99 C638.44,694.61 662.36,686.27 689.50,677.56 C702.15,673.49 721.73,667.18 733.00,663.52 C822.57,634.46 850.36,625.82 868.00,621.55 C882.21,618.11 895.65,614.26 898.50,612.81 C900.15,611.97 904.65,610.49 908.50,609.51 C923.42,605.73 932.64,602.73 936.01,600.55 C941.73,596.87 943.61,596.61 946.16,599.16 C948.19,601.19 949.22,601.39 956.46,601.11 C965.23,600.78 966.31,600.12 965.63,595.46 C964.10,584.85 971.71,581.27 975.67,590.75 C977.42,594.94 978.49,594.85 985.33,589.95 C991.34,585.65 994.86,584.60 1034.00,575.52 C1042.53,573.54 1058.76,569.23 1070.08,565.94 C1081.39,562.66 1094.15,559.30 1098.44,558.48 C1102.72,557.66 1112.81,555.02 1120.86,552.62 C1139.83,546.96 1145.48,545.52 1157.00,543.46 C1162.22,542.52 1176.17,539.34 1188.00,536.40 C1199.83,533.45 1213.33,530.11 1218.00,528.96 C1222.67,527.82 1229.65,526.03 1233.50,524.98 C1237.35,523.94 1243.88,522.41 1248.00,521.58 C1252.12,520.75 1257.75,519.38 1260.50,518.55 C1263.25,517.71 1266.79,517.02 1268.37,517.01 C1269.96,517.00 1276.26,515.46 1282.37,513.58 C1288.49,511.70 1298.00,509.39 1303.50,508.44 C1317.77,505.97 1323.97,504.64 1337.00,501.23 C1343.33,499.58 1351.65,497.70 1355.50,497.05 C1370.33,494.55 1373.83,493.78 1383.99,490.83 C1394.30,487.84 1394.56,487.81 1399.57,489.39 C1402.38,490.28 1406.01,491.00 1407.64,491.00 C1410.51,491.00 1425.08,486.41 1435.65,482.17 C1439.64,480.57 1441.56,480.31 1444.15,481.00 C1453.48,483.50 1459.39,482.81 1477.50,477.07 C1489.84,473.15 1495.40,472.62 1500.99,474.80 C1506.24,476.85 1507.13,479.17 1503.95,482.56 C1501.20,485.49 1497.42,486.73 1474.00,492.43 C1463.83,494.90 1451.45,498.04 1446.50,499.39 C1441.55,500.75 1431.88,503.24 1425.00,504.94 C1418.12,506.63 1405.30,510.04 1396.50,512.51 C1387.70,514.98 1369.25,519.74 1355.50,523.09 C1311.99,533.70 1248.66,549.71 1223.50,556.47 C1218.55,557.79 1204.15,561.63 1191.50,565.00 C1178.85,568.36 1164.67,572.18 1160.00,573.49 C1155.33,574.80 1139.58,579.10 1125.00,583.03 C1095.76,590.93 1060.28,601.06 1041.00,607.00 C1034.12,609.12 1020.85,612.94 1011.50,615.48 C983.63,623.08 970.72,626.99 966.72,629.05 C962.60,631.18 957.99,631.59 956.38,629.98 C955.68,629.28 953.89,629.60 950.76,630.99 C948.23,632.11 943.79,633.47 940.88,634.02 C933.96,635.33 933.74,635.71 933.58,646.50 C933.50,651.24 933.35,651.52 930.64,651.83 C928.66,652.05 926.95,651.39 925.14,649.70 C918.24,643.27 915.89,643.39 891.18,651.42 C835.35,669.57 711.07,711.95 695.00,718.31 C691.42,719.73 676.58,725.45 662.00,731.02 C647.42,736.60 631.67,742.66 627.00,744.49 C618.70,747.74 589.97,760.03 581.00,764.17 C578.52,765.32 572.67,767.94 568.00,770.00 C563.33,772.06 555.52,775.60 550.65,777.87 C545.78,780.14 541.65,782.00 541.46,782.00 C541.16,782.00 522.32,791.10 487.34,808.13 C481.75,810.86 472.30,815.69 466.34,818.87 C460.38,822.06 450.55,827.29 444.50,830.49 C438.45,833.70 431.82,837.37 429.77,838.66 C427.72,839.95 425.81,841.00 425.53,841.00 C424.97,841.00 416.52,846.35 399.00,857.80 C392.68,861.93 384.35,867.37 380.50,869.88 C358.00,884.56 330.93,908.02 319.23,923.00 C311.51,932.88 309.87,945.22 314.91,955.46 C327.16,980.34 366.20,997.00 440.00,1008.83 C468.04,1013.33 481.59,1015.12 491.50,1015.63 C496.45,1015.89 505.00,1016.51 510.50,1017.03 C516.00,1017.54 528.83,1018.21 539.00,1018.52 C549.17,1018.82 559.98,1019.29 563.00,1019.56 C569.46,1020.13 655.95,1020.09 664.00,1019.51 C667.02,1019.30 680.30,1018.87 693.50,1018.56 C706.70,1018.26 724.92,1017.36 734.00,1016.56 C743.08,1015.77 759.95,1014.85 771.50,1014.51 C799.98,1013.69 806.23,1013.26 822.50,1011.04 C830.20,1009.98 839.88,1008.87 844.00,1008.56 C856.86,1007.59 880.99,1005.11 893.00,1003.52 C899.33,1002.68 913.75,1001.09 925.06,999.98 C936.37,998.88 947.15,997.53 949.03,996.99 C950.90,996.45 959.43,995.31 967.97,994.44 C976.51,993.58 989.12,992.01 996.00,990.97 C1002.88,989.93 1016.15,988.16 1025.50,987.04 C1034.85,985.92 1046.33,984.34 1051.00,983.53 C1055.67,982.71 1063.10,981.61 1067.50,981.09 C1071.90,980.56 1079.33,979.44 1084.00,978.60 C1088.67,977.75 1097.94,976.62 1104.59,976.10 C1111.24,975.57 1121.37,974.01 1127.09,972.63 C1132.82,971.25 1141.78,969.63 1147.00,969.03 C1159.91,967.55 1170.52,965.72 1197.00,960.41 C1209.38,957.93 1225.35,955.00 1232.50,953.90 C1244.17,952.10 1251.11,950.72 1262.00,948.03 C1263.92,947.56 1267.53,946.86 1270.00,946.49 C1272.47,946.12 1281.70,944.10 1290.50,942.00 C1299.30,939.89 1310.33,937.65 1315.00,937.02 C1319.67,936.39 1325.97,935.26 1329.00,934.51 C1332.03,933.76 1341.47,931.73 1350.00,930.00 C1358.53,928.27 1367.75,926.23 1370.50,925.47 C1373.25,924.72 1382.28,922.74 1390.57,921.07 C1398.86,919.41 1411.91,916.49 1419.57,914.59 C1427.23,912.69 1442.28,909.02 1453.00,906.44 C1480.37,899.84 1523.72,888.98 1548.50,882.52 C1560.05,879.50 1575.12,875.88 1582.00,874.46 C1588.88,873.04 1602.60,869.46 1612.50,866.50 C1622.40,863.54 1636.58,859.48 1644.00,857.49 C1651.42,855.49 1666.31,851.19 1677.07,847.93 C1687.84,844.67 1697.32,842.00 1698.15,842.00 C1701.77,842.00 1808.16,808.14 1828.50,800.51 C1833.45,798.65 1843.12,794.91 1850.00,792.20 C1856.88,789.49 1867.67,785.57 1874.00,783.49 C1880.33,781.42 1887.97,778.49 1891.00,776.98 C1896.84,774.08 1914.60,767.01 1934.66,759.61 C1941.35,757.14 1949.46,753.78 1952.69,752.16 C1955.91,750.53 1960.44,748.69 1962.75,748.07 C1965.05,747.45 1971.34,744.76 1976.72,742.09 C1982.10,739.42 1988.28,736.67 1990.45,735.98 C1992.62,735.28 1999.15,732.34 2004.95,729.44 C2010.75,726.54 2018.65,722.94 2022.50,721.44 C2030.56,718.30 2039.72,713.83 2045.28,710.32 C2056.83,703.03 2094.66,683.42 2109.00,677.28 C2113.68,675.28 2120.88,671.56 2125.00,669.00 C2129.12,666.44 2135.37,662.82 2138.87,660.97 C2142.62,658.98 2146.94,655.61 2149.37,652.78 C2153.95,647.43 2159.42,643.44 2163.57,642.39 C2165.07,642.02 2169.72,638.96 2173.90,635.59 C2178.08,632.23 2183.97,627.63 2187.00,625.38 C2191.95,621.69 2200.84,614.07 2219.92,597.18 C2223.45,594.06 2227.32,590.83 2228.52,590.00 C2233.88,586.32 2253.99,559.49 2258.87,549.50 C2264.58,537.80 2266.35,523.91 2263.39,513.93 C2261.32,506.93 2253.44,487.42 2251.05,483.37 C2247.79,477.83 2233.04,460.25 2226.84,454.52 C2218.51,446.80 2188.40,427.10 2175.88,421.17 C2170.17,418.46 2161.22,414.22 2156.00,411.74 C2139.69,404.01 2135.23,402.10 2120.24,396.42 C2104.79,390.56 2072.76,381.12 2051.39,376.12 C2001.13,364.36 1983.83,360.71 1966.00,358.09 C1930.08,352.82 1920.72,351.59 1905.00,350.07 C1894.40,349.04 1884.56,347.90 1869.00,345.91 C1864.33,345.31 1853.30,344.43 1844.50,343.96 C1817.62,342.51 1793.98,341.13 1784.07,340.43 C1747.97,337.88 1602.30,337.95 1565.00,340.53 C1561.42,340.78 1552.20,341.43 1544.50,341.98 C1536.80,342.53 1522.85,343.21 1513.50,343.50 C1504.15,343.79 1492.00,344.48 1486.50,345.02 C1481.00,345.56 1474.47,346.21 1472.00,346.46 C1469.53,346.71 1459.85,347.41 1450.50,348.01 C1434.56,349.05 1425.61,349.90 1393.50,353.40 C1386.35,354.18 1376.90,355.06 1372.50,355.36 C1368.10,355.65 1361.35,356.37 1357.50,356.95 C1353.65,357.53 1341.95,358.90 1331.50,359.99 C1280.06,365.34 1254.49,368.69 1214.00,375.39 C1209.33,376.17 1201.67,377.32 1197.00,377.96 C1169.00,381.77 1084.53,395.56 1062.00,400.00 C1041.81,403.97 1033.60,405.54 1017.68,408.46 C1007.52,410.33 1003.03,411.62 1000.68,413.35 C996.45,416.48 995.08,416.91 984.29,418.55 C979.23,419.31 973.43,420.63 971.41,421.47 C967.96,422.92 967.47,422.88 963.36,420.82 C959.33,418.81 958.49,418.73 952.74,419.82 C949.31,420.47 944.92,421.24 943.00,421.54 C929.51,423.62 894.38,430.55 872.00,435.55 C868.42,436.35 858.75,438.37 850.50,440.06 C791.41,452.10 705.83,473.41 660.00,487.50 C650.38,490.46 636.42,494.66 629.00,496.84 C612.57,501.66 571.96,513.86 543.50,522.51 C518.47,530.12 500.70,535.00 498.02,535.00 C496.95,535.00 495.57,534.07 494.96,532.93 C493.18,529.59 495.84,526.90 506.14,521.60 C511.29,518.95 517.30,515.13 519.50,513.11 C526.15,507.01 537.91,501.33 559.00,494.05 C570.02,490.24 580.49,486.35 582.27,485.41 C584.05,484.47 588.42,482.22 592.00,480.42 C603.28,474.73 738.71,430.26 780.50,418.52 C827.57,405.29 841.17,401.67 852.00,399.49 C856.67,398.55 865.23,396.30 871.00,394.50 C876.77,392.69 886.23,390.21 892.00,388.99 C897.77,387.77 908.12,385.20 915.00,383.27 C921.88,381.34 936.95,377.39 948.50,374.48 C960.05,371.56 977.83,366.94 988.00,364.20 C1004.04,359.88 1018.17,356.91 1058.00,349.50 C1062.67,348.63 1071.45,346.65 1077.50,345.10 C1084.59,343.28 1091.51,342.21 1096.95,342.08 C1102.31,341.96 1109.83,340.81 1117.45,338.95 C1124.08,337.34 1133.10,335.58 1137.50,335.05 C1141.90,334.51 1149.33,333.61 1154.00,333.04 C1158.67,332.47 1168.58,330.67 1176.00,329.02 C1183.42,327.38 1191.97,326.02 1195.00,326.01 C1198.03,326.00 1204.29,325.08 1208.92,323.97 C1213.55,322.86 1221.65,321.25 1226.92,320.41 C1232.19,319.56 1239.58,318.22 1243.35,317.43 C1247.12,316.63 1253.64,316.02 1257.85,316.05 C1262.71,316.10 1268.41,315.34 1273.49,313.99 C1279.76,312.31 1285.34,311.75 1299.49,311.38 C1311.19,311.08 1319.08,310.42 1322.00,309.48 C1324.47,308.69 1329.40,307.78 1332.94,307.46 C1336.49,307.14 1339.84,306.60 1340.40,306.25 C1340.96,305.91 1346.61,305.30 1352.96,304.91 C1359.31,304.51 1368.55,303.23 1373.50,302.06 C1378.66,300.84 1385.27,300.00 1389.00,300.09 C1392.58,300.18 1398.42,299.95 1402.00,299.56 C1405.58,299.18 1410.97,298.71 1414.00,298.53 C1424.74,297.87 1444.39,295.88 1445.23,295.36 C1446.35,294.67 1473.91,292.74 1486.18,292.49 C1491.51,292.38 1497.81,291.80 1500.18,291.20 C1504.17,290.19 1548.22,288.32 1568.00,288.32 C1572.67,288.32 1582.12,287.79 1589.00,287.13 C1622.93,283.89 1736.19,284.03 1754.00,287.33 C1758.38,288.14 1762.95,288.26 1768.00,287.69 C1776.56,286.73 1815.75,287.57 1827.00,288.95 C1831.12,289.45 1838.55,289.62 1843.50,289.32 C1850.42,288.91 1855.04,289.28 1863.50,290.95 C1870.49,292.33 1881.43,293.45 1893.50,294.01 C1903.95,294.49 1915.88,295.57 1920.00,296.39 C1924.12,297.22 1929.44,297.92 1931.82,297.95 C1937.32,298.01 1956.39,300.58 1965.50,302.47 C1969.35,303.27 1974.97,304.17 1978.00,304.47 C1989.30,305.57 1999.15,307.14 2002.77,308.41 C2007.15,309.96 2018.51,312.31 2032.50,314.56 C2038.00,315.45 2046.55,317.23 2051.50,318.52 C2060.30,320.80 2073.82,323.49 2081.18,324.43 C2083.21,324.68 2086.69,325.82 2088.91,326.96 C2091.14,328.09 2095.84,329.69 2099.36,330.50 C2102.88,331.32 2110.20,333.72 2115.63,335.84 C2134.41,343.16 2146.37,347.37 2150.42,348.08 C2157.00,349.24 2177.71,357.53 2183.33,361.25 C2186.17,363.14 2190.63,365.63 2193.23,366.78 C2195.84,367.93 2199.44,369.99 2201.23,371.35 C2203.03,372.71 2206.53,374.91 2209.00,376.24 C2229.87,387.49 2259.89,410.94 2264.17,419.34 C2265.34,421.62 2267.95,425.51 2269.98,427.99 C2279.68,439.83 2288.17,457.17 2290.48,469.88 C2292.98,483.63 2293.15,487.43 2292.01,503.88 C2289.64,538.02 2283.13,557.90 2264.40,588.22 C2250.39,610.90 2241.25,623.55 2235.16,628.71 C2232.04,631.34 2224.55,638.02 2218.50,643.54 C2196.14,663.96 2174.86,680.55 2154.89,693.11 C2149.06,696.78 2139.61,702.92 2133.89,706.76 C2128.18,710.60 2121.03,714.98 2118.00,716.49 C2114.97,718.00 2109.47,721.24 2105.77,723.68 C2096.75,729.64 2086.70,735.02 2060.50,747.95 C1995.69,779.92 1972.49,790.34 1926.50,808.15 C1922.10,809.86 1914.00,813.18 1908.50,815.53 C1903.00,817.89 1890.85,822.60 1881.50,826.00 C1872.15,829.40 1861.80,833.30 1858.50,834.66 C1839.80,842.37 1788.88,859.60 1724.50,880.01 C1673.25,896.25 1658.61,900.58 1621.00,910.58 C1601.47,915.77 1579.20,921.81 1571.50,924.00 C1555.96,928.42 1518.32,937.83 1476.00,947.88 C1466.92,950.04 1450.50,954.06 1439.50,956.83 C1428.50,959.59 1417.47,962.15 1415.00,962.53 C1412.53,962.90 1403.75,964.94 1395.50,967.06 C1387.25,969.18 1376.45,971.57 1371.50,972.37 C1366.55,973.17 1352.60,976.06 1340.50,978.79 C1328.40,981.52 1315.80,984.27 1312.50,984.89 C1292.23,988.70 1269.79,993.25 1265.50,994.43 C1262.75,995.18 1258.25,996.11 1255.50,996.49 C1249.94,997.26 1208.32,1004.75 1192.00,1007.92 C1186.22,1009.04 1172.95,1011.33 1162.50,1013.00 C1152.05,1014.67 1141.47,1016.49 1139.00,1017.04 C1136.53,1017.60 1129.55,1018.76 1123.50,1019.64 C1117.45,1020.51 1096.97,1023.62 1078.00,1026.55 C1059.03,1029.48 1037.20,1032.79 1029.50,1033.90 C1021.80,1035.01 1006.05,1037.28 994.50,1038.94 C982.95,1040.61 971.25,1042.24 968.50,1042.57 C960.36,1043.54 916.52,1049.79 903.00,1051.90 C890.47,1053.86 883.95,1054.46 863.50,1055.54 C857.45,1055.85 848.23,1056.54 843.00,1057.07 C825.18,1058.86 797.52,1061.03 785.50,1061.58 C778.90,1061.89 767.20,1062.77 759.50,1063.54 C751.80,1064.32 737.62,1065.42 728.00,1065.99 C718.38,1066.56 703.98,1067.46 696.00,1067.98 C688.02,1068.51 671.38,1069.20 659.00,1069.51 C646.62,1069.82 634.48,1070.49 632.00,1071.00 C626.70,1072.08 613.37,1072.06 603.50,1070.96 Z M1516.00,475.62 C1516.00,472.42 1520.48,470.47 1524.40,471.96 C1527.58,473.17 1527.40,474.96 1523.92,476.74 C1519.70,478.89 1516.00,478.37 1516.00,475.62 Z M957.7 631.6L952.8 633.4 948.2 635.4 943.2 638.1 938.8 640.1 934.3 641.6 933.4 641.2 934.4 636.8 935.8 635.4 937.8 634.4 945.8 632.6 952.8 629.9 954.8 629.4 956.8 629.9 958.1 630.8ZM965.6 598.8L964.2 600.2 961.2 601.2 949.2 601.2 947.8 600.6 946 598.8 953.2 596.8 955.2 596.7 957.2 596 962.2 595.6 963.8 594.9 965.6 595.3 966 597.2ZM2293.1 483.8L2292.9 485.2 2294.2 489.2 2294.2 502.8 2293.6 505.8 2293.1 506.8 2292.2 507.7 2291.4 508.1 2291.7 506.8 2291.8 500.8 2292.2 499.2 2292.3 486.2 2292.6 485.2 2292.4 483.8 2292.8 483.5ZM2292.6 481.2L2292.2 481.5 2291.9 481.2 2292.2 479ZM2292.1 475.2L2292.1 477.2 2291.8 477.5 2291.4 477.2 2291.5 476.2 2291 474.2 2291.2 473ZM2291.2 470.7L2290.8 471.5 2290.3 470.7 2290.5 469.8 2290 468.8 2290.3 468.5Z"/></clipPath>
+      <clipPath id="zoF-t"><path d="M1686.26,702.23 C1671.73,699.85 1688.40,661.21 1710.52,645.99 C1712.89,644.36 1716.43,641.14 1718.40,638.84 C1720.37,636.54 1723.68,633.47 1725.74,632.02 C1727.81,630.57 1732.88,626.11 1737.00,622.10 C1741.12,618.09 1746.75,613.01 1749.50,610.79 C1752.25,608.58 1759.00,602.60 1764.50,597.51 C1770.00,592.41 1777.20,585.99 1780.50,583.24 C1783.80,580.48 1788.53,576.11 1791.00,573.52 C1793.47,570.93 1800.45,565.05 1806.50,560.45 C1812.55,555.84 1819.30,550.49 1821.50,548.54 C1838.68,533.33 1846.96,551.06 1838.92,585.83 C1836.56,596.07 1836.56,596.00 1838.96,596.00 C1840.21,596.00 1843.93,592.49 1849.13,586.41 C1853.64,581.13 1862.32,572.58 1868.42,567.41 C1874.51,562.24 1882.88,555.02 1887.00,551.37 C1899.05,540.71 1905.38,538.96 1908.69,545.38 C1911.28,550.37 1914.96,563.01 1915.65,569.25 C1916.48,576.80 1917.38,576.67 1926.91,567.59 C1931.19,563.51 1937.35,558.49 1940.60,556.43 C1943.84,554.38 1948.40,550.96 1950.73,548.85 C1955.38,544.61 1957.15,544.31 1964.41,546.51 C1970.71,548.42 1976.62,548.40 1982.12,546.45 C1984.53,545.59 1992.35,544.00 1999.50,542.91 C2017.96,540.09 2046.88,534.55 2062.32,530.87 C2069.57,529.15 2080.68,526.51 2087.00,525.01 C2093.32,523.51 2106.82,519.68 2117.00,516.51 C2127.18,513.34 2139.55,509.66 2144.50,508.34 C2166.31,502.53 2177.16,499.37 2202.65,491.43 C2228.96,483.23 2230.01,482.99 2236.79,483.62 C2243.31,484.22 2243.83,484.12 2244.45,482.16 C2245.28,479.55 2249.66,476.00 2252.06,476.00 C2253.04,476.00 2255.14,477.08 2256.71,478.41 L2259.57,480.82 L2267.54,475.94 C2271.92,473.25 2276.12,471.04 2276.88,471.03 C2277.86,471.01 2278.08,470.17 2277.67,468.08 C2276.91,464.30 2280.10,460.00 2283.68,460.00 C2285.07,460.00 2288.30,461.18 2290.86,462.62 L2295.52,465.23 L2316.51,458.77 C2328.05,455.21 2344.47,450.36 2353.00,447.99 C2361.53,445.63 2379.30,440.43 2392.50,436.45 C2405.70,432.47 2420.10,428.23 2424.50,427.04 C2428.90,425.84 2438.12,423.12 2445.00,421.00 C2463.77,415.19 2476.85,412.57 2492.50,411.50 C2495.25,411.31 2501.99,409.97 2507.47,408.52 C2517.92,405.77 2536.91,403.02 2545.63,403.01 C2554.72,402.99 2555.34,408.39 2546.81,413.35 C2538.20,418.35 2471.75,442.06 2388.00,469.99 C2301.23,498.94 2299.06,499.78 2293.58,506.47 C2288.13,513.11 2281.65,513.41 2279.05,507.13 C2277.94,504.44 2277.43,504.15 2274.65,504.63 C2269.55,505.51 2269.00,505.83 2269.00,507.97 C2269.00,511.44 2265.48,514.00 2260.72,514.00 C2257.99,514.00 2248.44,516.74 2234.47,521.54 C2177.39,541.14 2051.41,580.88 2025.50,587.45 C1977.66,599.58 1970.47,600.98 1955.90,600.99 C1944.10,601.00 1941.36,601.89 1932.50,608.55 C1928.65,611.45 1923.70,614.58 1921.50,615.51 C1892.48,627.80 1887.83,627.47 1884.83,612.95 C1883.18,604.95 1881.35,603.26 1876.84,605.56 C1874.17,606.92 1864.31,614.52 1862.00,616.99 C1861.72,617.29 1858.35,620.22 1854.51,623.51 C1850.67,626.81 1847.03,629.95 1846.42,630.50 C1845.82,631.05 1843.57,632.93 1841.41,634.67 C1800.37,667.88 1793.26,672.26 1788.69,667.21 C1782.56,660.44 1782.30,647.96 1788.00,633.76 C1790.20,628.28 1792.00,623.61 1792.00,623.39 C1792.00,620.63 1780.77,628.22 1768.91,639.00 C1745.53,660.25 1735.76,668.89 1724.00,678.75 C1722.62,679.90 1717.74,684.00 1713.15,687.85 C1699.14,699.62 1692.38,703.23 1686.26,702.23 Z M2603.07,416.37 C2597.73,409.58 2605.47,384.89 2616.58,373.27 C2621.53,368.08 2623.17,367.97 2627.73,372.53 L2631.25,376.05 L2630.81,383.79 C2630.24,393.61 2625.40,403.39 2616.52,412.67 C2609.59,419.92 2606.53,420.76 2603.07,416.37 Z M2279 506.7L2278.2 507.6 2268.8 511.1 2268.3 511.1 2268 510.7 2268.7 508.8 2268.9 506.8 2270.2 505.4 2274.8 504.3 2276.2 504.3 2277.7 504.9 2278.6 505.8ZM2260.2 480.6L2259.2 480.6 2256.9 478.8 2257.3 477.9 2273.2 471.9 2274.7 471.5 2275 471.8Z"/></clipPath>
+      <clipPath id="zoR-e-stem"><path clip-rule="evenodd" d="M723 334.5L1056.5 334.5 1056.5 908.5 723 908.5ZM791.5 808.3L791.2 808 790.2 808.4 788.3 809.8 787.4 811.2 787.4 812.1 788.8 812 790.2 811.1 791.5 809.2ZM822 790.8L821.7 790.5 818.8 791.2 818 790.8 818.5 790.3 816.2 790.9 809.9 795.3 809.9 796.1 811.8 795.9 816.8 793.6 819.2 792.1 820.8 792.1ZM891.7 782.9L883.2 784.9 880.8 785.7 879.4 785.5 876.4 792.8 874.6 798.2 869.1 809.8 865.4 814.8 864.2 817.2 862.8 818.8 859.6 823.2 856.7 826.7 854.9 828.3 852.2 831.2 848.3 833.8 845.2 837.1 842.2 839.3 839.8 841.6 834.3 845.3 833.9 846.1 835.2 846.6 837.2 845.9 844.8 844.1 849.8 842.6 851.8 841.4 853.8 840.6 863.2 832.7 872.2 823.8 877.1 817.8 877.9 816.2 882.1 810.2 886.1 802.8 888.1 796.2 888.3 793.2 888.9 790.8 892.1 784.8Z"/></clipPath>
+      <clipPath id="zoR-d-loop"><path clip-rule="evenodd" d="M266.5 279L2352 279 2352 1077.5 266.5 1077.5ZM934.6 641.5L932.8 641.4 926.3 643.3 925.4 644.8 924.1 648.2 923.7 648.5 922.9 648.4 922.9 649.3 924.8 651.1 927.8 652.5 931.2 652.1 934.2 650.6 934.7 649.7ZM963.6 630.5L962.9 630.2 962.2 629.5 960.8 629.9 958.5 631.4 960.2 632.2 963.2 631.1ZM939.9 597.7L939.9 598 940.6 598.3 940.4 599.7 941.3 600.2 944.8 599.5 946.6 598.5 945.7 597.4 943.2 596.3 941.8 596.4ZM975.6 587.8L973.8 585.8 972.2 584.9 968.8 585.4 965.9 586.4 964.9 588.2 964.3 590.2 964.4 594.7 964.8 595 967.2 595.2 973.2 594.1 973.7 593.2 974.4 589.3 974.8 589 975.4 589.5 975.6 589.2ZM2248.8 480.5L2248.4 480.8 2248.4 481.8 2250.6 485.2 2254.6 494.2 2261.4 512.2 2262.6 513 2263.2 511.2 2263.2 509.8 2262.1 503.8 2261.3 501.2 2261.1 499.2 2260.6 498.3 2259.4 497.2 2255.1 488.2 2253.1 484.8 2250.7 481.3ZM2292 476.5L2291.5 477.7 2292.3 478.6 2292.7 478.6 2293.1 478.2 2293.1 477.3ZM2241.4 471.8L2241.4 472.7 2243.1 474.3 2243.4 475.2 2245.8 478.2 2247.2 479 2247.5 478.7 2247.5 477.8 2246.3 476.6 2245.7 475.3 2243.8 473.7 2243.5 472.8 2242.7 471.9 2241.8 471.5ZM999.7 414.8L998.9 414.2 998.7 412.3 998.2 411.5 990.8 413.1 989.8 413 985.8 414.2 983.2 414.3 981.2 415.1 980.2 415 974.2 416.1 973.2 416 967.3 417.9 966.4 418.8 965.6 421.7 964.9 422 964.9 422.3 966.8 423.6 968.8 423.7 973.8 421.9 983.2 419.8 988.8 419.2 993.8 418.1 998.7 416.1Z"/></clipPath>
+      <clipPath id="zoR-t-up1"><path clip-rule="evenodd" d="M1615.5 485L1906 485 1906 766 1615.5 766ZM1841.7 574.9L1841.2 574.9 1839.8 575.8 1836.2 579.2 1834.8 580.3 1831.8 583.2 1822.8 590.9 1794.8 618.7 1790.8 622.2 1790 623.8 1790.1 624.8 1787.4 631.8 1787.4 632.7 1787.8 633 1788.8 632.6 1795.2 627.2 1801.2 621.3 1802.8 620.2 1814.2 608.8 1815.8 607.7 1826.8 596.8 1838.7 586.7 1840.6 584.2 1841.1 582.2 1841.3 580.2 1842.2 576.2 1842.1 575.3ZM1829.4 542.7L1829.4 543.1 1831.2 543.7 1833.2 543.7 1835.1 543.1 1834.7 542.4 1833.2 541.8 1830.8 541.9Z"/></clipPath>
+      <clipPath id="zoR-t-down1"><path clip-rule="evenodd" d="M1721 481.5L1902.5 481.5 1902.5 729.5 1721 729.5ZM1842.1 592.5L1841.2 592.9 1839.2 594.6 1837.2 594.4 1835.4 596.2 1834.3 602.2 1834.2 605.2 1833.8 606.8 1833.7 609.2 1833.3 610.8 1833.2 614.2 1832.8 615.8 1832.7 618.2 1831.8 622.2 1831.7 623.8 1830.4 627.8 1829.6 631.8 1828.1 636.8 1826.6 640.8 1824.1 645.8 1820.9 650.2 1820.6 651.2 1818.3 652.4 1817.7 653.7 1816.8 654 1815.7 655 1815.3 655 1814.5 656.2 1815.8 656.4 1817.7 655.1 1818.8 653.9 1822.2 651.6 1831.7 644.1 1832.9 641.8 1834.1 640.2 1838.1 627.2 1838.7 624.2 1839.3 619.2 1839.7 617.8 1839.8 614.2 1840.2 612.8 1840.8 604.2 1842.2 598.2 1842.3 595.8 1842.7 594.2Z"/></clipPath>
+      <clipPath id="zoR-t-up2"><path clip-rule="evenodd" d="M1718 478.5L1973 478.5 1973 728.5 1718 728.5ZM1913.4 557L1912.1 560.2 1910.7 562.2 1908.2 564.7 1906.2 566.1 1902.9 567.8 1902 569.2 1903 570.8 1902.1 576.2 1899.6 581.8 1898.4 583.2 1897.6 584.8 1894.2 588.8 1884.4 598.2 1884.3 599.2 1884.6 600.8 1884.1 601.8 1881.3 604.7 1880.3 605.3 1882.8 609.5 1884.7 608.7 1886.3 606.8 1890.2 602.8 1892.8 600.7 1896.2 597.2 1899.8 592.2 1903.6 587.8 1908.6 579.8 1909.9 576.8 1912.6 572.8 1915.1 567.8 1915.7 562.2 1914.6 557.8Z"/></clipPath>
+      <clipPath id="zoR-t-down2"><path clip-rule="evenodd" d="M1819.5 478.5L1973.5 478.5 1973.5 696 1819.5 696ZM1886.7 601.5L1885.2 602.6 1883.8 602.5 1881.3 604.7 1880.3 605.3 1882.1 608.2 1883.4 612.7 1884.6 613.5 1885.6 610.8 1885.8 608.2 1886.7 605.2 1886.8 603.8 1887.2 602.3ZM1921.6 571.5L1918.8 573.1 1918.2 573.1 1916.4 572 1914.9 574.8 1914.7 602.2 1913.8 605.2 1913.6 608.2 1911.6 613.2 1909.2 616.7 1907.9 617.3 1906.4 619.2 1905.9 622.1 1906.8 622.5 1912.2 620.6 1916.6 618.6 1917.6 617.2 1919.6 611.8 1920.7 606.2 1920.8 604.2 1921.7 600.8 1921.8 598.8 1922.2 597.2 1922 593.2 1922.2 591.8 1922.2 573.2Z"/></clipPath>
+      <clipPath id="zoR-t-flick"><path clip-rule="evenodd" d="M1816 333.5L2620 333.5 2620 690.5 1816 690.5ZM2268.1 511.4L2266.2 511.4 2263.3 512.4 2262.9 512.8 2263 513.7 2262.5 514.2 2263.8 514.7 2266.8 513.6 2268.1 512.3ZM2293.1 507.5L2292.4 507.2 2292.1 503.3 2291.2 502.8 2281.8 505.9 2279.2 506.9 2278 507.9 2279.4 510.2 2280.3 511.1 2283.2 512.6 2286.2 512.7 2289.2 511.6 2292.6 509.2ZM2246.3 478.2L2246.4 478.6 2247.2 478.5 2249.2 480.7 2250.2 481.2 2253.2 479.9 2254.8 479.6 2257.5 477.6 2255.8 476.4 2252.8 474.9 2251.8 474.8 2248.8 475.9 2247.4 476.9ZM2289.6 461.2L2288.7 460.4 2286.8 459.4 2284.2 458.8 2282.8 458.9 2280.2 459.9 2277.8 462.2 2276.9 463.8 2276.3 465.8 2276.4 470.6 2278.8 470.6 2289.7 467.1 2290 466.7 2289.7 465.2 2288.9 462.8Z"/></clipPath>
+    </defs>
+    <g id="zoPen" fill="none" stroke="#00FF9C" stroke-linecap="round" stroke-linejoin="round">
+      <g data-stroke="e" clip-path="url(#zoF-e)">
+        <g data-part="e-stem" clip-path="url(#zoR-e-stem)">
+          <path stroke-width="39.4" data-c="3" d="M982.6 408.8L980.9 445.7 978.1 477.6 975.2 501.5 969.4 540.1 962.5 571.3 959.2 590 957.2 597.8 952.5 611 941 637.6"/>
+          <path stroke-width="39.4" data-c="5" d="M941 637.6L935.2 657.8 932.5 665.3 914.7 701.1 895.9 733 888.4 743.7 879 755.4"/>
+          <path stroke-width="43.8" data-c="4" d="M879 755.4L864 774.2"/>
+          <path stroke-width="52.4" data-c="11" d="M864 774.2L860.8 779.2 855.2 789.9"/>
+          <path stroke-width="59.9" data-c="11" d="M855.2 789.9L851.5 795.8 847.2 801.3 842.4 806.4 836.4 811.7 824.8 819.4 808.5 827.2"/>
+          <path stroke-width="56.8" data-c="13" d="M808.5 827.2L803.3 830.2 797.7 834.5"/>
+        </g>
+        <g data-part="e-bar">
+          <path stroke-width="55.5" data-c="11" d="M797.7 834.4L804.2 829.7"/>
+          <path stroke-width="57.8" data-c="14" d="M804.2 829.7L811.2 825.9"/>
+          <path stroke-width="60" data-c="6" d="M811.2 825.9L825.8 819.4 840.2 815.2 857.9 811.9 882.7 809"/>
+          <path stroke-width="51.9" data-c="12" d="M882.7 809L892.5 806.8"/>
+          <path stroke-width="50.6" data-c="1" d="M892.5 806.8L925.2 797.8 994.9 779.7 1021.3 774.4 1164.4 740.7"/>
+          <path stroke-width="42" data-c="2" d="M1164.4 740.7L1183 737 1245.1 721.6 1281.3 713.9 1308.4 706.8 1360.1 695.5"/>
+          <path stroke-width="34.8" data-c="2" d="M1360.1 695.5L1411.7 683.3 1429.3 679.5 1456.4 672.8 1508.4 662.4 1541.3 654"/>
+          <path stroke-width="28.6" data-c="2" d="M1541.3 654L1589.5 645.1"/>
+          <path stroke-width="23.6" data-c="1" d="M1589.5 645.1L1610.1 641.4"/>
+        </g>
       </g>
+      <g data-stroke="d" clip-path="url(#zoF-d)">
+        <g data-part="d-loop" clip-path="url(#zoR-d-loop)">
+          <path stroke-width="19.3" data-c="1" d="M499 530.6L512.9 524.9"/>
+          <path stroke-width="23.7" data-c="6" d="M512.9 524.9L523.8 519.9"/>
+          <path stroke-width="29" data-c="4" d="M523.8 519.9L538.4 513.3 563.9 504.4"/>
+          <path stroke-width="35.1" data-c="2" d="M563.9 504.4L583.8 497.8 602.5 490.7 643.4 477.4"/>
+          <path stroke-width="42.4" data-c="1" d="M643.4 477.4L688.2 463.4 721.8 453.5 789.3 434.9"/>
+          <path stroke-width="51" data-c="1" d="M789.3 434.9L832 424.2 865.1 416.7 887.4 411.2 944.1 398.7"/>
+          <path stroke-width="61.2" data-c="2" d="M944.1 398.7L970.5 393.4 1015.4 383.3 1089 369 1109.8 366.2 1137.4 361.1 1190.7 352.7 1206.6 350.6 1249.9 343.1 1268.8 341.1 1287.6 338.3 1319.5 335.7 1348.2 331.7 1385.9 327.2 1479.6 319.2 1513.5 316.8 1607.4 312.5 1661.4 311.6 1709.4 311.8 1734.4 312.3 1759.3 313.7 1786.3 313.9 1832.2 316.3 1850.2 316.8 1934.7 325.9"/>
+          <path stroke-width="63.7" data-c="2" d="M1934.7 325.9L1990.1 334.1 2038 344.2 2075.1 352.6"/>
+          <path stroke-width="63.7" data-c="4" d="M2075.1 352.6L2104.7 361.7 2147.2 376.6 2163.8 383.5 2185.2 394.4 2205.1 405.9 2222.5 417.6 2237.6 429.1"/>
+          <path stroke-width="59.3" data-c="12" d="M2237.6 429.1L2242.6 434 2247.2 439.3"/>
+          <path stroke-width="57.3" data-c="7" d="M2247.2 439.3L2255.4 449.4 2262.9 460 2267.5 467.7 2271.4 475.9"/>
+          <path stroke-width="47.7" data-c="12" d="M2271.4 475.9L2275.3 487.2 2277.5 499"/>
+          <path stroke-width="39.9" data-c="8" d="M2277.5 499L2277.9 508 2277.4 520"/>
+          <path stroke-width="35.2" data-c="7" d="M2277.4 520L2276.7 528.9 2275 537.8 2272.5 546.4 2269.1 554.7 2265 562.7 2258.8 573 2250.4 585.4 2242.7 595.9"/>
+          <path stroke-width="42.3" data-c="3" d="M2242.7 595.9L2232.8 607.2 2223.6 616.3 2198.7 638 2177.7 654.9"/>
+          <path stroke-width="43.8" data-c="9" d="M2177.7 654.9L2168.4 660.9 2156 670.9 2146 677.5"/>
+          <path stroke-width="50.7" data-c="2" d="M2146 677.5L2121.1 692.5 2047.2 732.3 1981 763 1953.4 774.7 1915.2 789.8 1890.3 800.1 1828.4 823.1 1752.5 848.3 1714.4 860.3 1695.1 865.8"/>
+          <path stroke-width="58.9" data-c="1" d="M1695.1 865.8L1654.9 877.9 1599 893.4 1522.5 912.9 1423.4 937.3 1369.8 949.3 1254.3 973.3 1174.6 987.9 1144 992.7 1119.4 997.2 991.7 1015.5 880.6 1029.8 845.7 1032.6 801 1037 714.1 1042.3 663.2 1044.5 614.2 1045.8 510.3 1042.8 481.4 1040.6 455.6 1037.6 416 1031.3 385.7 1024.8 365.5 1019.2 344.9 1011.7 327.8 1003.3 315.4 994.9"/>
+          <path stroke-width="58.3" data-c="17" d="M315.4 994.9L306.7 986.7 302.9 982 299.7 976.9 295.6 966.8 293.7 959 292.8 953.1"/>
+          <path stroke-width="48.8" data-c="20" d="M292.8 953.1L292.6 948.1 293.1 943.1 295.8 932.5"/>
+          <path stroke-width="45.8" data-c="6" d="M295.8 932.5L299.6 923.2 304.1 915.4 310.5 906.5 318.9 896.5 328.6 886.5 340.4 875.6 350.4 867.3 364 857.1"/>
+          <path stroke-width="50.2" data-c="1" d="M364 857.1L389.3 839.3 415.3 822.4 451.9 801.8 473.1 790.6 522.7 766.8 575.7 743.3 642.3 716 686.4 699.8 807.8 659.2 848.7 646 874.6 638.2"/>
+          <path stroke-width="42.3" data-c="3" d="M874.6 638.2L909.1 627.9"/>
+          <path stroke-width="49.6" data-c="6" d="M909.1 627.9L926.6 623.9 952.2 615.2"/>
+          <path stroke-width="42.4" data-c="4" d="M952.2 615.2L964.7 611.7 983.2 607.4"/>
+          <path stroke-width="42.4" data-c="12" d="M983.2 607.4L1003.9 600.1"/>
+          <path stroke-width="39.7" data-c="1" d="M1003.9 600.1L1143.8 562 1242.7 537 1276.7 529"/>
+          <path stroke-width="33.1" data-c="2" d="M1276.7 529L1297 523.7 1374 505.9 1389.5 501.9"/>
+          <path stroke-width="30.5" data-c="21" d="M1389.5 501.9L1397.3 500.4"/>
+          <path stroke-width="30.4" data-c="19" d="M1397.3 500.4L1409.3 499.7"/>
+          <path stroke-width="25.1" data-c="13" d="M1409.3 499.7L1417.1 497.9"/>
+          <path stroke-width="25.7" data-c="3" d="M1417.1 497.9L1436.2 492.1"/>
+          <path stroke-width="25.9" data-c="21" d="M1436.2 492.1L1444 490.4"/>
+          <path stroke-width="25.9" data-c="15" d="M1444 490.4L1456 489.5"/>
+          <path stroke-width="21.3" data-c="7" d="M1456 489.5L1473.5 485.5"/>
+          <path stroke-width="20.3" data-c="6" d="M1473.5 485.5L1489.9 481.1 1502.8 479"/>
+          <path stroke-width="16.9" data-c="7" d="M1502.8 479L1513.5 476.6"/>
+          <path stroke-width="13.6" data-c="2" d="M1513.5 476.6L1526.1 473.5"/>
+        </g>
+      </g>
+      <g data-stroke="tail" clip-path="url(#zoF-t)">
+        <g data-part="t-up1" clip-path="url(#zoR-t-up1)">
+          <path stroke-width="35.5" data-c="4" d="M1690 692L1698.4 682"/>
+          <path stroke-width="42.1" data-c="4" d="M1698.4 682L1706.2 672.9 1714 665.1 1726.2 654.7 1758.2 625.8 1776.6 610.3 1809.9 578.5 1832.1 559.7"/>
+        </g>
+        <g data-part="t-down1" clip-path="url(#zoR-t-down1)">
+          <path stroke-width="43.2" data-c="15" d="M1828.4 556L1825.4 564.5"/>
+          <path stroke-width="46" data-c="12" d="M1825.4 564.5L1820.6 574.4 1818.4 580 1816.6 586.8 1815.2 595.7"/>
+          <path stroke-width="45.5" data-c="5" d="M1815.2 595.7L1813.3 613.7 1812 622.6"/>
+          <path stroke-width="44.5" data-c="19" d="M1812 622.6L1808.9 633.2 1806.7 637.7 1804 641.9"/>
+          <path stroke-width="43" data-c="9" d="M1804 641.9L1799.4 648.5 1795.4 655.5"/>
+        </g>
+        <g data-part="t-up2" clip-path="url(#zoR-t-up2)">
+          <path stroke-width="42" data-c="4" d="M1792.5 654.3L1800.7 647 1824.5 628.9 1841.4 614.7 1861.5 596.8 1871.1 586.6 1878.4 579.9"/>
+          <path stroke-width="40.1" data-c="21" d="M1878.4 579.9L1883.9 574"/>
+          <path stroke-width="40.1" data-c="17" d="M1883.9 574L1888.1 567.3"/>
+          <path stroke-width="39" data-c="15" d="M1888.1 567.3L1893.2 559.9"/>
+          <path stroke-width="32.5" data-c="8" d="M1893.2 559.9L1899.2 553.2"/>
+        </g>
+        <g data-part="t-down2" clip-path="url(#zoR-t-down2)">
+          <path stroke-width="38.2" data-c="4" d="M1898.5 553L1899.3 576.9 1899.4 596.8"/>
+          <path stroke-width="36.4" data-c="22" d="M1899.4 596.8L1898.5 604.7"/>
+          <path stroke-width="36.3" data-c="25" d="M1898.5 604.7L1895 615.1 1894.1 622"/>
+        </g>
+        <g data-part="t-flick" clip-path="url(#zoR-t-flick)">
+          <path stroke-width="39.3" data-c="10" d="M1890.7 616.6L1897.7 612.7"/>
+          <path stroke-width="43.6" data-c="14" d="M1897.7 612.7L1913.6 600.6"/>
+          <path stroke-width="50.2" data-c="10" d="M1913.6 600.6L1922.2 595.4 1932.7 587.8 1938.8 584.4"/>
+          <path stroke-width="60.1" data-c="6" d="M1938.8 584.4L1947.8 580 1956.1 576.6"/>
+          <path stroke-width="63" data-c="26" d="M1956.1 576.6L1963.6 573.6"/>
+          <path stroke-width="63" data-c="41" d="M1963.6 573.6L1966.5 573.2 1971.5 573.4"/>
+          <path stroke-width="60.6" data-c="25" d="M1971.5 573.4L1975.5 573.4 1980.5 572.8"/>
+          <path stroke-width="57.1" data-c="10" d="M1980.5 572.8L1988.2 570.9"/>
+          <path stroke-width="56.5" data-c="1" d="M1988.2 570.9L2027.3 562.3 2060.4 554.1 2098 543.8 2143 530.1"/>
+          <path stroke-width="47.1" data-c="1" d="M2143 530.1L2183.2 517.9 2229.9 503"/>
+          <path stroke-width="44.2" data-c="12" d="M2229.9 503L2244.6 500.3 2251.4 498.5"/>
+          <path stroke-width="57.7" data-c="7" d="M2251.4 498.5L2259 495.9"/>
+          <path stroke-width="56.8" data-c="2" d="M2259 495.9L2266.5 493.1"/>
+          <path stroke-width="48.1" data-c="3" d="M2266.5 493.1L2281.5 487.6 2313.9 477.2"/>
+          <path stroke-width="40" data-c="1" d="M2313.9 477.2L2468.4 428.4"/>
+          <path stroke-width="33.1" data-c="3" d="M2468.4 428.4L2498.5 421"/>
+          <path stroke-width="27.3" data-c="2" d="M2498.5 421L2528.4 412.6"/>
+          <path stroke-width="22.5" data-c="1" d="M2528.4 412.6L2545.8 408.1"/>
+        </g>
+      </g>
+      <g data-stroke="dot" clip-path="url(#zoF-t)">
+        <g data-part="i-dot">
+          <path stroke-width="28.3" data-c="2" d="M2609.3 408.4L2622 382"/>
+        </g>
+      </g>
+    </g>
     <g id="zoSignSettle" fill="#00FF9C">
       <path d="M786.38,853.79 C782.85,851.08 781.96,849.75 779.83,844.00 C776.88,836.08 777.44,832.31 783.25,820.85 C788.36,810.78 788.69,810.38 795.66,806.00 C804.40,800.51 819.23,790.26 824.07,786.37 C849.54,765.91 878.91,734.06 887.59,717.50 C889.03,714.75 892.87,708.58 896.13,703.80 C899.38,699.01 903.37,691.85 904.98,687.89 C906.59,683.93 909.45,678.17 911.32,675.09 C918.63,663.13 924.77,648.99 930.46,631.00 C932.29,625.23 935.11,617.35 936.74,613.50 C938.36,609.65 939.98,604.29 940.35,601.59 C940.71,598.88 942.16,592.13 943.56,586.59 C944.97,581.04 946.99,572.45 948.05,567.50 C949.11,562.55 951.10,553.60 952.48,547.61 C953.86,541.63 955.44,531.73 956.00,525.61 C956.56,519.50 957.69,510.90 958.51,506.50 C960.48,495.98 963.81,460.56 965.18,435.50 C965.78,424.50 966.72,414.94 967.26,414.25 C969.78,411.05 996.64,404.30 998.68,406.35 C999.24,406.91 997.37,450.37 996.61,454.52 C996.41,455.61 995.95,459.65 995.58,463.50 C995.21,467.35 994.68,472.98 994.38,476.00 C992.20,498.78 984.91,543.63 981.47,555.52 C980.14,560.09 977.69,571.16 976.01,580.12 C974.33,589.08 972.52,598.00 971.98,599.95 C971.45,601.90 970.14,607.14 969.08,611.58 C968.02,616.02 965.12,624.12 962.63,629.58 C960.14,635.04 955.18,646.97 951.59,656.11 C942.99,678.05 940.25,683.94 926.92,709.17 C912.18,737.06 904.55,749.01 889.38,767.88 C881.06,778.22 876.77,787.00 880.04,787.00 C880.61,787.00 887.24,785.28 894.79,783.17 C910.60,778.75 922.54,775.65 936.00,772.48 C941.23,771.25 953.38,768.09 963.00,765.47 C991.50,757.69 994.18,757.06 1001.50,756.43 C1005.35,756.10 1010.30,755.46 1012.50,755.01 C1014.70,754.57 1020.33,753.46 1025.00,752.55 C1029.67,751.64 1041.60,748.91 1051.50,746.50 C1069.26,742.16 1080.20,739.83 1089.00,738.49 C1092.77,737.92 1109.57,734.12 1126.50,730.01 C1138.76,727.03 1166.07,722.00 1169.97,722.00 C1172.46,722.00 1177.65,721.13 1181.50,720.06 C1185.35,718.99 1193.00,717.01 1198.50,715.66 C1204.00,714.30 1216.50,711.13 1226.27,708.60 C1236.04,706.07 1245.40,704.00 1247.07,704.00 C1248.75,704.00 1252.00,703.57 1254.31,703.04 C1256.61,702.52 1262.78,701.13 1268.00,699.97 C1273.22,698.81 1284.81,696.09 1293.74,693.93 C1302.68,691.77 1311.08,690.00 1312.42,690.00 C1314.76,690.00 1327.40,687.66 1341.67,684.59 C1345.43,683.78 1352.33,682.40 1357.00,681.52 C1361.67,680.65 1370.90,678.64 1377.50,677.06 C1384.10,675.49 1395.35,672.80 1402.50,671.09 C1409.65,669.39 1416.85,667.99 1418.50,667.98 C1420.15,667.98 1425.78,666.86 1431.00,665.49 C1449.73,660.59 1457.13,659.01 1466.12,657.99 C1471.15,657.42 1479.37,656.06 1484.38,654.98 C1489.40,653.89 1496.88,652.58 1501.00,652.05 C1505.12,651.52 1515.69,649.04 1524.48,646.53 C1533.28,644.03 1544.53,641.51 1549.48,640.94 C1554.44,640.37 1563.90,639.26 1570.50,638.47 C1577.10,637.68 1586.55,636.81 1591.50,636.53 C1596.45,636.25 1603.42,635.75 1607.00,635.41 C1612.73,634.87 1613.83,635.06 1616.31,637.02 C1619.88,639.84 1619.69,643.92 1615.89,645.73 C1611.03,648.05 1571.56,659.05 1559.00,661.59 C1547.22,663.97 1541.54,665.40 1511.00,673.67 C1504.12,675.53 1491.97,678.37 1484.00,679.97 C1476.03,681.58 1463.20,684.52 1455.50,686.52 C1437.97,691.07 1413.71,697.12 1381.50,704.98 C1320.30,719.92 1299.03,725.41 1292.50,727.98 C1288.59,729.51 1282.37,731.00 1278.42,731.35 C1274.52,731.70 1265.07,733.74 1257.42,735.88 C1249.76,738.03 1239.90,740.58 1235.50,741.55 C1221.62,744.62 1155.73,761.30 1103.50,774.95 C1089.20,778.69 1074.35,782.49 1070.50,783.40 C1062.60,785.26 1035.87,791.99 1010.50,798.51 C1001.15,800.91 983.60,805.41 971.50,808.52 C941.91,816.11 937.90,817.18 920.50,822.06 C912.25,824.37 899.20,828.03 891.50,830.19 C883.80,832.35 873.45,835.18 868.50,836.49 C848.10,841.85 835.01,845.32 826.50,847.60 C791.65,856.94 790.69,857.09 786.38,853.79 Z"></path>
       <path d="M603.50,1070.96 C599.65,1070.53 578.27,1069.91 556.00,1069.58 C513.13,1068.93 504.12,1068.59 486.50,1066.92 C480.45,1066.35 472.80,1065.65 469.50,1065.36 C466.20,1065.07 450.82,1063.09 435.32,1060.96 C328.85,1046.29 275.00,1014.68 272.28,965.24 C271.32,947.82 273.04,939.77 281.53,921.87 C295.02,893.44 315.97,868.76 346.00,845.90 C352.88,840.67 363.24,832.77 369.02,828.35 C374.81,823.93 381.77,819.08 384.49,817.56 C389.89,814.54 396.22,810.32 402.60,805.47 C404.85,803.75 410.03,800.63 414.10,798.53 C418.17,796.44 426.06,791.86 431.64,788.37 C437.22,784.88 443.88,781.12 446.44,780.03 C449.00,778.93 453.10,776.65 455.55,774.97 C458.00,773.28 464.20,770.16 469.32,768.02 C474.45,765.89 484.01,761.45 490.57,758.16 C503.90,751.47 521.84,743.00 522.66,743.00 C522.95,743.00 529.56,740.12 537.34,736.59 C545.13,733.07 560.95,726.37 572.50,721.70 C595.86,712.26 616.65,703.76 628.00,698.99 C638.44,694.61 662.36,686.27 689.50,677.56 C702.15,673.49 721.73,667.18 733.00,663.52 C822.57,634.46 850.36,625.82 868.00,621.55 C882.21,618.11 895.65,614.26 898.50,612.81 C900.15,611.97 904.65,610.49 908.50,609.51 C923.42,605.73 932.64,602.73 936.01,600.55 C941.73,596.87 943.61,596.61 946.16,599.16 C948.19,601.19 949.22,601.39 956.46,601.11 C965.23,600.78 966.31,600.12 965.63,595.46 C964.10,584.85 971.71,581.27 975.67,590.75 C977.42,594.94 978.49,594.85 985.33,589.95 C991.34,585.65 994.86,584.60 1034.00,575.52 C1042.53,573.54 1058.76,569.23 1070.08,565.94 C1081.39,562.66 1094.15,559.30 1098.44,558.48 C1102.72,557.66 1112.81,555.02 1120.86,552.62 C1139.83,546.96 1145.48,545.52 1157.00,543.46 C1162.22,542.52 1176.17,539.34 1188.00,536.40 C1199.83,533.45 1213.33,530.11 1218.00,528.96 C1222.67,527.82 1229.65,526.03 1233.50,524.98 C1237.35,523.94 1243.88,522.41 1248.00,521.58 C1252.12,520.75 1257.75,519.38 1260.50,518.55 C1263.25,517.71 1266.79,517.02 1268.37,517.01 C1269.96,517.00 1276.26,515.46 1282.37,513.58 C1288.49,511.70 1298.00,509.39 1303.50,508.44 C1317.77,505.97 1323.97,504.64 1337.00,501.23 C1343.33,499.58 1351.65,497.70 1355.50,497.05 C1370.33,494.55 1373.83,493.78 1383.99,490.83 C1394.30,487.84 1394.56,487.81 1399.57,489.39 C1402.38,490.28 1406.01,491.00 1407.64,491.00 C1410.51,491.00 1425.08,486.41 1435.65,482.17 C1439.64,480.57 1441.56,480.31 1444.15,481.00 C1453.48,483.50 1459.39,482.81 1477.50,477.07 C1489.84,473.15 1495.40,472.62 1500.99,474.80 C1506.24,476.85 1507.13,479.17 1503.95,482.56 C1501.20,485.49 1497.42,486.73 1474.00,492.43 C1463.83,494.90 1451.45,498.04 1446.50,499.39 C1441.55,500.75 1431.88,503.24 1425.00,504.94 C1418.12,506.63 1405.30,510.04 1396.50,512.51 C1387.70,514.98 1369.25,519.74 1355.50,523.09 C1311.99,533.70 1248.66,549.71 1223.50,556.47 C1218.55,557.79 1204.15,561.63 1191.50,565.00 C1178.85,568.36 1164.67,572.18 1160.00,573.49 C1155.33,574.80 1139.58,579.10 1125.00,583.03 C1095.76,590.93 1060.28,601.06 1041.00,607.00 C1034.12,609.12 1020.85,612.94 1011.50,615.48 C983.63,623.08 970.72,626.99 966.72,629.05 C962.60,631.18 957.99,631.59 956.38,629.98 C955.68,629.28 953.89,629.60 950.76,630.99 C948.23,632.11 943.79,633.47 940.88,634.02 C933.96,635.33 933.74,635.71 933.58,646.50 C933.50,651.24 933.35,651.52 930.64,651.83 C928.66,652.05 926.95,651.39 925.14,649.70 C918.24,643.27 915.89,643.39 891.18,651.42 C835.35,669.57 711.07,711.95 695.00,718.31 C691.42,719.73 676.58,725.45 662.00,731.02 C647.42,736.60 631.67,742.66 627.00,744.49 C618.70,747.74 589.97,760.03 581.00,764.17 C578.52,765.32 572.67,767.94 568.00,770.00 C563.33,772.06 555.52,775.60 550.65,777.87 C545.78,780.14 541.65,782.00 541.46,782.00 C541.16,782.00 522.32,791.10 487.34,808.13 C481.75,810.86 472.30,815.69 466.34,818.87 C460.38,822.06 450.55,827.29 444.50,830.49 C438.45,833.70 431.82,837.37 429.77,838.66 C427.72,839.95 425.81,841.00 425.53,841.00 C424.97,841.00 416.52,846.35 399.00,857.80 C392.68,861.93 384.35,867.37 380.50,869.88 C358.00,884.56 330.93,908.02 319.23,923.00 C311.51,932.88 309.87,945.22 314.91,955.46 C327.16,980.34 366.20,997.00 440.00,1008.83 C468.04,1013.33 481.59,1015.12 491.50,1015.63 C496.45,1015.89 505.00,1016.51 510.50,1017.03 C516.00,1017.54 528.83,1018.21 539.00,1018.52 C549.17,1018.82 559.98,1019.29 563.00,1019.56 C569.46,1020.13 655.95,1020.09 664.00,1019.51 C667.02,1019.30 680.30,1018.87 693.50,1018.56 C706.70,1018.26 724.92,1017.36 734.00,1016.56 C743.08,1015.77 759.95,1014.85 771.50,1014.51 C799.98,1013.69 806.23,1013.26 822.50,1011.04 C830.20,1009.98 839.88,1008.87 844.00,1008.56 C856.86,1007.59 880.99,1005.11 893.00,1003.52 C899.33,1002.68 913.75,1001.09 925.06,999.98 C936.37,998.88 947.15,997.53 949.03,996.99 C950.90,996.45 959.43,995.31 967.97,994.44 C976.51,993.58 989.12,992.01 996.00,990.97 C1002.88,989.93 1016.15,988.16 1025.50,987.04 C1034.85,985.92 1046.33,984.34 1051.00,983.53 C1055.67,982.71 1063.10,981.61 1067.50,981.09 C1071.90,980.56 1079.33,979.44 1084.00,978.60 C1088.67,977.75 1097.94,976.62 1104.59,976.10 C1111.24,975.57 1121.37,974.01 1127.09,972.63 C1132.82,971.25 1141.78,969.63 1147.00,969.03 C1159.91,967.55 1170.52,965.72 1197.00,960.41 C1209.38,957.93 1225.35,955.00 1232.50,953.90 C1244.17,952.10 1251.11,950.72 1262.00,948.03 C1263.92,947.56 1267.53,946.86 1270.00,946.49 C1272.47,946.12 1281.70,944.10 1290.50,942.00 C1299.30,939.89 1310.33,937.65 1315.00,937.02 C1319.67,936.39 1325.97,935.26 1329.00,934.51 C1332.03,933.76 1341.47,931.73 1350.00,930.00 C1358.53,928.27 1367.75,926.23 1370.50,925.47 C1373.25,924.72 1382.28,922.74 1390.57,921.07 C1398.86,919.41 1411.91,916.49 1419.57,914.59 C1427.23,912.69 1442.28,909.02 1453.00,906.44 C1480.37,899.84 1523.72,888.98 1548.50,882.52 C1560.05,879.50 1575.12,875.88 1582.00,874.46 C1588.88,873.04 1602.60,869.46 1612.50,866.50 C1622.40,863.54 1636.58,859.48 1644.00,857.49 C1651.42,855.49 1666.31,851.19 1677.07,847.93 C1687.84,844.67 1697.32,842.00 1698.15,842.00 C1701.77,842.00 1808.16,808.14 1828.50,800.51 C1833.45,798.65 1843.12,794.91 1850.00,792.20 C1856.88,789.49 1867.67,785.57 1874.00,783.49 C1880.33,781.42 1887.97,778.49 1891.00,776.98 C1896.84,774.08 1914.60,767.01 1934.66,759.61 C1941.35,757.14 1949.46,753.78 1952.69,752.16 C1955.91,750.53 1960.44,748.69 1962.75,748.07 C1965.05,747.45 1971.34,744.76 1976.72,742.09 C1982.10,739.42 1988.28,736.67 1990.45,735.98 C1992.62,735.28 1999.15,732.34 2004.95,729.44 C2010.75,726.54 2018.65,722.94 2022.50,721.44 C2030.56,718.30 2039.72,713.83 2045.28,710.32 C2056.83,703.03 2094.66,683.42 2109.00,677.28 C2113.68,675.28 2120.88,671.56 2125.00,669.00 C2129.12,666.44 2135.37,662.82 2138.87,660.97 C2142.62,658.98 2146.94,655.61 2149.37,652.78 C2153.95,647.43 2159.42,643.44 2163.57,642.39 C2165.07,642.02 2169.72,638.96 2173.90,635.59 C2178.08,632.23 2183.97,627.63 2187.00,625.38 C2191.95,621.69 2200.84,614.07 2219.92,597.18 C2223.45,594.06 2227.32,590.83 2228.52,590.00 C2233.88,586.32 2253.99,559.49 2258.87,549.50 C2264.58,537.80 2266.35,523.91 2263.39,513.93 C2261.32,506.93 2253.44,487.42 2251.05,483.37 C2247.79,477.83 2233.04,460.25 2226.84,454.52 C2218.51,446.80 2188.40,427.10 2175.88,421.17 C2170.17,418.46 2161.22,414.22 2156.00,411.74 C2139.69,404.01 2135.23,402.10 2120.24,396.42 C2104.79,390.56 2072.76,381.12 2051.39,376.12 C2001.13,364.36 1983.83,360.71 1966.00,358.09 C1930.08,352.82 1920.72,351.59 1905.00,350.07 C1894.40,349.04 1884.56,347.90 1869.00,345.91 C1864.33,345.31 1853.30,344.43 1844.50,343.96 C1817.62,342.51 1793.98,341.13 1784.07,340.43 C1747.97,337.88 1602.30,337.95 1565.00,340.53 C1561.42,340.78 1552.20,341.43 1544.50,341.98 C1536.80,342.53 1522.85,343.21 1513.50,343.50 C1504.15,343.79 1492.00,344.48 1486.50,345.02 C1481.00,345.56 1474.47,346.21 1472.00,346.46 C1469.53,346.71 1459.85,347.41 1450.50,348.01 C1434.56,349.05 1425.61,349.90 1393.50,353.40 C1386.35,354.18 1376.90,355.06 1372.50,355.36 C1368.10,355.65 1361.35,356.37 1357.50,356.95 C1353.65,357.53 1341.95,358.90 1331.50,359.99 C1280.06,365.34 1254.49,368.69 1214.00,375.39 C1209.33,376.17 1201.67,377.32 1197.00,377.96 C1169.00,381.77 1084.53,395.56 1062.00,400.00 C1041.81,403.97 1033.60,405.54 1017.68,408.46 C1007.52,410.33 1003.03,411.62 1000.68,413.35 C996.45,416.48 995.08,416.91 984.29,418.55 C979.23,419.31 973.43,420.63 971.41,421.47 C967.96,422.92 967.47,422.88 963.36,420.82 C959.33,418.81 958.49,418.73 952.74,419.82 C949.31,420.47 944.92,421.24 943.00,421.54 C929.51,423.62 894.38,430.55 872.00,435.55 C868.42,436.35 858.75,438.37 850.50,440.06 C791.41,452.10 705.83,473.41 660.00,487.50 C650.38,490.46 636.42,494.66 629.00,496.84 C612.57,501.66 571.96,513.86 543.50,522.51 C518.47,530.12 500.70,535.00 498.02,535.00 C496.95,535.00 495.57,534.07 494.96,532.93 C493.18,529.59 495.84,526.90 506.14,521.60 C511.29,518.95 517.30,515.13 519.50,513.11 C526.15,507.01 537.91,501.33 559.00,494.05 C570.02,490.24 580.49,486.35 582.27,485.41 C584.05,484.47 588.42,482.22 592.00,480.42 C603.28,474.73 738.71,430.26 780.50,418.52 C827.57,405.29 841.17,401.67 852.00,399.49 C856.67,398.55 865.23,396.30 871.00,394.50 C876.77,392.69 886.23,390.21 892.00,388.99 C897.77,387.77 908.12,385.20 915.00,383.27 C921.88,381.34 936.95,377.39 948.50,374.48 C960.05,371.56 977.83,366.94 988.00,364.20 C1004.04,359.88 1018.17,356.91 1058.00,349.50 C1062.67,348.63 1071.45,346.65 1077.50,345.10 C1084.59,343.28 1091.51,342.21 1096.95,342.08 C1102.31,341.96 1109.83,340.81 1117.45,338.95 C1124.08,337.34 1133.10,335.58 1137.50,335.05 C1141.90,334.51 1149.33,333.61 1154.00,333.04 C1158.67,332.47 1168.58,330.67 1176.00,329.02 C1183.42,327.38 1191.97,326.02 1195.00,326.01 C1198.03,326.00 1204.29,325.08 1208.92,323.97 C1213.55,322.86 1221.65,321.25 1226.92,320.41 C1232.19,319.56 1239.58,318.22 1243.35,317.43 C1247.12,316.63 1253.64,316.02 1257.85,316.05 C1262.71,316.10 1268.41,315.34 1273.49,313.99 C1279.76,312.31 1285.34,311.75 1299.49,311.38 C1311.19,311.08 1319.08,310.42 1322.00,309.48 C1324.47,308.69 1329.40,307.78 1332.94,307.46 C1336.49,307.14 1339.84,306.60 1340.40,306.25 C1340.96,305.91 1346.61,305.30 1352.96,304.91 C1359.31,304.51 1368.55,303.23 1373.50,302.06 C1378.66,300.84 1385.27,300.00 1389.00,300.09 C1392.58,300.18 1398.42,299.95 1402.00,299.56 C1405.58,299.18 1410.97,298.71 1414.00,298.53 C1424.74,297.87 1444.39,295.88 1445.23,295.36 C1446.35,294.67 1473.91,292.74 1486.18,292.49 C1491.51,292.38 1497.81,291.80 1500.18,291.20 C1504.17,290.19 1548.22,288.32 1568.00,288.32 C1572.67,288.32 1582.12,287.79 1589.00,287.13 C1622.93,283.89 1736.19,284.03 1754.00,287.33 C1758.38,288.14 1762.95,288.26 1768.00,287.69 C1776.56,286.73 1815.75,287.57 1827.00,288.95 C1831.12,289.45 1838.55,289.62 1843.50,289.32 C1850.42,288.91 1855.04,289.28 1863.50,290.95 C1870.49,292.33 1881.43,293.45 1893.50,294.01 C1903.95,294.49 1915.88,295.57 1920.00,296.39 C1924.12,297.22 1929.44,297.92 1931.82,297.95 C1937.32,298.01 1956.39,300.58 1965.50,302.47 C1969.35,303.27 1974.97,304.17 1978.00,304.47 C1989.30,305.57 1999.15,307.14 2002.77,308.41 C2007.15,309.96 2018.51,312.31 2032.50,314.56 C2038.00,315.45 2046.55,317.23 2051.50,318.52 C2060.30,320.80 2073.82,323.49 2081.18,324.43 C2083.21,324.68 2086.69,325.82 2088.91,326.96 C2091.14,328.09 2095.84,329.69 2099.36,330.50 C2102.88,331.32 2110.20,333.72 2115.63,335.84 C2134.41,343.16 2146.37,347.37 2150.42,348.08 C2157.00,349.24 2177.71,357.53 2183.33,361.25 C2186.17,363.14 2190.63,365.63 2193.23,366.78 C2195.84,367.93 2199.44,369.99 2201.23,371.35 C2203.03,372.71 2206.53,374.91 2209.00,376.24 C2229.87,387.49 2259.89,410.94 2264.17,419.34 C2265.34,421.62 2267.95,425.51 2269.98,427.99 C2279.68,439.83 2288.17,457.17 2290.48,469.88 C2292.98,483.63 2293.15,487.43 2292.01,503.88 C2289.64,538.02 2283.13,557.90 2264.40,588.22 C2250.39,610.90 2241.25,623.55 2235.16,628.71 C2232.04,631.34 2224.55,638.02 2218.50,643.54 C2196.14,663.96 2174.86,680.55 2154.89,693.11 C2149.06,696.78 2139.61,702.92 2133.89,706.76 C2128.18,710.60 2121.03,714.98 2118.00,716.49 C2114.97,718.00 2109.47,721.24 2105.77,723.68 C2096.75,729.64 2086.70,735.02 2060.50,747.95 C1995.69,779.92 1972.49,790.34 1926.50,808.15 C1922.10,809.86 1914.00,813.18 1908.50,815.53 C1903.00,817.89 1890.85,822.60 1881.50,826.00 C1872.15,829.40 1861.80,833.30 1858.50,834.66 C1839.80,842.37 1788.88,859.60 1724.50,880.01 C1673.25,896.25 1658.61,900.58 1621.00,910.58 C1601.47,915.77 1579.20,921.81 1571.50,924.00 C1555.96,928.42 1518.32,937.83 1476.00,947.88 C1466.92,950.04 1450.50,954.06 1439.50,956.83 C1428.50,959.59 1417.47,962.15 1415.00,962.53 C1412.53,962.90 1403.75,964.94 1395.50,967.06 C1387.25,969.18 1376.45,971.57 1371.50,972.37 C1366.55,973.17 1352.60,976.06 1340.50,978.79 C1328.40,981.52 1315.80,984.27 1312.50,984.89 C1292.23,988.70 1269.79,993.25 1265.50,994.43 C1262.75,995.18 1258.25,996.11 1255.50,996.49 C1249.94,997.26 1208.32,1004.75 1192.00,1007.92 C1186.22,1009.04 1172.95,1011.33 1162.50,1013.00 C1152.05,1014.67 1141.47,1016.49 1139.00,1017.04 C1136.53,1017.60 1129.55,1018.76 1123.50,1019.64 C1117.45,1020.51 1096.97,1023.62 1078.00,1026.55 C1059.03,1029.48 1037.20,1032.79 1029.50,1033.90 C1021.80,1035.01 1006.05,1037.28 994.50,1038.94 C982.95,1040.61 971.25,1042.24 968.50,1042.57 C960.36,1043.54 916.52,1049.79 903.00,1051.90 C890.47,1053.86 883.95,1054.46 863.50,1055.54 C857.45,1055.85 848.23,1056.54 843.00,1057.07 C825.18,1058.86 797.52,1061.03 785.50,1061.58 C778.90,1061.89 767.20,1062.77 759.50,1063.54 C751.80,1064.32 737.62,1065.42 728.00,1065.99 C718.38,1066.56 703.98,1067.46 696.00,1067.98 C688.02,1068.51 671.38,1069.20 659.00,1069.51 C646.62,1069.82 634.48,1070.49 632.00,1071.00 C626.70,1072.08 613.37,1072.06 603.50,1070.96 Z M1516.00,475.62 C1516.00,472.42 1520.48,470.47 1524.40,471.96 C1527.58,473.17 1527.40,474.96 1523.92,476.74 C1519.70,478.89 1516.00,478.37 1516.00,475.62 Z"></path>
@@ -162,107 +350,119 @@ docker run -d node</div>
 </div><!-- /.hero-stage -->
 </div><!-- /.hero-track -->
 
-<!-- ============================ ABOUT ============================ -->
-<section class="section" id="about">
-  <div class="about-grid">
-    <div class="reveal">
-      <p class="eyebrow">about</p>
-      <span class="status"><span class="pulse"></span>Available for internships &amp; freelance</span>
-      <h2 class="h2">I build across the whole stack, from the <span class="grad-text">pixel</span> to the <span class="mono" style="color:var(--be-green)">packet</span>.</h2>
-      <p class="lead">Hi, I'm Erben, a <span class="hl">4th-year Software Development student</span> at ROC Aventus in Apeldoorn. I like building things that solve a real problem: mobile apps, web pages, the occasional game. I'm curious to learn, a bit of a perfectionist, and happiest when something I made actually gets used.</p>
-    </div>
-    <div class="reveal">
-      <!-- EDIT: quick facts -->
-      <div class="facts">
-        <div class="fact"><span class="k">role</span><span class="v">Software Developer</span></div>
-        <div class="fact"><span class="k">focus</span><span class="v">React&nbsp;Native · Python</span></div>
-        <div class="fact"><span class="k">study</span><span class="v">SD&nbsp;N4 · ROC&nbsp;Aventus</span></div>
-        <div class="fact"><span class="k">based</span><span class="v">Apeldoorn,&nbsp;NL</span></div>
-        <div class="fact"><span class="k">open&nbsp;to</span><span class="v">Internship · Freelance</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ STACK / CAPABILITIES ============================ -->
-<section class="section" id="stack">
-  <div class="reveal">
-    <p class="eyebrow">what i do</p>
-    <h2 class="h2">Two sides, one developer.</h2>
-  </div>
-  <div class="cap-grid">
-    <div class="cap fe reveal">
-      <h3><span class="tagword">frontend</span></h3>
-      <p class="sub">Mobile &amp; web interfaces, currently focused on React&nbsp;Native + Expo.</p>
-      <ul>
-        <li>React Native</li><li>Expo</li><li>React</li><li>JavaScript</li>
-        <li>HTML</li><li>CSS</li><li>Responsive</li>
-      </ul>
-    </div>
-    <div class="cap be reveal">
-      <h3>{ backend }</h3>
-      <p class="sub">Python tools, queries and OOP fundamentals: the logic behind the screen.</p>
-      <ul>
-        <li>Python</li><li>SQL</li><li>Java</li><li>CLI tools</li>
-        <li>Git</li><li>Databases</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
+<main id="main">
 <!-- ============================ WORK ============================ -->
-<section class="section" id="work">
+<!-- right after the hero: the proof first. "featured + two": PowerPlan(t) as one
+     wide card (three real app screens on the frontend paper), the other two as
+     half-width cards. Same card language as before (tags, year, CTA, hover lift). -->
+<section class="section work" id="work">
   <div class="reveal">
     <p class="eyebrow">selected work</p>
-    <h2 class="h2">Things I've built.</h2>
+    <h2 class="h2">Things I&rsquo;ve built.</h2>
   </div>
   <div class="work-grid">
-    <a class="card reveal" href="powerplant.html" aria-label="PowerPlan(t) — read the case study">
-      <div class="thumb thumb-img"><img src="media/window.jpeg" alt="PowerPlan(t) app — the living window view"></div>
+    <a class="card card-feature reveal" href="powerplant.html" aria-label="PowerPlan(t) — read the case study">
+      <div class="thumb thumb-phones">
+        <div class="phones">
+          <img class="phone side" src="media/pp-phone-home-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="">
+          <img class="phone main" src="media/pp-phone-window-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="PowerPlan(t) app: the window view, a pixel landscape with your planted trees">
+          <img class="phone side" src="media/pp-phone-focus-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="">
+        </div>
+      </div>
       <div class="body">
         <div class="tags"><span>React Native</span><span>Expo</span><span class="yr">2026</span></div>
         <h3>PowerPlan(t)</h3>
-        <p>A calm, wellness planner app that grows a forest as you focus, with an animated window that tracks the time of day.</p>
+        <p>A calm, wellness-first planner app that grows a forest as you focus, with an animated window that tracks the time of day.</p>
+        <dl class="role"><dt>role</dt><dd>Design + development, solo</dd></dl>
         <span class="more">Read case study <span class="arr">→</span></span>
       </div>
     </a>
     <a class="card reveal" href="this-website.html" aria-label="This website — read the case study">
-      <div class="thumb thumb-img"><img src="media/site-thumb.jpg" alt="The split-portrait banner of this site"></div>
+      <!-- the craft behind the hero: the depth map the live portrait is built on | the photo -->
+      <div class="thumb thumb-img thumb-split">
+        <img src="media/site-depth-split-1280.webp" srcset="media/site-depth-split-720.webp 720w, media/site-depth-split-1280.webp 1280w" sizes="(max-width:600px) 92vw, (max-width:1300px) 48vw, 610px" width="1280" height="800" loading="lazy" decoding="async" alt="The portrait from this site&rsquo;s banner, split down the middle: its depth map on the left, the photo on the right">
+        <span class="tl l" aria-hidden="true">depth map</span><span class="tl r" aria-hidden="true">live WebGL</span>
+      </div>
       <div class="body">
         <div class="tags"><span>HTML/CSS/JS</span><span>GSAP</span><span class="yr">2026</span></div>
         <h3>This website</h3>
-        <p>The site you're on, a split-portrait banner that follows your cursor, and a signature that writes itself as you scroll.</p>
+        <p>The site you&rsquo;re on: a split-portrait banner that follows your cursor (or your thumb), and a signature that writes itself as you scroll.</p>
+        <dl class="role"><dt>role</dt><dd>Design + development, solo</dd></dl>
         <span class="more">Read case study <span class="arr">→</span></span>
       </div>
     </a>
     <a class="card reveal" href="planetpod.html" aria-label="PlanetPod — read the case study">
-      <div class="thumb thumb-img"><img src="media/planetpod-thumb2.jpg" alt="PlanetPod fleet dashboard — map of the Netherlands with pod statuses"></div>
+      <div class="thumb thumb-img thumb-dash">
+        <img src="media/planetpod-kpi-map-v3-1280.webp" srcset="media/planetpod-kpi-map-v3-720.webp 720w, media/planetpod-kpi-map-v3-1280.webp 1280w" sizes="(max-width:600px) 92vw, (max-width:1300px) 48vw, 610px" width="1280" height="800" loading="lazy" decoding="async" alt="PlanetPod fleet dashboard (recreation with sample data): status tiles and a map of the Netherlands with pod statuses">
+      </div>
       <div class="body">
         <div class="tags"><span>Grafana</span><span>SQL</span><span class="yr">2025</span></div>
-        <h3>PlanetPod — fleet monitoring</h3>
+        <h3>PlanetPod fleet monitor</h3>
         <p>Internship dashboards that spot a failing home battery before the customer notices, with a fleet map and a per-pod deep-dive.</p>
+        <dl class="role"><dt>role</dt><dd>Internship &middot; dashboards + queries</dd></dl>
         <span class="more">Read case study <span class="arr">→</span></span>
       </div>
     </a>
   </div>
 
-  <!-- more projects — loaded live from Supabase; managed via the admin -->
-  <div class="more-projects" id="moreProjects">
-    <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="morePanel">
-      <span class="mt-label">More projects</span>
-      <span class="mt-count">0</span>
-      <span class="mt-chev">▾</span>
-    </button>
-    <div class="more-panel" id="morePanel" hidden>
-      <div class="more-filter" id="moreFilter"></div>
-      <div class="more-sort">
-        <span class="ms-label">sort</span>
-        <button class="ms-btn on" data-sort="new">Newest</button>
-        <button class="ms-btn" data-sort="old">Oldest</button>
-        <button class="ms-btn" data-sort="az">A–Z</button>
-        <button class="ms-btn" data-sort="type">By type</button>
-      </div>
-      <div class="more-grid" id="moreGrid"></div>
+  <!-- Also built: the smaller work, loaded live from Supabase (managed in the admin;
+       js/more-projects.js fetches it once this section gets close). All of it shows
+       while there are 6 or fewer; above that the first 3 + "Show all n". Hidden if
+       there's nothing to show. -->
+  <div class="also is-loading" id="moreProjects" role="region" aria-labelledby="alsoLabel">
+    <p class="also-label" id="alsoLabel">Also built</p>
+    <div class="also-grid" id="moreGrid"></div>
+    <button class="also-all" id="moreAll" type="button" hidden>Show all <span class="also-n"></span> <span class="arr" aria-hidden="true">→</span></button>
+  </div>
+</section>
+
+<!-- ============================ ABOUT ============================ -->
+<!-- the h2 left, the lead right, the quick facts as one spec strip underneath -->
+<section class="section about" id="about">
+  <p class="eyebrow reveal">about</p>
+  <div class="about-intro reveal">
+    <div class="about-head">
+      <!-- EDIT availability (the phone menu copies this pill). Once the start month is
+           known, make it e.g. "Available from February 2027 · internships &amp; freelance" -->
+      <span class="status" id="availability"><span class="pulse"></span>Available for internships &amp; freelance</span>
+      <h2 class="h2">I build across the whole stack, from the <span class="grad-text">pixel</span> to the <span class="mono packet">packet</span>.</h2>
+    </div>
+    <p class="lead">Hi, I&rsquo;m Erben, a <span class="hl">4th-year Software Development student</span> at ROC Aventus in Apeldoorn. I like building things that solve a real problem: mobile apps, web pages, the occasional game. I&rsquo;m curious to learn, a bit of a perfectionist, and happiest when something I made actually gets used.</p>
+  </div>
+  <!-- EDIT: quick facts -->
+  <dl class="facts reveal">
+    <div class="fact"><dt>internship</dt><dd>PlanetPod&nbsp;·&nbsp;2025</dd></div>
+    <div class="fact"><dt>focus</dt><dd>React&nbsp;Native · Python</dd></div>
+    <div class="fact"><dt>study</dt><dd>MBO&nbsp;4 · ROC&nbsp;Aventus</dd></div>
+    <div class="fact"><dt>based</dt><dd>Apeldoorn,&nbsp;NL</dd></div>
+    <div class="fact"><dt>open&nbsp;to</dt><dd>Internship · Freelance</dd></div>
+  </dl>
+</section>
+
+<!-- ============================ STACK / CAPABILITIES ============================ -->
+<!-- the hero's split, restated as type on a seam (no boxes), each side pointing at the work that shows it -->
+<section class="section stack" id="stack">
+  <div class="reveal">
+    <p class="eyebrow">what i do</p>
+    <h2 class="h2">Two sides, one developer.</h2>
+  </div>
+  <div class="sides reveal">
+    <div class="side fe">
+      <h3 class="side-word"><span class="grad-text">frontend</span></h3>
+      <p class="side-sub">Mobile &amp; web interfaces, currently focused on React&nbsp;Native + Expo.</p>
+      <ul class="side-list">
+        <li>React Native</li><li>Expo</li><li>React</li><li>JavaScript</li><li>HTML</li><li>CSS</li><li>GSAP</li>
+      </ul>
+      <p class="seen">seen in <span aria-hidden="true">→</span> <a href="powerplant.html">PowerPlan(t)</a> <span class="dot" aria-hidden="true">·</span> <a href="this-website.html">This website</a></p>
+    </div>
+    <div class="sides-seam" aria-hidden="true"></div>
+    <div class="side be">
+      <h3 class="side-word">{ backend }</h3>
+      <p class="side-sub">Python tools, queries and OOP fundamentals: the logic behind the screen.</p>
+      <ul class="side-list">
+        <li>Python</li><li>SQL</li><li>Java</li><li>Supabase</li><li>Grafana</li><li>Git</li>
+      </ul>
+      <p class="seen">seen in <span aria-hidden="true">→</span> <a href="planetpod.html">PlanetPod</a></p>
     </div>
   </div>
 </section>
@@ -270,36 +470,38 @@ docker run -d node</div>
 <!-- ============================ CONTACT ============================ -->
 <section class="section contact" id="contact">
   <div class="reveal">
-    <p class="eyebrow" style="justify-content:center;">get in touch</p>
-    <h2 class="h2">Let's build something.</h2>
+    <p class="eyebrow">get in touch</p>
+    <h2 class="h2">Let&rsquo;s build something.</h2>
     <p class="lead">Open to <span class="hl">internships</span> and <span class="hl">freelance</span> work. The fastest way to reach me is email.</p>
     <div class="btn-row">
-      <a class="btn primary" href="mailto:erben.l.driessen@gmail.com">erben.l.driessen@gmail.com</a>
+      <!-- the email + a copy button (webmail users: a mailto link opens nothing useful) -->
+      <div class="mail-group">
+        <a class="btn primary" href="mailto:erben.l.driessen@gmail.com">erben.l.driessen@gmail.com</a>
+        <button class="btn copy" type="button" data-copy="erben.l.driessen@gmail.com" aria-label="Copy email address"><span class="c-idle">copy</span><span class="c-done" aria-hidden="true"><span class="c-word">copied </span>✓</span></button>
+      </div>
       <a class="btn ghost" href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/erben-driessen-3837b429a/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
+    <p class="sr-only" id="copyStatus" role="status" aria-live="polite"></p>
   </div>
 </section>
+</main>
 
+<!-- the sign-off: the ED signature from the hero, settled and small -->
 <footer class="footer">
-  <span>© <span id="year"></span> Erben Driessen</span>
-  <div class="socials">
-    <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://www.linkedin.com/in/erben-driessen-3837b429a/" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="mailto:erben.l.driessen@gmail.com">Email</a>
-    <a href="admin.html" style="opacity:.5;">admin</a>
-  </div>
+  <img class="ed-mark" src="img/ed-mark.svg" width="100" height="34" alt="" loading="lazy" decoding="async">
+  <span class="foot-line"><span>© <span id="year"></span> Erben Driessen</span><span class="sep" aria-hidden="true">·</span><a class="totop" href="#top">back to top <span aria-hidden="true">↑</span></a></span>
 </footer>
 
-<script src="js/banner.js"></script>
+<script src="v2/js/banner.js?v=20261012-fx"></script>
+<script src="v2/js/depth-banner.js?v=dpr-fix-1"></script>
 
 <!-- ===================== zoom-out + signature write-on ===================== -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="js/signature-scroll.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-client.js"></script>
-<script src="js/more-projects.js"></script>
+<script src="v2/js/signature-scroll.js?v=cue-slow-1"></script>
+<script src="v2/js/more-projects.js?v=20261012-fx"></script>
+<script src="v2/js/site-ui.js?v=20261012-fx"></script>
 </body>
 </html>

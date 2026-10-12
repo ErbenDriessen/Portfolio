@@ -1,0 +1,149 @@
+/* =================================================================
+   signature-scroll.css  —  v2 "zoom-out + signature write-on" hero
+   Loaded AFTER portfolio.css. Adds the pinned zoom-out scene around the
+   EXISTING v1 banner (the banner's own look is untouched).
+
+   STRUCTURE (see HTML):
+     .hero-track   ~265vh, reserves the scroll distance (no layout shift)
+       .hero-stage position:sticky; top:0; height:100svh  = the pin
+         .zo-marquee   (z1) text bands sliding behind the card
+         .hero-scaler  (z2) wraps the banner; JS scales/darkens it
+           header.hero (the v1 banner, unchanged)
+           .zo-dim     touch only: fades in to darken the card (no filter)
+         .zo-label     (z4) small caption above
+         .zo-sign      (z5) the ED signature, written on via a pen-mask
+   One GSAP ScrollTrigger (scrub) maps track progress 0→1 onto a timeline
+   that (A) zooms the scaler out, (B) writes the signature, then holds the
+   finished frame for a beat before the pin releases.
+   ================================================================= */
+
+/* Lenis writes scrollTop every frame; native smooth-scroll would animate each
+   write again (lag, then a lurch). Lenis only adds .lenis while the effect runs,
+   so the static fallback keeps portfolio.css's smooth anchors. */
+html.lenis{ scroll-behavior:auto !important; }
+
+/* 265vh: the extra 25vh pays for the end-of-timeline hold, so zoom + pen speed
+   per pixel stay the same as the old 240vh track */
+.hero-track{ position:relative; height:265vh; }
+.hero-stage{
+  position:sticky; top:0; height:100svh; overflow:hidden;
+  background:var(--be-bg); isolation:isolate;
+}
+
+/* the banner, wrapped so we can scale+darken it without touching its design */
+.hero-scaler{
+  position:absolute; inset:0; z-index:2;
+  transform-origin:center center; will-change:transform, filter, border-radius;
+  overflow:hidden; background:var(--be-bg);
+}
+/* card edge: a hairline in the text colour + a soft lift, so the dark backend
+   half doesn't dissolve into the desk. Drawn on the scaler, so it shrinks with
+   the .62 scale and dims with the filter: 2.6px / .16 lands as about 1.6px / .1.
+   Clipped by the stage at scale 1; scoped off zo-static, where the stage doesn't
+   clip and it would bleed onto #about. */
+body:not(.zo-static) .hero-scaler,
+body.zo-reduced .hero-scaler{
+  box-shadow:0 0 0 2.6px rgba(234,242,233,.16), 0 60px 120px -50px rgba(0,0,0,.9);
+}
+.hero-scaler .hero{
+  height:100% !important; min-height:0 !important; width:100%;
+  cursor:default;
+}
+/* touch stand-in for the scaler's darkening filter: JS fades it 0 → .3 */
+.zo-dim{ position:absolute; inset:0; z-index:10; background:var(--be-bg); opacity:0; pointer-events:none; }
+/* the name line, hint and scroll cue step aside as the banner becomes a card
+   (JS fades them). 'backwards' instead of the entrance's 'both' so the finished
+   entrance no longer pins opacity at 1; first paint is identical. */
+.hero-scaler .hero-intro,
+.hero-scaler .scrollcue{ animation-fill-mode:backwards; }
+
+/* ---------- marquee bands (behind the card) ---------- */
+.zo-marquee{
+  position:absolute; inset:0; z-index:1; opacity:0;
+  display:flex; flex-direction:column; justify-content:center; gap:1.5vh;
+  pointer-events:none; overflow:hidden;
+}
+.zo-band{ display:flex; white-space:nowrap; line-height:.92; will-change:transform; }
+.zo-band span{ padding-right:.45em; }
+.zo-band.b1{
+  font-family:"Poppins",sans-serif; font-weight:800; font-size:12vh; letter-spacing:-.02em;
+  color:rgba(0,255,156,.11);
+}
+.zo-band.b2{
+  font-family:"JetBrains Mono",monospace; font-weight:700; font-size:9vh; letter-spacing:.01em;
+  color:transparent; -webkit-text-stroke:1.4px rgba(234,242,233,.12);
+}
+
+/* ---------- small caption above the card ----------
+   top = final card top (19% = (1-ZOOM_TO)/2 of the stage, for ZOOM_TO .62)
+   minus the 20px caption row and an 18px gap. Change it if ZOOM_TO changes.
+   The ED mark sits on the caption's own line (stacked, it hit the card at 1280x720). */
+.zo-label{
+  position:absolute; top:calc(19% - 38px); left:0; right:0; z-index:4; text-align:center;
+  opacity:0; pointer-events:none;
+  display:flex; flex-direction:row; justify-content:center; align-items:baseline; gap:14px;
+}
+.zo-label .zo-mark{
+  font-family:"JetBrains Mono",monospace; font-weight:800; font-size:15px; letter-spacing:.04em;
+  color:var(--be-green); text-shadow:0 0 14px rgba(0,255,156,.45);
+}
+.zo-label .zo-cap{
+  font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--be-dim);
+}
+/* short stages (phones held sideways): above the card the caption would land in
+   the 68px nav band, over the links and then under the frosted bar, so it sits
+   the same 18px BELOW the card instead (19% - 38px < 68px under ~560px tall) */
+@media (max-height:560px){
+  .zo-label{ top:auto; bottom:calc(19% - 38px); }
+}
+
+/* ---------- nav while pinned ----------
+   Nothing scrolls under the nav during the scene (the desk behind it is the same
+   #0D1117), so it stays see-through until the pin releases and the frosted
+   .scrolled bar takes over. banner.js treats body.zo-pinned as see-through, so
+   the ink keeps following the card's seam meanwhile. */
+body.zo-pinned .nav.scrolled{ background:none; -webkit-backdrop-filter:none; backdrop-filter:none; border-bottom-color:transparent; }
+
+/* ---------- the signature overlay ---------- */
+.zo-sign{
+  position:absolute; z-index:5; left:50%; top:53%; transform:translate(-50%,-50%);
+  /* sized to the card, not the viewport: 56vw ≈ .9 × the 62vw card; 120svh keeps
+     its height inside the 62svh card on short wide screens; 1020px = 1920+ as before */
+  width:min(56vw, 120svh, 1020px); aspect-ratio:2892/1312; pointer-events:none;
+  filter:drop-shadow(0 0 26px rgba(0,255,156,.30));
+}
+.zo-guide{ fill:none; stroke:#fff; stroke-width:84; stroke-linecap:round; stroke-linejoin:round; }
+#zoSignSettle{ opacity:0; }
+
+/* ---------- static fallback (reduced-motion / libs missing) ----------
+   body.zo-static = the effect is OFF; the hero is the normal v1 banner. */
+body.zo-static .hero-track{ height:auto; }
+body.zo-static .hero-stage{ position:relative; height:auto; overflow:visible; background:transparent; }
+body.zo-static .hero-scaler{ position:relative; inset:auto; }
+/* restore a full-screen banner (the pinned rules above zeroed it via height:100%).
+   The nav overlays the banner, so it's the full 100svh, like the pinned hero. */
+body.zo-static .hero-scaler .hero{ height:100svh !important; min-height:560px !important; }
+body.zo-static .zo-marquee,
+body.zo-static .zo-label,
+body.zo-static .zo-dim{ display:none; }
+/* reduced-motion shows the scene's finished END FRAME as a still: the card zoomed
+   back on the desk, marquee behind, caption above and the signature on top */
+body.zo-static .zo-sign{ display:none; }
+body.zo-reduced .zo-sign{ display:block; }
+body.zo-reduced #zoSignSettle{ opacity:1; }
+body.zo-reduced .hero-stage{ height:100svh; overflow:hidden; background:var(--be-bg); }
+body.zo-reduced .hero-scaler{ position:absolute; inset:0; transform:scale(.62); border-radius:34px;
+  filter:brightness(.72) saturate(.5) contrast(1.04); }   /* keep .62 in sync with ZOOM_TO in signature-scroll.js */
+body.zo-reduced .hero-scaler .hero{ height:100% !important; min-height:0 !important; }
+/* the labels' focus rings shrink with the .62 card: 5px lands as about the 3px the
+   full-size banner shows. The filter squeezes the violet to under 3:1 on the shirt
+   (no single ring colour clears both the dimmed lavender and the shirt), so a
+   keyboard-focused label brings the card forward undimmed, as the static banner shows it */
+body.zo-reduced .label:focus-visible .word{ outline-width:5px; }
+body.zo-reduced .hero-scaler:has(.label:focus-visible){ filter:none; }
+/* as in the scrolled end frame, the card's micro name line + scroll cue step aside */
+body.zo-reduced .hero-scaler .hero-intro{ opacity:0; }
+body.zo-reduced .hero-scaler .scrollcue{ visibility:hidden; }
+body.zo-reduced .zo-marquee,
+body.zo-reduced .zo-label{ display:flex; opacity:1; }
