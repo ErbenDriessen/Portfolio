@@ -52,6 +52,18 @@ python -m http.server 8000
 Fully static, so it hosts anywhere (GitHub Pages, Netlify, Cloudflare Pages). `index.html`
 sits at the repo root, so no extra configuration is needed.
 
+## Security
+
+The "More projects" grid reads from a Supabase `projects` table, and `admin.html` edits it.
+
+- The key in `js/supabase-client.js` is the publishable (anon) key. It's meant to be public. No secret or service key is in this repo.
+- Anonymous visitors can only read. Row Level Security allows `select` for everyone and nothing else.
+- Writes are owner only: insert, update and delete on `projects`, and uploads and deletes in the `project-images` bucket, are allowed by RLS only for the owner's account (the policies check its email).
+- Sign-ups are off, so nobody can make an account to get in.
+- `admin.html` also hides the editor from any other account (`OWNER_EMAIL`), but that's only a convenience. RLS is what protects the data.
+- Everything read from the database is escaped before it goes on a page, and the admin only accepts `https://` links.
+- The admin loads `supabase-js` pinned to one exact version with an SRI hash, so a changed file on the CDN won't run.
+
 ## License
 
 [MIT](LICENSE) © Erben Driessen

@@ -21,17 +21,23 @@
       'az':   function(a,b){ return a.title.localeCompare(b.title); }
     };
 
+    /* every string from the database goes through esc() before it lands in the
+       page, and links/images only as http(s) URLs: a row can never inject markup
+       or script into the site */
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+    function url(u){ return /^https?:\/\//i.test(String(u||'')) ? esc(u) : ''; }
     function card(p){
-      var tags=(p.stack||[]).map(function(s){return '<span>'+s+'</span>';}).join('')
-        + (p.year?'<span class="yr">'+p.year+'</span>':'');
-      var inner='<div class="mini-thumb"><img src="'+(p.image||'')+'" alt="'+(p.title||'')+'" loading="lazy"></div>'
+      var tags=(p.stack||[]).map(function(s){return '<span>'+esc(s)+'</span>';}).join('')
+        + (p.year?'<span class="yr">'+esc(p.year)+'</span>':'');
+      var img=url(p.image), link=url(p.link);
+      var inner='<div class="mini-thumb">'+(img?'<img src="'+img+'" alt="'+esc(p.title)+'" loading="lazy">':'')+'</div>'
         +'<div class="mini-body"><div class="mini-tags">'+tags+'</div>'
-        +'<h4>'+(p.title||'Untitled')+'</h4>'
-        +(p.desc?'<p class="mini-desc">'+p.desc+'</p>':'')
-        +(p.link?'<span class="mini-more">'+(p.linkLabel||'View')+' <span class="arr">→</span></span>':'')
+        +'<h4>'+esc(p.title||'Untitled')+'</h4>'
+        +(p.desc?'<p class="mini-desc">'+esc(p.desc)+'</p>':'')
+        +(link?'<span class="mini-more">'+esc(p.linkLabel||'View')+' <span class="arr">→</span></span>':'')
         +'</div>';
-      return p.link
-        ? '<a class="mini-card" href="'+p.link+'" target="_blank" rel="noopener" aria-label="'+(p.title||'')+'">'+inner+'</a>'
+      return link
+        ? '<a class="mini-card" href="'+link+'" target="_blank" rel="noopener" aria-label="'+esc(p.title)+'">'+inner+'</a>'
         : '<div class="mini-card no-link">'+inner+'</div>';
     }
     function render(){
@@ -49,7 +55,7 @@
         +'<button class="mf-btn on" data-cat="all">All <span class="mf-n">'+items.length+'</span></button>';
       cats.forEach(function(c){
         var n=items.filter(function(p){return (p.category||'other')===c;}).length;
-        chips+='<button class="mf-btn" data-cat="'+c+'">'+(CAT_LABELS[c]||c)+' <span class="mf-n">'+n+'</span></button>';
+        chips+='<button class="mf-btn" data-cat="'+esc(c)+'">'+esc(CAT_LABELS[c]||c)+' <span class="mf-n">'+n+'</span></button>';
       });
       filterEl.innerHTML=chips;
       [].forEach.call(filterEl.querySelectorAll('.mf-btn'), function(b){

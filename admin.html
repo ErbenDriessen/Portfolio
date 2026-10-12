@@ -3,74 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0D1117">
 <style>html{background:#0D1117}</style>
 <meta name="darkreader-lock">
 <title>Admin · Erben Driessen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root{ --bg:#0D1117; --slate:#161b22; --slate2:#1c2230; --line:#222b36; --line2:#2f3a48;
-    --text:#e8edf3; --dim:#9fb0c3; --green:#00FF9C; --red:#F2495C; --blue:#58A6FF; --ease:cubic-bezier(.22,1,.36,1); }
+    --text:#e8edf3; --dim:#9fb0c3; --green:#00FF9C; --red:#F2495C; --amber:#E3B341; --blue:#58A6FF; --ease:cubic-bezier(.22,1,.36,1); }
   *{box-sizing:border-box;}
   body{ margin:0; background:var(--bg); color:var(--text); font-family:"Poppins",system-ui,sans-serif;
-    -webkit-font-smoothing:antialiased; }
+    -webkit-font-smoothing:antialiased; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   .mono{ font-family:"JetBrains Mono",monospace; }
   a{ color:var(--blue); }
   .wrap{ max-width:980px; margin:0 auto; padding:32px clamp(16px,4vw,40px) 80px; }
-  .top{ display:flex; align-items:center; justify-content:space-between; padding-bottom:24px; border-bottom:1px solid var(--line); }
-  .brand{ font-family:"JetBrains Mono",monospace; font-weight:800; font-size:17px; display:flex; align-items:center; gap:9px; }
-  .brand .dot{ width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green); }
-  .top .who{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:var(--dim); display:flex; align-items:center; gap:14px; }
+  .top{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 16px; padding-bottom:24px; border-bottom:1px solid var(--line); }
+  .brand{ font-family:"JetBrains Mono",monospace; font-weight:800; font-size:17px; display:flex; align-items:center; gap:9px; white-space:nowrap; }
+  .brand .dot{ width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green); flex:none; }
+  .top .who{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:var(--dim); display:flex; align-items:center; gap:14px; min-width:0; }
+  .top .who span{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .btn{ font-family:"JetBrains Mono",monospace; font-size:13px; font-weight:700; cursor:pointer; border:none;
-    padding:10px 16px; border-radius:8px; transition:transform .15s, box-shadow .25s, background .2s, border-color .2s; }
+    min-height:44px; padding:0 16px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    white-space:nowrap; text-decoration:none; transition:transform .15s, box-shadow .25s, background .2s, border-color .2s, color .2s; }
   .btn.primary{ background:var(--green); color:#06120c; } .btn.primary:hover{ transform:translateY(-1px); box-shadow:0 8px 20px -8px rgba(0,255,156,.6); }
   .btn.ghost{ background:transparent; color:var(--text); border:1px solid var(--line2); } .btn.ghost:hover{ border-color:var(--green); color:var(--green); }
   .btn.danger{ background:transparent; color:var(--red); border:1px solid rgba(242,73,92,.4); } .btn.danger:hover{ background:rgba(242,73,92,.1); }
   .btn:disabled{ opacity:.5; cursor:default; transform:none; box-shadow:none; }
+  .btn:focus-visible, .filebtn:focus-within{ outline:2px solid var(--green); outline-offset:2px; }
 
-  /* login */
+  /* login + not-the-owner */
   .login{ max-width:380px; margin:14vh auto 0; }
   .login h1{ font-size:24px; margin:0 0 6px; }
   .login p{ color:var(--dim); font-size:14px; margin:0 0 26px; }
-  .field{ margin-bottom:16px; }
-  .field label{ display:block; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--dim); margin-bottom:7px; letter-spacing:.04em; }
-  .field input, .field textarea, .field select{ width:100%; background:var(--slate); border:1px solid var(--line2); color:var(--text);
-    border-radius:9px; padding:11px 13px; font-family:"Poppins",sans-serif; font-size:14px; }
+  .login code{ font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--text); background:var(--slate);
+    border:1px solid var(--line2); border-radius:6px; padding:2px 6px; word-break:break-all; }
+
+  .field{ margin-bottom:16px; min-width:0; }
+  .field label, .field .lbl{ display:block; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--dim); margin-bottom:7px; letter-spacing:.04em; }
+  .field input, .field textarea, .field select{ display:block; width:100%; min-width:0; background:var(--slate); border:1px solid var(--line2); color:var(--text);
+    border-radius:9px; padding:11px 13px; font-family:"Poppins",sans-serif; font-size:16px; line-height:1.45; }
   .field input:focus, .field textarea:focus, .field select:focus{ outline:none; border-color:var(--green); }
-  .field textarea{ min-height:84px; resize:vertical; }
+  .field textarea{ min-height:118px; resize:vertical; field-sizing:content; max-height:240px; }
+  .field select{ -webkit-appearance:none; appearance:none; padding-right:40px; cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%239fb0c3' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 15px center; }
+  .field input:user-invalid, .field textarea:user-invalid{ border-color:rgba(242,73,92,.6); }
   .err{ color:var(--red); font-size:13px; min-height:18px; margin-top:4px; font-family:"JetBrains Mono",monospace; }
 
+  /* description: counter + soft warnings */
+  .dmeta{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-top:7px;
+    font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--dim); }
+  .dmeta .count{ flex:none; font-variant-numeric:tabular-nums; }
+  .dmeta .count.meh{ color:var(--amber); } .dmeta .count.bad{ color:var(--red); }
+  .warns{ margin:8px 0 0; padding:0; list-style:none; font-size:12.5px; color:var(--amber); }
+  .warns li{ margin-top:4px; padding-left:16px; position:relative; }
+  .warns li::before{ content:""; position:absolute; left:2px; top:.55em; width:6px; height:6px; border-radius:50%; background:var(--amber); }
+
   /* manager */
-  .head{ display:flex; align-items:center; justify-content:space-between; margin:30px 0 18px; }
+  .head{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin:30px 0 18px; }
   .head h1{ font-size:22px; margin:0; }
   .grid2{ display:grid; grid-template-columns:1fr 1.1fr; gap:26px; align-items:start; }
+  .grid2 > *{ min-width:0; }
   @media (max-width:820px){ .grid2{ grid-template-columns:1fr; } }
-  .panel{ background:var(--slate); border:1px solid var(--line); border-radius:14px; padding:22px; }
+  .panel{ background:var(--slate); border:1px solid var(--line); border-radius:14px; padding:22px; min-width:0; }
   .panel h2{ font-size:15px; margin:0 0 16px; font-family:"JetBrains Mono",monospace; color:var(--dim); text-transform:uppercase; letter-spacing:.1em; }
-  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .check{ display:flex; align-items:center; gap:9px; font-size:14px; color:var(--text); cursor:pointer; }
+  .row2{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }
+  .check{ display:flex; align-items:center; gap:10px; min-height:44px; font-size:14px; color:var(--text); cursor:pointer; }
   .check input{ width:18px; height:18px; accent-color:var(--green); }
-  .imgrow{ display:flex; align-items:center; gap:14px; }
-  .imgprev{ width:88px; height:56px; border-radius:8px; object-fit:cover; background:var(--slate2); border:1px solid var(--line2); flex:none; }
-  .formbtns{ display:flex; gap:10px; margin-top:8px; }
+
+  /* image picker: the native file input stays in the DOM (keyboard + screen readers) but the label is the button */
+  .imgrow{ display:flex; flex-wrap:wrap; align-items:center; gap:12px 14px; }
+  .imgprev{ width:96px; height:60px; border-radius:8px; object-fit:cover; background:var(--slate2); border:1px solid var(--line2); flex:none; }
+  .imgprev:not([src]){ visibility:hidden; }
+  .imgbox{ width:96px; height:60px; border-radius:8px; background:var(--slate2); border:1px solid var(--line2); flex:none; position:relative; overflow:hidden; }
+  .imgbox .imgprev{ position:absolute; inset:-1px; width:calc(100% + 2px); height:calc(100% + 2px); border:none; }
+  .imgacts{ display:flex; flex-wrap:wrap; gap:8px; min-width:0; }
+  .field label.filebtn{ display:inline-flex; margin:0; font-size:13px; letter-spacing:0; color:var(--text); position:relative; overflow:hidden; cursor:pointer; }
+  .field label.filebtn:hover{ color:var(--green); }
+  .filebtn input{ position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; font-size:0; }
+  .imginfo{ flex-basis:100%; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--dim); min-height:0; overflow-wrap:anywhere; }
+  .imginfo.bad{ color:var(--red); }
+  .formbtns{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
 
   .plist{ display:flex; flex-direction:column; gap:10px; }
   .pitem{ display:flex; gap:13px; align-items:center; background:var(--slate); border:1px solid var(--line); border-radius:11px; padding:11px; }
-  .pitem img{ width:64px; height:44px; border-radius:7px; object-fit:cover; background:var(--slate2); flex:none; }
+  .pitem.editing{ border-color:rgba(0,255,156,.45); }
+  .pthumb{ width:64px; height:44px; border-radius:7px; background:var(--slate2); flex:none; overflow:hidden; display:grid; place-items:center;
+    font-family:"Poppins",sans-serif; font-weight:800; font-size:15px; color:#3a4656; }
+  .pthumb img{ width:100%; height:100%; object-fit:cover; display:block; }
   .pitem .meta{ flex:1; min-width:0; }
   .pitem .meta h3{ font-size:15px; margin:0 0 3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .pitem .meta .sub{ font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--dim); }
+  .pitem .meta .sub{ font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--dim); overflow-wrap:anywhere; }
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
+  .chip{ display:inline-block; white-space:nowrap; padding:2px 7px; border-radius:6px; font-family:"JetBrains Mono",monospace; font-size:10.5px;
+    color:var(--amber); border:1px solid rgba(227,179,65,.4); }
   .pitem .acts{ display:flex; gap:7px; flex:none; }
-  .pitem .acts button{ font-size:11.5px; padding:6px 10px; }
-  .empty{ color:var(--dim); font-size:14px; font-family:"JetBrains Mono",monospace; padding:8px 2px; }
-  .toast{ position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); opacity:0;
-    background:var(--slate2); border:1px solid var(--line2); color:var(--text); padding:11px 18px; border-radius:10px;
-    font-size:13.5px; transition:opacity .3s, transform .3s; pointer-events:none; z-index:20; }
+  .pitem .acts .btn{ font-size:12px; padding:0 12px; }
+  .empty{ color:var(--dim); font-size:14px; font-family:"JetBrains Mono",monospace; padding:8px 2px; margin:0; }
+  .toast{ position:fixed; left:50%; bottom:max(26px, env(safe-area-inset-bottom)); transform:translateX(-50%) translateY(20px); opacity:0;
+    width:max-content; max-width:calc(100vw - 32px); background:var(--slate2); border:1px solid var(--line2); color:var(--text); padding:11px 18px; border-radius:10px;
+    font-size:13.5px; line-height:1.45; transition:opacity .3s, transform .3s; pointer-events:none; z-index:20; }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
   .toast.ok{ border-color:rgba(0,255,156,.4); } .toast.bad{ border-color:rgba(242,73,92,.5); color:#ffd7dc; }
+  .toast.warn{ border-color:rgba(227,179,65,.55); color:#f6e3b4; }
   .hidden{ display:none !important; }
+
+  /* phones */
+  @media (max-width:560px){
+    .wrap{ padding-top:20px; }
+    .top{ flex-wrap:nowrap; }
+    .top .who span{ display:none; }
+    .panel{ padding:18px 16px; }
+    .row2{ grid-template-columns:minmax(0,1fr); gap:0; }
+    .pitem{ flex-wrap:wrap; }
+    .pitem .meta{ flex-basis:calc(100% - 77px); }
+    .pitem .acts{ width:100%; }
+    .pitem .acts .btn{ flex:1; }
+    .login{ margin-top:8vh; }
+  }
+  @media (prefers-reduced-motion:reduce){ *{ transition:none !important; scroll-behavior:auto !important; } }
 </style>
 </head>
 <body>
@@ -83,12 +138,23 @@
       <h1>Sign in</h1>
       <p>Manage the projects that show up under “More projects”.</p>
       <form id="loginForm">
-        <div class="field"><label>Email</label><input type="email" id="email" autocomplete="username" required></div>
-        <div class="field"><label>Password</label><input type="password" id="password" autocomplete="current-password" required></div>
+        <div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="username" required></div>
+        <div class="field"><label for="password">Password</label><input type="password" id="password" autocomplete="current-password" required></div>
         <button class="btn primary" id="loginBtn" type="submit" style="width:100%;">Sign in</button>
-        <div class="err" id="loginErr"></div>
+        <div class="err" id="loginErr" role="alert"></div>
       </form>
-      <p style="margin-top:20px;"><a href="index.html">← back to site</a></p>
+      <p style="margin-top:20px;"><a href="./">← back to site</a></p>
+    </div>
+  </section>
+
+  <!-- ===== SIGNED IN, BUT NOT THE OWNER ===== -->
+  <section id="denyView" class="hidden">
+    <div class="login">
+      <div class="brand" style="margin-bottom:34px;"><span class="dot"></span>erben.dev / admin</div>
+      <h1>No access</h1>
+      <p>You're signed in as <span id="denyEmail" class="mono"></span>, but this account can't edit the site.</p>
+      <p id="denySetup" class="hidden">The owner id in admin.html isn't set yet. If this is your account, set <code>OWNER_UID</code> to:<br><code id="denyUid"></code></p>
+      <button class="btn ghost" id="denySignOut" type="button">Sign out</button>
     </div>
   </section>
 
@@ -96,46 +162,52 @@
   <section id="adminView" class="hidden">
     <div class="top">
       <div class="brand"><span class="dot"></span>erben.dev / admin</div>
-      <div class="who"><span id="whoEmail"></span><button class="btn ghost" id="signOutBtn">Sign out</button></div>
+      <div class="who"><span id="whoEmail"></span><button class="btn ghost" id="signOutBtn" type="button">Sign out</button></div>
     </div>
 
-    <div class="head"><h1>Projects</h1><button class="btn ghost" id="newBtn">+ New project</button></div>
+    <div class="head"><h1>Projects</h1><button class="btn ghost" id="newBtn" type="button">+ New project</button></div>
 
     <div class="grid2">
       <!-- form -->
-      <div class="panel">
+      <div class="panel" id="formPanel">
         <h2 id="formTitle">New project</h2>
-        <form id="projForm">
+        <form id="projForm" novalidate>
           <input type="hidden" id="projId">
-          <div class="field"><label>Title</label><input type="text" id="f_title" required></div>
-          <div class="field"><label>Stack (comma-separated)</label><input type="text" id="f_stack" placeholder="Python, SQL"></div>
-          <div class="field"><label>Description</label><textarea id="f_desc"></textarea></div>
+          <div class="field"><label for="f_title">Title</label><input type="text" id="f_title" maxlength="60" required></div>
+          <div class="field"><label for="f_stack">Stack (comma-separated)</label><input type="text" id="f_stack" placeholder="Python, SQL"></div>
+          <div class="field">
+            <label for="f_desc">Description (English, one sentence)</label>
+            <textarea id="f_desc" required minlength="40" maxlength="140" aria-describedby="descHint descCount descWarns"></textarea>
+            <div class="dmeta"><span id="descHint">70 to 110 characters reads best; phones show two lines.</span><span class="count" id="descCount" aria-live="polite">0 / 140</span></div>
+            <ul class="warns" id="descWarns"></ul>
+          </div>
           <div class="row2">
-            <div class="field"><label>Category</label>
+            <div class="field"><label for="f_category">Category</label>
               <select id="f_category">
                 <option value="web">Web</option><option value="mobile">Mobile</option>
                 <option value="python">Python</option><option value="game">Game</option>
                 <option value="tool">Tool</option><option value="data">Data</option><option value="other">Other</option>
               </select>
             </div>
-            <div class="field"><label>Year</label><input type="text" id="f_year" placeholder="2026"></div>
+            <div class="field"><label for="f_year">Year</label><input type="text" id="f_year" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><label>Link (optional)</label><input type="text" id="f_link" placeholder="https://..."></div>
-            <div class="field"><label>Link label</label><input type="text" id="f_linkLabel" placeholder="View code"></div>
+            <div class="field"><label for="f_link">Link (optional)</label><input type="url" id="f_link" pattern="https://.*" placeholder="https://..." title="A full link that starts with https://" autocomplete="off" spellcheck="false"></div>
+            <div class="field"><label for="f_linkLabel">Link label</label><input type="text" id="f_linkLabel" maxlength="30" placeholder="View code"></div>
           </div>
           <div class="field">
-            <label>Image</label>
+            <span class="lbl" id="imgLbl">Image</span>
             <div class="imgrow">
-              <img class="imgprev" id="f_imgprev" alt="">
-              <div>
-                <input type="file" id="f_imgfile" accept="image/*" style="font-size:12px;">
-                <div class="err" id="imgErr" style="min-height:0;"></div>
+              <div class="imgbox"><img class="imgprev" id="f_imgprev" alt=""></div>
+              <div class="imgacts">
+                <label class="btn ghost filebtn" id="pickBtn">Choose image<input type="file" id="f_imgfile" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" aria-labelledby="imgLbl pickBtn"></label>
+                <button class="btn ghost hidden" id="imgRemove" type="button">Remove</button>
               </div>
+              <div class="imginfo" id="imgInfo" aria-live="polite"></div>
             </div>
             <input type="hidden" id="f_image">
           </div>
-          <label class="check" style="margin:6px 0 16px;"><input type="checkbox" id="f_featured"> Featured</label>
+          <label class="check" style="margin:2px 0 12px;"><input type="checkbox" id="f_featured"> Featured</label>
           <div class="formbtns">
             <button class="btn primary" id="saveBtn" type="submit">Save project</button>
             <button class="btn ghost" id="cancelBtn" type="button">Clear</button>
@@ -152,94 +224,295 @@
   </section>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-client.js"></script>
+<!-- pinned SDK version + SRI hash: if jsdelivr ever served a different file, the browser refuses to run it.
+     To upgrade: change the version and take the new hash from jsdelivr ("Copy HTML + SRI"). -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
+<script src="js/supabase-client.js?v=20261012"></script>
 <script>
 (function(){
-  var $=function(id){return document.getElementById(id);};
-  var loginView=$('loginView'), adminView=$('adminView');
-  function toast(msg,kind){ var t=$('toast'); t.textContent=msg; t.className='toast show '+(kind||''); setTimeout(function(){ t.className='toast '+(kind||''); },2600); }
+  /* ==========================================================================
+     OWNER_EMAIL: the account the editor opens for, the same address the
+     RLS policies check (auth.jwt() ->> 'email'). OWNER_UID is optional: set
+     it (Authentication > Users, or: select id, email from auth.users;) to
+     pin it to the user id as well. Signed in with any other account, the
+     editor stays hidden.
 
+     This check is only a convenience. Anyone can talk to the Supabase API
+     directly with the public key, so it can't protect anything by itself.
+     The real protection is RLS: the owner-only policies on public.projects
+     and storage.objects (README, "Security").
+     ========================================================================== */
+  var OWNER_EMAIL = 'erben.l.driessen@gmail.com';
+  var OWNER_UID = '';
+
+  var DESC_MIN = 40, DESC_MAX = 140, DESC_GOOD = [70, 110];
+  var MAX_EDGE = 1600, QUALITY = 0.82, MAX_INPUT = 40 * 1024 * 1024;
+
+  var $=function(id){return document.getElementById(id);};
+  var views={ login:$('loginView'), deny:$('denyView'), admin:$('adminView') };
+  var state={ uid:undefined, owner:false, rows:[], editing:null, pending:null };
+
+  var toastTimer;
+  function toast(msg,kind){ var t=$('toast'); t.textContent=msg; t.className='toast show '+(kind||'');
+    clearTimeout(toastTimer); toastTimer=setTimeout(function(){ t.className='toast '+(kind||''); }, kind==='warn'||kind==='bad' ? 6000 : 2600); }
+  function show(name){ Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', k!==name); }); }
+
+  /* ---- urls: only https gets into a src, and our own storage goes through the
+     same resize endpoint v2's "Also built" uses ---- */
+  function httpsUrl(u){ u=String(u||'').trim(); return /^https:\/\/[^\s"'<>]+$/i.test(u) ? u : ''; }
+  var STORE=/^(https:\/\/[a-z0-9]+\.supabase\.co)\/storage\/v1\/object\/public\/([^?#]+)$/i;
+  function sized(u, w){ var m=STORE.exec(u); return m ? m[1]+'/storage/v1/render/image/public/'+m[2]+'?width='+w+'&resize=contain&quality=75' : ''; }
+  /* set an <img> to the resized copy, falling back to the original file, then to nothing */
+  function setImg(img, url, w, onFail){
+    var orig=httpsUrl(url); if(!orig){ img.removeAttribute('src'); if(onFail) onFail(); return false; }
+    var small=sized(orig, w);
+    img.onerror=function(){ if(small && img.getAttribute('src')===small){ img.src=orig; } else { img.onerror=null; img.removeAttribute('src'); if(onFail) onFail(); } };
+    img.src=small||orig; return true;
+  }
+  var CAT={web:'Web',mobile:'Mobile',python:'Python',game:'Game',tool:'Tool',data:'Data',other:'Other'};
+  function initials(t){ var w=String(t||'').split(/\s+/).filter(Boolean); return w.length ? (w[0].charAt(0)+(w.length>1?w[w.length-1].charAt(0):'')).toUpperCase() : ''; }
+
+  /* ---- description rules (no DB constraint yet; these are the same numbers as plan step 3) ---- */
+  function descInfo(s){
+    var t=String(s||'').trim(), n=Array.from(t).length, warns=[];
+    if(/[–—]/.test(t)) warns.push('Has a long dash. A comma or a full stop reads calmer.');
+    if(/\b(een|het|voor|met|jouw)\b/i.test(t)) warns.push('Looks like Dutch. The site is in English.');
+    return { n:n, short:n<DESC_MIN, long:n>DESC_MAX, meh:n<DESC_GOOD[0]||n>DESC_GOOD[1], warns:warns };
+  }
+  function updateDesc(){
+    var ta=$('f_desc'), d=descInfo(ta.value), c=$('descCount');
+    c.textContent=d.n+' / '+DESC_MAX;
+    c.className='count'+(d.n && (d.short||d.long) ? ' bad' : d.n && d.meh ? ' meh' : '');
+    /* minlength/maxlength only kick in after typing, so check the loaded text too */
+    ta.setCustomValidity(d.n && d.short ? 'At least '+DESC_MIN+' characters, now '+d.n+'.'
+      : d.long ? 'At most '+DESC_MAX+' characters, now '+d.n+'.' : '');
+    var ul=$('descWarns'); ul.textContent='';
+    d.warns.forEach(function(w){ var li=document.createElement('li'); li.textContent=w; ul.appendChild(li); });
+    return d;
+  }
+  $('f_desc').addEventListener('input', updateDesc);
+  function checkLink(){ var i=$('f_link'), v=i.value.trim();
+    i.setCustomValidity(v && !httpsUrl(v) ? 'Use a full link that starts with https:// (no spaces).' : ''); }
+  $('f_link').addEventListener('input', checkLink);
+
+  /* ---- client-side resize: long edge 1600px, WebP .82 (JPEG where the browser can't encode WebP) ---- */
+  function decode(file){
+    function viaImg(){ return new Promise(function(res,rej){
+      var u=URL.createObjectURL(file), im=new Image();
+      im.onload=function(){ res({ src:im, w:im.naturalWidth, h:im.naturalHeight, done:function(){ URL.revokeObjectURL(u); } }); };
+      im.onerror=function(){ URL.revokeObjectURL(u); rej(new Error("Couldn't read that image. Try a PNG, JPEG or WebP.")); };
+      im.src=u; }); }
+    if(window.createImageBitmap){
+      return createImageBitmap(file).then(function(b){ return { src:b, w:b.width, h:b.height, done:function(){ if(b.close) b.close(); } }; }, viaImg);
+    }
+    return viaImg();
+  }
+  function canvasOf(w,h){ var c=document.createElement('canvas'); c.width=w; c.height=h; return c; }
+  function encode(c,type,q){ return new Promise(function(res){ try{ c.toBlob(function(b){ res(b); }, type, q); }catch(e){ res(null); } }); }
+  function resizeImage(file){
+    if(!file || !/^image\//.test(file.type||'')) return Promise.reject(new Error('That file is not an image.'));
+    if(file.size>MAX_INPUT) return Promise.reject(new Error('That image is over 40 MB. Export a smaller one first.'));
+    return decode(file).then(function(img){
+      try{
+        if(!img.w || !img.h) throw new Error("Couldn't read that image's size.");
+        var k=Math.min(1, MAX_EDGE/Math.max(img.w,img.h)), tw=Math.max(1,Math.round(img.w*k)), th=Math.max(1,Math.round(img.h*k));
+        /* halve in steps first: one big jump looks soft. Skip steps a phone couldn't hold in memory. */
+        var cur=img.src, cw=img.w, ch=img.h;
+        while(cw>tw*2 && Math.ceil(cw/2)*Math.ceil(ch/2)<=16e6){
+          var nw=Math.ceil(cw/2), nh=Math.ceil(ch/2), s=canvasOf(nw,nh), sx=s.getContext('2d');
+          sx.imageSmoothingQuality='high'; sx.drawImage(cur,0,0,nw,nh); cur=s; cw=nw; ch=nh;
+        }
+        var out=canvasOf(tw,th), ctx=out.getContext('2d');
+        ctx.imageSmoothingQuality='high'; ctx.drawImage(cur,0,0,tw,th);
+      } finally { img.done(); }
+      return encode(out,'image/webp',QUALITY).then(function(b){
+        if(b && b.type==='image/webp') return b;
+        /* no WebP encoder (older Safari): JPEG, on the same dark the cards use behind the image */
+        var j=canvasOf(tw,th), jx=j.getContext('2d'); jx.fillStyle='#10151c'; jx.fillRect(0,0,tw,th); jx.drawImage(out,0,0);
+        return encode(j,'image/jpeg',QUALITY);
+      }).then(function(b){
+        if(!b) throw new Error("This browser couldn't convert the image.");
+        /* already small and already web-friendly: keep the original if re-encoding didn't help */
+        var keep=k===1 && /^image\/(webp|jpeg)$/.test(file.type) && file.size<=b.size;
+        return { blob: keep ? file : b, w:tw, h:th, type: keep ? file.type : b.type, inBytes:file.size, outBytes: keep ? file.size : b.size, inW:img.w, inH:img.h };
+      });
+    });
+  }
+  function kb(n){ return n>=1048576 ? (n/1048576).toFixed(2)+' MB' : Math.max(1,Math.round(n/1024))+' KB'; }
+
+  /* ---- auth + owner gate ---- */
+  function isOwner(user){
+    if(!user) return false;
+    if(OWNER_UID) return user.id===OWNER_UID;
+    return !!user.email && user.email.toLowerCase()===OWNER_EMAIL;
+  }
+  function showFor(user){
+    var uid=user ? user.id : null;
+    if(uid===state.uid) return;
+    state.uid=uid;
+    state.owner=false;
+    if(!user){ clearForm(); show('login'); return; }
+    if(!isOwner(user)){
+      $('denyEmail').textContent=user.email||'(no email)';
+      $('denyUid').textContent=user.id||'';
+      $('denySetup').classList.add('hidden');
+      show('deny'); return;
+    }
+    state.owner=true; $('whoEmail').textContent=user.email||''; show('admin'); clearForm(); loadList();
+  }
   function waitSb(cb,tries){ if(window.sb&&window.sbAuth&&window.sbProjects) cb();
     else if((tries||0)<30) setTimeout(function(){ waitSb(cb,(tries||0)+1); },150);
     else toast('Could not reach Supabase','bad'); }
-
-  /* ---- auth ---- */
   waitSb(function(){
-    window.sbAuth.getUser().then(showFor);
-    window.sbAuth.onAuthChange(showFor);
+    window.sbAuth.getUser().then(showFor, function(){ showFor(null); });
+    /* deferred: calling Supabase from inside its own auth callback can deadlock */
+    window.sbAuth.onAuthChange(function(u){ setTimeout(function(){ showFor(u); }, 0); });
   });
-  function showFor(user){
-    if(user){ loginView.classList.add('hidden'); adminView.classList.remove('hidden'); $('whoEmail').textContent=user.email; loadList(); }
-    else { adminView.classList.add('hidden'); loginView.classList.remove('hidden'); }
-  }
 
   $('loginForm').addEventListener('submit', function(e){
     e.preventDefault(); $('loginErr').textContent=''; var b=$('loginBtn'); b.disabled=true; b.textContent='Signing in…';
     window.sbAuth.signIn($('email').value.trim(), $('password').value).catch(function(err){
-      $('loginErr').textContent=err.message||'Sign in failed';
+      $('loginErr').textContent=(err && err.message)||'Sign in failed';
     }).finally(function(){ b.disabled=false; b.textContent='Sign in'; });
   });
-  $('signOutBtn').addEventListener('click', function(){ window.sbAuth.signOut(); });
+  function signOut(){ window.sbAuth.signOut(); }
+  $('signOutBtn').addEventListener('click', signOut);
+  $('denySignOut').addEventListener('click', signOut);
 
-  /* ---- list ---- */
-  function loadList(){
-    var box=$('plist'); box.innerHTML='<p class="empty">Loading…</p>';
-    window.sbProjects.list().then(function(list){
-      if(!list.length){ box.innerHTML='<p class="empty">No projects yet. Add your first one →</p>'; return; }
-      box.innerHTML='';
-      list.forEach(function(p){
-        var el=document.createElement('div'); el.className='pitem';
-        el.innerHTML='<img src="'+(p.image||'')+'" alt=""><div class="meta"><h3>'+esc(p.title)+'</h3>'
-          +'<div class="sub">'+(p.category||'other')+' · '+(p.year||'—')+' · '+((p.stack||[]).join(', ')||'no stack')+(p.featured?' · ★':'')+'</div></div>'
-          +'<div class="acts"><button class="btn ghost edit">Edit</button><button class="btn danger del">Delete</button></div>';
-        el.querySelector('.edit').addEventListener('click', function(){ fillForm(p); window.scrollTo({top:0,behavior:'smooth'}); });
-        el.querySelector('.del').addEventListener('click', function(){ doDelete(p); });
-        box.appendChild(el);
-      });
-    }).catch(function(){ box.innerHTML='<p class="empty">Could not load projects.</p>'; });
+  /* ---- list: built with textContent only, so nothing from the database is ever parsed as HTML ---- */
+  function el(tag, cls, text){ var n=document.createElement(tag); if(cls) n.className=cls; if(text!=null) n.textContent=text; return n; }
+  function renderList(list){
+    state.rows=list||[];
+    var box=$('plist'); box.textContent='';
+    if(!state.rows.length){ box.appendChild(el('p','empty','No projects yet. Add your first one →')); return; }
+    state.rows.forEach(function(p){
+      var item=el('div','pitem'+(state.editing && state.editing.id===p.id ? ' editing' : ''));
+      var th=el('div','pthumb'), glyph=function(){ th.textContent=initials(p.title); };
+      var img=el('img'); img.alt=''; img.width=64; img.height=44; img.decoding='async';
+      if(setImg(img, p.image, 160, glyph)) th.appendChild(img); else glyph();
+      var meta=el('div','meta');
+      meta.appendChild(el('h3',null,p.title||'Untitled'));
+      meta.appendChild(el('div','sub',[CAT[p.category]||p.category||'Other', p.year||'no year', (p.stack||[]).join(', ')||'no stack'].join(' · ')+(p.featured?' · ★':'')));
+      /* flags the rows whose text breaks the description rules, so they're easy to find */
+      var d=descInfo(p.desc), issues=[];
+      if(!d.n) issues.push('no text'); else if(d.short) issues.push('text too short'); else if(d.long) issues.push('text too long');
+      d.warns.forEach(function(w){ issues.push(/dash/.test(w) ? 'has a dash' : 'looks Dutch'); });
+      if(issues.length){ var chips=el('div','chips'); issues.forEach(function(t){ chips.appendChild(el('span','chip',t)); }); meta.appendChild(chips); }
+      var acts=el('div','acts'), eb=el('button','btn ghost edit','Edit'), db=el('button','btn danger del','Delete');
+      eb.type=db.type='button';
+      eb.setAttribute('aria-label','Edit '+(p.title||'project')); db.setAttribute('aria-label','Delete '+(p.title||'project'));
+      eb.addEventListener('click', function(){ fillForm(p); $('formPanel').scrollIntoView({behavior:'smooth', block:'start'}); });
+      db.addEventListener('click', function(){ doDelete(p); });
+      acts.appendChild(eb); acts.appendChild(db);
+      item.appendChild(th); item.appendChild(meta); item.appendChild(acts);
+      box.appendChild(item);
+    });
   }
-  function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+  function loadList(){
+    var box=$('plist'); box.textContent=''; box.appendChild(el('p','empty','Loading…'));
+    window.sbProjects.list().then(renderList).catch(function(){ box.textContent=''; box.appendChild(el('p','empty','Could not load projects.')); });
+  }
+  /* why an old image is still there: the missing storage policy, or something else (network) */
+  function leftover(r){ return r.reason==='not-allowed' ? "the storage delete policy doesn't allow removing it yet (README, Security)" : "it couldn't be removed ("+r.reason+")"; }
+  function usedElsewhere(url, id){ return state.rows.some(function(r){ return r.id!==id && r.image===url; }); }
 
   /* ---- form ---- */
-  function clearForm(){ $('projId').value=''; $('f_title').value=''; $('f_stack').value=''; $('f_desc').value='';
+  function setPending(p){
+    if(state.pending && state.pending.preview) URL.revokeObjectURL(state.pending.preview);
+    state.pending=p;
+  }
+  function showImage(){
+    var prev=$('f_imgprev'), info=$('imgInfo');
+    info.classList.remove('bad');
+    if(state.pending){
+      prev.onerror=null; prev.src=state.pending.preview;
+      var r=state.pending.r, kind=r.type==='image/webp'?'WebP':r.type==='image/jpeg'?'JPEG':r.type;
+      info.textContent=r.w+'×'+r.h+' '+kind+', '+kb(r.outBytes)+(r.outBytes<r.inBytes ? ' (was '+kb(r.inBytes)+')' : '')+'. Uploads when you save.';
+    } else if($('f_image').value){
+      setImg(prev, $('f_image').value, 200); info.textContent='';
+    } else { prev.onerror=null; prev.removeAttribute('src'); info.textContent=''; }
+    $('imgRemove').classList.toggle('hidden', !state.pending && !$('f_image').value);
+    $('pickBtn').firstChild.nodeValue=(state.pending||$('f_image').value) ? 'Replace image' : 'Choose image';
+  }
+  function markEditing(){ [].forEach.call(document.querySelectorAll('.pitem'), function(n,i){ n.classList.toggle('editing', !!(state.editing && state.rows[i] && state.rows[i].id===state.editing.id)); }); }
+  function clearForm(){
+    state.editing=null; setPending(null);
+    $('projId').value=''; $('f_title').value=''; $('f_stack').value=''; $('f_desc').value='';
     $('f_category').value='web'; $('f_year').value=new Date().getFullYear(); $('f_link').value=''; $('f_linkLabel').value='';
-    $('f_image').value=''; $('f_imgprev').removeAttribute('src'); $('f_featured').checked=false; $('formTitle').textContent='New project'; }
-  function fillForm(p){ $('projId').value=p.id; $('f_title').value=p.title||''; $('f_stack').value=(p.stack||[]).join(', ');
-    $('f_desc').value=p.desc||''; $('f_category').value=p.category||'web'; $('f_year').value=p.year||'';
-    $('f_link').value=p.link||''; $('f_linkLabel').value=p.linkLabel||''; $('f_image').value=p.image||'';
-    if(p.image) $('f_imgprev').src=p.image; else $('f_imgprev').removeAttribute('src');
-    $('f_featured').checked=!!p.featured; $('formTitle').textContent='Edit project'; }
-  $('newBtn').addEventListener('click', function(){ clearForm(); window.scrollTo({top:0,behavior:'smooth'}); });
+    $('f_image').value=''; $('f_imgfile').value=''; $('f_featured').checked=false;
+    $('formTitle').textContent='New project'; $('saveBtn').textContent='Save project';
+    updateDesc(); checkLink(); showImage(); markEditing();
+  }
+  function fillForm(p){
+    clearForm(); state.editing=p;
+    $('projId').value=p.id; $('f_title').value=p.title||''; $('f_stack').value=(p.stack||[]).join(', ');
+    $('f_desc').value=p.desc||''; $('f_category').value=p.category||'other'; $('f_year').value=p.year||'';
+    $('f_link').value=p.link||''; $('f_linkLabel').value=p.linkLabel||''; $('f_image').value=httpsUrl(p.image);
+    $('f_featured').checked=!!p.featured; $('formTitle').textContent='Edit project'; $('saveBtn').textContent='Save changes';
+    updateDesc(); checkLink(); showImage(); markEditing();
+  }
+  $('newBtn').addEventListener('click', function(){ clearForm(); $('formPanel').scrollIntoView({behavior:'smooth', block:'start'}); $('f_title').focus({preventScroll:true}); });
   $('cancelBtn').addEventListener('click', clearForm);
 
   $('f_imgfile').addEventListener('change', function(e){
-    var file=e.target.files[0]; if(!file) return; $('imgErr').textContent='Uploading…';
-    window.sbProjects.uploadImage(file).then(function(url){ $('f_image').value=url; $('f_imgprev').src=url; $('imgErr').textContent=''; })
-      .catch(function(err){ $('imgErr').textContent=err.message||'Upload failed'; });
+    var file=e.target.files[0]; if(!file) return;
+    var info=$('imgInfo'); info.classList.remove('bad'); info.textContent='Resizing…';
+    resizeImage(file).then(function(r){
+      setPending({ r:r, blob:r.blob, preview:URL.createObjectURL(r.blob) }); showImage();
+    }).catch(function(err){
+      info.textContent=(err && err.message)||"Couldn't use that image."; info.classList.add('bad');
+    }).finally(function(){ e.target.value=''; });
   });
+  $('imgRemove').addEventListener('click', function(){ setPending(null); $('f_image').value=''; showImage(); });
 
-  $('projForm').addEventListener('submit', function(e){
+  $('projForm').addEventListener('submit', async function(e){
     e.preventDefault();
+    if(!state.owner) return;
+    updateDesc(); checkLink();
+    if(!this.reportValidity()) return;
+    var id=$('projId').value, editing=state.editing, oldImage=editing ? httpsUrl(editing.image) : '';
     var payload={ title:$('f_title').value.trim(),
       stack:$('f_stack').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
       desc:$('f_desc').value.trim(), category:$('f_category').value, year:$('f_year').value.trim(),
-      link:$('f_link').value.trim()||null, linkLabel:$('f_linkLabel').value.trim()||null,
+      link:httpsUrl($('f_link').value)||null, linkLabel:$('f_linkLabel').value.trim()||null,
       image:$('f_image').value||null, featured:$('f_featured').checked };
-    var id=$('projId').value, b=$('saveBtn'); b.disabled=true; b.textContent='Saving…';
-    var op=id? window.sbProjects.update(id,payload) : window.sbProjects.create(payload);
-    op.then(function(){ toast(id?'Project updated':'Project added','ok'); clearForm(); loadList(); })
-      .catch(function(err){ toast(err.message||'Save failed','bad'); })
-      .finally(function(){ b.disabled=false; b.textContent='Save project'; });
+    var b=$('saveBtn'), label=b.textContent, uploaded='';
+    b.disabled=true;
+    try{
+      if(state.pending){ b.textContent='Uploading image…'; uploaded=await window.sbProjects.uploadImage(state.pending.blob); payload.image=uploaded; }
+      b.textContent='Saving…';
+      if(id) await window.sbProjects.update(id,payload); else await window.sbProjects.create(payload);
+    }catch(err){
+      /* the row didn't save: don't leave the new upload behind */
+      if(uploaded) window.sbProjects.removeImage(uploaded);
+      toast((err && err.message)||'Save failed','bad'); b.disabled=false; b.textContent=label; return;
+    }
+    var msg=id?'Project updated':'Project added', kind='ok';
+    if(oldImage && oldImage!==payload.image && !usedElsewhere(oldImage,id)){
+      var r=await window.sbProjects.removeImage(oldImage);
+      if(!r.removed && r.reason!=='not-ours'){ msg+=", but the old image is still in storage: "+leftover(r)+"."; kind='warn'; }
+    }
+    b.disabled=false; toast(msg,kind); clearForm(); loadList();
   });
 
-  function doDelete(p){
-    if(!confirm('Delete “'+p.title+'”? This cannot be undone.')) return;
-    window.sbProjects.remove(p.id).then(function(){ toast('Project deleted','ok'); loadList(); })
-      .catch(function(err){ toast(err.message||'Delete failed','bad'); });
+  async function doDelete(p){
+    if(!confirm('Delete "'+(p.title||'this project')+'"? This can\'t be undone.')) return;
+    try{ await window.sbProjects.remove(p.id); }
+    catch(err){ toast((err && err.message)||'Delete failed','bad'); return; }
+    var msg='Project deleted', kind='ok', img=httpsUrl(p.image);
+    if(img && !usedElsewhere(img,p.id)){
+      var r=await window.sbProjects.removeImage(img);
+      if(!r.removed && r.reason!=='not-ours'){ msg+=". Its image is still in storage: "+leftover(r)+"."; kind='warn'; }
+    }
+    if(state.editing && state.editing.id===p.id) clearForm();
+    toast(msg,kind); loadList();
   }
+
+  clearForm();
+  /* for local tests only (render fake rows, run the resize on a file); nothing here can write */
+  window.EDAdmin={ renderList:renderList, resizeImage:resizeImage, descInfo:descInfo, sized:sized, fillForm:fillForm, showView:show };
 })();
 </script>
 </body>
