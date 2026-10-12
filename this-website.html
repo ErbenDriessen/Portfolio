@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- "This website": the case study about the live portrait homepage. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,189 +8,257 @@
 <style>html{background:#0b0e1a}</style>
 <script>document.documentElement.classList.add('js')</script>
 <meta name="darkreader-lock">
-<title>This Website — Case study · Erben Driessen</title>
-<meta name="description" content="erben.dev — a portfolio that introduces me before I say a word. A live split-portrait banner that follows your gaze, and a signature that writes itself as you scroll.">
+<title>This website · Case study · Erben Driessen</title>
+<meta name="description" content="A portfolio that introduces me before I say a word. How the live portrait on my homepage is made: one photo, a depth map, my own eyes and a signature that writes itself.">
+<link rel="canonical" href="https://erbendriessen.nl/this-website.html">
+<meta name="theme-color" content="#0b0e1a">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://erbendriessen.nl/this-website.html">
+<meta property="og:title" content="This website · Case study · Erben Driessen">
+<meta property="og:description" content="How the live portrait on my homepage is made: one photo, a depth map, my own eyes and a signature that writes itself.">
+<meta property="og:image" content="https://erbendriessen.nl/media/tw2-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="This website, a case study: my portrait split down the middle, its depth map on the left and the photo on the right">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://erbendriessen.nl/media/tw2-og.jpg">
+<meta name="twitter:image:alt" content="This website, a case study: my portrait split down the middle, its depth map on the left and the photo on the right">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/case-study.css">
-<link rel="stylesheet" href="css/this-website.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
+<link rel="stylesheet" href="css/this-website-v2.css?v=20261013-b">
 </head>
-<body>
+<body class="tw2">
+<a class="tw-skip" href="#main">Skip to content</a>
 
 <!-- ============================ NAV ============================ -->
-<nav class="pp-nav" id="ppnav">
-  <a class="pp-back" href="index.html#work"><span class="ar">←</span> Erben&nbsp;Driessen</a>
+<!-- the v2 brand as the way back (./#work: the root, never v2/), the sections, one pill -->
+<nav class="pp-nav" id="ppnav" aria-label="Case study">
+  <a class="pp-back tw-brand" href="./#work" data-back aria-label="erben.dev, back to all work"><span class="ar" aria-hidden="true">←</span><span class="dot" aria-hidden="true"></span>erben.dev</a>
   <div class="pp-nav-right">
-    <a href="#signature">the&nbsp;signature</a>
-    <a href="#features">features</a>
-    <a href="index.html" target="_blank" rel="noopener">Open&nbsp;live ↗</a>
-    <a class="gh" href="https://github.com/ErbenDriessen/Portfolio" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="#how">how&nbsp;it&rsquo;s&nbsp;made</a>
+    <a href="#sides">light</a>
+    <a href="#signature">signature</a>
+    <a class="gh" href="#contact">Get&nbsp;in&nbsp;touch</a>
   </div>
 </nav>
 
-<!-- ============================ HERO ============================ -->
-<header class="pp-hero">
+<main id="main">
+<!-- ============================ 0 · HERO ============================ -->
+<header class="pp-hero tw-hero">
   <div class="pp-hero-glow" aria-hidden="true"></div>
   <div class="pp-hero-copy rev-in">
     <p class="pp-eyebrow">Case study · Web</p>
     <h1 class="pp-title">This <span class="t">website</span></h1>
-    <p class="pp-sub">A portfolio that introduces me before I say a word.</p>
-    <p class="pp-lead">The site you're on right now. One face, split down the middle (frontend on the left, backend on the right), with a slider that follows your cursor. Built by hand, no page-builder, no template.</p>
+    <p class="pp-sub">One photo of me, turned into a face that looks back.</p>
+    <p class="pp-lead">The portrait on my homepage is live. It&rsquo;s built from one studio photo. It turns toward your cursor, blinks, and smiles a little when it looks over at frontend or backend.</p>
     <div class="pp-meta">
       <span class="pp-chip on">2026</span>
-      <span class="pp-chip">Web</span>
-      <span class="pp-chip">Solo build</span>
-      <span class="pp-chip">Live</span>
+      <span class="pp-chip">Solo</span>
+      <span class="pp-chip">WebGL</span>
+      <span class="pp-chip">No framework</span>
     </div>
     <div class="pp-cta">
-      <a class="pp-btn primary" href="index.html">Open the live site</a>
-      <a class="pp-btn ghost" href="#signature">The signature ↓</a>
+      <a class="pp-btn primary" href="./">Open the homepage</a>
+      <a class="pp-btn ghost" href="#how">How it&rsquo;s made <span aria-hidden="true">↓</span></a>
     </div>
   </div>
-
   <div class="pp-hero-stage rev-in">
-    <!-- LIVE laptop: real banner in an iframe, gaze auto-sweeps (no recording) -->
-    <div class="lapimg">
-      <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
-      <div class="lapimg-screen">
-        <iframe data-live="gaze" src="banner.html#gaze" title="Live preview of the erben.dev banner" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
-        <div class="lapimg-glare"></div>
-      </div>
-    </div>
-    <span class="live-cap"><span class="dot"></span>live preview · the eyes follow the split</span>
+    <!-- the same image as the "This website" card on the homepage, so the click feels continuous -->
+    <figure class="tw-split">
+      <img src="media/site-depth-split-1280.webp" srcset="media/site-depth-split-720.webp 720w, media/site-depth-split-1280.webp 1280w" sizes="(max-width:760px) 92vw, 600px" width="1280" height="800" fetchpriority="high" decoding="async" alt="My portrait split down the middle: on the left its depth map in shades of grey, on the right the photo">
+      <span class="tw-tag l" aria-hidden="true">depth map</span><span class="tw-tag r" aria-hidden="true">photo</span>
+    </figure>
   </div>
 </header>
 
-<!-- ============================ OVERVIEW ============================ -->
-<section class="pp-section">
-  <div class="pp-sec-head rev-in">
-    <p class="pp-eyebrow">Overview</p>
-    <h2 class="pp-h2">A homepage that <span class="g">is</span> the introduction.</h2>
-  </div>
-  <div class="rev-in" style="max-width:62ch; margin-bottom:48px;">
-    <p class="pp-p">Most developer portfolios open with a wall of text. I wanted mine to <span class="hl">show</span> the frontend/backend split instead of explaining it. So the hero is a single portrait of me, cut down the middle: a bright, creative frontend on one side and a dark, technical backend on the other, and because each half looks the other way, my eyes follow your cursor across the seam.</p>
-  </div>
-  <div class="pp-concepts">
-    <div class="pp-concept rev-in"><div class="ic">🪞</div><h3>Dual identity</h3><p>One face, two sides: the whole frontend ↔ backend idea in a single image.</p></div>
-    <div class="pp-concept rev-in"><div class="ic">🎯</div><h3>Motion with intent</h3><p>Every animation earns its place: the gaze, the zoom-out, the signature.</p></div>
-    <div class="pp-concept rev-in"><div class="ic">📐</div><h3>Built to last</h3><p>Hand-written HTML/CSS/JS: fast, responsive, accessible, and easy to extend.</p></div>
-  </div>
+<!-- at a glance: measured on the v2 build (12 Oct 2026) -->
+<section class="tw-glance-wrap" aria-label="At a glance">
+  <dl class="tw-glance rev-in">
+    <div><dt>1&nbsp;photo</dt><dd>no 3D scan, no video</dd></div>
+    <div><dt>3&nbsp;photo edits</dt><dd>back plate, blink, smile</dd></div>
+    <div><dt>~430&nbsp;KB</dt><dd>every image the face loads on a phone</dd></div>
+    <div><dt>0&nbsp;frameworks</dt><dd>plain JS and WebGL</dd></div>
+  </dl>
 </section>
 
-<!-- ============================ SIGNATURE (signature feature) ============================ -->
-<section class="pp-spot" id="signature">
-  <div class="pp-spot-inner">
-    <div class="pp-spot-copy rev-in">
-      <p class="pp-kicker">Signature feature</p>
-      <h2 class="pp-h2">It signs itself.</h2>
-      <p class="pp-p" style="margin-top:18px;">Scroll past the hero and the banner pins, zooms back like a card being placed on a desk, and my signature <span class="hl">ED</span> gets drawn on top, stroke by stroke, in the exact order I write it by hand. It's an SVG mask wiping along the pen path, tied to scroll progress.</p>
-      <div class="pp-meta" style="margin-top:24px;">
-        <span class="pp-chip">Pinned scroll</span>
-        <span class="pp-chip">SVG mask write-on</span>
-        <span class="pp-chip">GSAP + Lenis</span>
-      </div>
+<!-- ============================ 1 · HOW IT'S MADE ============================ -->
+<!-- five plates: a strip that snaps card by card (swipe on phones, arrows or shift+wheel on desktop) -->
+<section class="tw-how" id="how" aria-labelledby="howTitle">
+  <div class="pp-section tw-how-head">
+    <div class="pp-sec-head rev-in">
+      <p class="pp-eyebrow">How it&rsquo;s made</p>
+      <h2 class="pp-h2" id="howTitle">Five steps from one photo.</h2>
     </div>
-    <div class="pp-spot-stage rev-in">
-      <!-- LIVE laptop: v2 banner, auto-loops the zoom-out + signature write -->
-      <div class="lapimg">
-        <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
-        <div class="lapimg-screen">
-          <iframe data-live="signature" src="index.html#zoforce" title="Live preview of the signature write-on" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
-          <div class="lapimg-glare"></div>
+    <div class="tw-strip-nav rev-in">
+      <button class="tw-arrow" type="button" data-strip="-1" aria-controls="howStrip" aria-label="Previous step" disabled><span aria-hidden="true">←</span></button>
+      <button class="tw-arrow" type="button" data-strip="1" aria-controls="howStrip" aria-label="Next step"><span aria-hidden="true">→</span></button>
+    </div>
+  </div>
+<div class="tw-strip-wrap">
+  <ol class="tw-strip" id="howStrip" tabindex="0" aria-label="How it's made, five steps">
+    <li class="tw-plate rev-in">
+      <figure>
+        <div class="tw-plate-img">
+          <img src="media/tw2-photo2-1280.webp" srcset="media/tw2-photo2-720.webp 720w, media/tw2-photo2-1280.webp 1280w" sizes="(max-width:600px) 84vw, 480px" width="1280" height="800" loading="lazy" decoding="async" alt="My studio portrait, cut out from the background">
         </div>
-      </div>
-      <div style="text-align:center;"><span class="live-cap"><span class="dot"></span>live preview · writes on loop</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ FEATURES ============================ -->
-<section class="pp-section" id="features">
-  <div class="pp-sec-head rev-in">
-    <p class="pp-eyebrow">Details</p>
-    <h2 class="pp-h2">The small stuff that makes it feel alive.</h2>
-  </div>
-
-  <!-- Three portraits / gaze -->
-  <div class="pp-feat">
-    <div class="copy rev-in">
-      <p class="pp-kicker">The gaze</p>
-      <h3>Three of me, one look</h3>
-      <p>The banner blends three photos shot in the same spot: looking left, straight at you, and right. At rest you get eye-contact; the moment the split moves, the matching gaze fades in. No cross-eyed glitch, just a face that follows you.</p>
-      <div class="tags"><span>3 aligned photos</span><span>clip-path seam</span><span>opacity blend</span></div>
-    </div>
-    <div class="stage rev-in">
-      <div class="device tilt-r" style="--screen-ar:1632/600; width:clamp(300px,42vw,460px); border-radius:18px;">
-        <div class="screen" style="border-radius:12px;"><img src="media/site-gaze.jpg" alt="Three aligned portraits: looking left, at camera, and right" style="object-position:center;"><span class="glare"></span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Responsive (live phone) -->
-  <div class="pp-feat rev">
-    <div class="copy rev-in">
-      <p class="pp-kicker">Responsive</p>
-      <h3>Reads on any screen</h3>
-      <p>A recruiter might open this on a train, on their phone. So on small screens the split collapses into a clean, centered <span class="hl">frontend / backend</span> lockup over the portrait, fully legible, no overlap, no horizontal scroll. Same idea, sized for a thumb.</p>
-      <div class="tags"><span>Mobile-first fallback</span><span>No layout shift</span><span>prefers-reduced-motion</span></div>
-    </div>
-    <div class="stage rev-in">
-      <div class="device live tilt-l">
-        <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
-        <div class="screen">
-          <iframe data-live="phone" src="banner.html" title="Live mobile preview" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
-          <span class="glare"></span>
+        <figcaption><span class="tw-n">01</span><h3>Photo</h3><p>One studio shot, cut out from the background.</p></figcaption>
+      </figure>
+    </li>
+    <li class="tw-plate rev-in">
+      <figure>
+        <div class="tw-plate-img">
+          <img src="media/tw2-depth-1280.webp" srcset="media/tw2-depth-720.webp 720w, media/tw2-depth-1280.webp 1280w" sizes="(max-width:600px) 84vw, 480px" width="1280" height="800" loading="lazy" decoding="async" alt="The depth map of my portrait: a grey head and shoulders, lighter where it's closer to the camera">
+          <span class="tw-tag l" aria-hidden="true">near is light</span>
         </div>
+        <figcaption><span class="tw-n">02</span><h3>Depth</h3><p>Depth Anything V2 guesses how far every pixel is from the camera. I ran it on my own GPU and mirrored the face&rsquo;s depth so both cheeks turn the same way.</p></figcaption>
+      </figure>
+    </li>
+    <li class="tw-plate rev-in">
+      <figure>
+        <div class="tw-plate-img">
+          <img src="media/tw2-layers-1280.webp" srcset="media/tw2-layers-720.webp 720w, media/tw2-layers-1280.webp 1280w" sizes="(max-width:600px) 84vw, 480px" width="1280" height="800" loading="lazy" decoding="async" alt="Two layers side by side: an edited photo of me with my side hair tucked away, and the loose side hair on its own">
+          <span class="tw-tag l" aria-hidden="true">back plate</span><span class="tw-tag r" aria-hidden="true">loose hair</span>
+        </div>
+        <figcaption><span class="tw-n">03</span><h3>Layers</h3><p>My loose hair is its own layer, so it slides over my neck when I turn instead of smearing. Under it sits an edited photo of me with the hair tucked away.</p></figcaption>
+      </figure>
+    </li>
+    <li class="tw-plate rev-in">
+      <figure>
+        <div class="tw-plate-img">
+          <img src="media/tw2-eyes-1280.webp" srcset="media/tw2-eyes-720.webp 720w, media/tw2-eyes-1280.webp 1280w" sizes="(max-width:600px) 84vw, 480px" width="1280" height="800" loading="lazy" decoding="async" alt="My eyes in three bands: the eye openings cut out and filled grey, my two irises on their own, and the finished eyes">
+          <span class="tw-tag l top" aria-hidden="true">cut out</span><span class="tw-tag l" aria-hidden="true">rebuilt</span>
+        </div>
+        <figcaption><span class="tw-n">04</span><h3>Eyes</h3><p>The eyes are cut out and rebuilt from my own iris, so they can actually follow you.</p></figcaption>
+      </figure>
+    </li>
+    <li class="tw-plate rev-in">
+      <figure>
+        <div class="tw-plate-img">
+          <img src="media/tw2-faces-1280.webp" srcset="media/tw2-faces-720.webp 720w, media/tw2-faces-1280.webp 1280w" sizes="(max-width:600px) 84vw, 480px" width="1280" height="800" loading="lazy" decoding="async" alt="Three close-ups of my face from the live portrait: neutral, a small smile, and eyes closed mid-blink">
+        </div>
+        <figcaption><span class="tw-n">05</span><h3>Blink and smile</h3><p>Two more edits of the same photo. My eyelids and the corners of my mouth move along a flow field, so nothing just fades in.</p></figcaption>
+      </figure>
+    </li>
+  </ol>
+</div>
+</section>
+
+<!-- ============================ 2 · TWO SIDES, ONE LIGHT ============================ -->
+<!-- a before/after slider from stills of the live page (no WebGL here). Drag, or tab to it and use the arrow keys -->
+<section class="pp-section tw-sides" id="sides" aria-labelledby="sidesTitle">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">Two sides, one light</p>
+    <h2 class="pp-h2" id="sidesTitle">Each side lights me.</h2>
+  </div>
+  <div class="tw-duo tw-solo">
+    <figure class="tw-cmp rev-in" data-cmp data-start="70" data-hint="32" data-names="light off|light on">
+      <div class="tw-cmp-frame" style="--pos:70%">
+        <img class="tw-cmp-a" src="media/tw2-light-off-1280.webp" srcset="media/tw2-light-off-720.webp 720w, media/tw2-light-off-1280.webp 1280w" sizes="(max-width:860px) 92vw, 560px" width="1280" height="800" loading="lazy" decoding="async" alt="Light off: my face in the photo's own light only">
+        <img class="tw-cmp-b" src="media/tw2-rest-1280.webp" srcset="media/tw2-rest-720.webp 720w, media/tw2-rest-1280.webp 1280w" sizes="(max-width:860px) 92vw, 560px" width="1280" height="800" loading="lazy" decoding="async" alt="Light on: a soft lavender on the frontend side of my face and green on the backend side">
+        <span class="tw-cmp-line" aria-hidden="true"><span class="tw-knob"></span></span>
+        <span class="tw-tag l top" aria-hidden="true">light off</span><span class="tw-tag r top" aria-hidden="true">light on</span>
+        <input class="tw-cmp-range" type="range" min="0" max="100" step="1" value="70" aria-label="Light comparison: drag left to see the light on, right to see it off">
       </div>
-    </div>
+      <figcaption>Each side lights me in its own colour: a soft lavender from the frontend, green from the backend, on the side of my face that&rsquo;s turned to it.</figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- ============================ UNDER THE HOOD ============================ -->
-<section class="pp-section">
-  <div class="pp-stack">
+<!-- ============================ 3 · IT SIGNS ITSELF ============================ -->
+<section class="pp-section tw-signsec" id="signature" aria-labelledby="signTitle">
+  <div class="tw-sign-grid">
     <div class="rev-in">
-      <p class="pp-eyebrow">Under the hood</p>
-      <h2 class="pp-h2" style="margin-bottom:18px;">Hand-coded, every line.</h2>
-      <p class="pp-p" style="margin-bottom:24px;">No framework for the structure: just clean, semantic HTML and CSS so it stays fast and easy to edit. The scroll choreography runs on <span class="hl">GSAP + ScrollTrigger</span> with <span class="hl">Lenis</span> smooth scroll, and the signature is a hand-traced SVG path revealed through a mask.</p>
-      <div class="pp-stack-list">
-        <span>HTML</span><span>CSS</span><span>JavaScript</span><span>GSAP</span><span>ScrollTrigger</span><span>Lenis</span><span>SVG</span>
-      </div>
+      <p class="pp-eyebrow">The signature</p>
+      <h2 class="pp-h2" id="signTitle">It signs itself.</h2>
+      <p class="pp-p tw-intro">Scroll down on the homepage and the banner steps back like a card on a desk. Then my ED gets written with a pen, stroke by stroke. E first, then the D in one long sweep. The pen follows the centerline of my signature.</p>
     </div>
-    <div class="rev-in">
-      <div class="pp-facts">
-        <div class="pp-fact"><span class="k">type</span><span class="v">Portfolio site</span></div>
-        <div class="pp-fact"><span class="k">year</span><span class="v">2026</span></div>
-        <div class="pp-fact"><span class="k">build</span><span class="v">Solo</span></div>
-        <div class="pp-fact"><span class="k">my&nbsp;role</span><span class="v">Design + development</span></div>
-        <div class="pp-fact"><span class="k">status</span><span class="v">You're on it</span></div>
+    <!-- the stroke-order plate is the poster (and, without JS, the whole story). Once it gets close,
+         the real signature from the homepage (media/tw2-signature.svg) goes in over it and the same
+         pen writes it: js/this-website-v2.js. The numbers: where the pen lands, in html so they
+         stay readable on a phone (positions = the plate's, in % of the 16:10 frame) -->
+    <figure class="tw-card tw-live rev-in" data-sign>
+      <div class="tw-live-stage" role="img" aria-label="My ED signature with a numbered dot where the pen lands for each stroke: 1 the E, 2 the D, 3 the zigzag tail, 4 the dot">
+        <img class="tw-poster" src="media/tw2-strokes-1280.webp" srcset="media/tw2-strokes-720.webp 720w, media/tw2-strokes-1280.webp 1280w" sizes="(max-width:860px) 92vw, 640px" width="1280" height="800" loading="lazy" decoding="async" alt="">
+        <ol class="tw-lands" aria-hidden="true">
+          <li><span class="d" style="left:33.84%;top:35.15%"></span><span class="n" style="left:31.5%;top:31.4%">1</span></li>
+          <li><span class="d" style="left:17.19%;top:41.86%"></span><span class="n" style="left:15.02%;top:43.29%">2</span></li>
+          <li><span class="d" style="left:58.21%;top:50.75%"></span><span class="n" style="left:56.7%;top:53.63%">3</span></li>
+          <li><span class="d" style="left:89.87%;top:35.13%"></span><span class="n" style="left:88.85%;top:38.5%">4</span></li>
+        </ol>
       </div>
-    </div>
+      <div class="tw-live-ctrl">
+        <button class="tw-replay" type="button" disabled><span class="ic" aria-hidden="true">↻</span>Replay</button>
+        <input class="tw-scrub" type="range" min="0" max="1000" step="1" value="0" disabled aria-label="Write the signature: drag to move the pen" aria-valuetext="0% written">
+      </div>
+      <figcaption>The numbers are where the pen lands. Replay it, or drag to write it yourself.</figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- ============================ CLOSE ============================ -->
-<section class="pp-section pp-close">
+<!-- ============================ 4 · LIGHT ON A PHONE ============================ -->
+<section class="pp-section tw-phone" id="phone" aria-labelledby="phoneTitle">
+  <div class="tw-phone-grid">
+    <div class="rev-in">
+      <p class="pp-eyebrow">Light on a phone</p>
+      <h2 class="pp-h2" id="phoneTitle">Cheap enough for a train.</h2>
+      <p class="pp-p tw-intro">A live face is easy on a desktop. On a phone it has to be cheap. A recruiter might open this on a train, on their phone.</p>
+      <!-- measured on the v2 build: TEX_SETS in depth-banner.js, image bytes with an iPhone 13 profile vs 1440 desktop -->
+      <dl class="pp-facts tw-facts">
+        <div class="pp-fact"><dt class="k">textures</dt><dd class="v">~23 MB of GPU memory, not 62</dd></div>
+        <div class="pp-fact"><dt class="k">download</dt><dd class="v">~430 KB of images, not 730</dd></div>
+        <div class="pp-fact"><dt class="k">drawing</dt><dd class="v">only when something moves</dd></div>
+        <div class="pp-fact"><dt class="k">scrolled past</dt><dd class="v">it stops</dd></div>
+      </dl>
+      <p class="tw-note">Windows display scaling (125% and 150%) needed its own fix to keep the face sharp.</p>
+    </div>
+    <figure class="tw-shot rev-in">
+      <img src="media/tw2-phone-780.webp" srcset="media/tw2-phone-390.webp 390w, media/tw2-phone-780.webp 780w" sizes="(max-width:560px) 72vw, 300px" width="780" height="1688" loading="lazy" decoding="async" alt="Screenshot of the homepage on a 390 pixel wide phone: the live portrait, with frontend and backend written underneath">
+      <figcaption>The homepage at 390px wide.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ STACK ============================ -->
+<section class="pp-section tw-stack" aria-label="Stack and tools">
+  <div class="tw-stack-rows rev-in">
+    <div class="tw-stack-row"><p class="tw-stack-k">Built with</p>
+      <ul class="pp-stack-list"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>WebGL (GLSL)</li><li>GSAP</li><li>Lenis</li><li>SVG</li><li>Supabase</li></ul></div>
+    <div class="tw-stack-row"><p class="tw-stack-k">Tools</p>
+      <ul class="pp-stack-list"><li>Depth Anything V2</li><li>Gemini image edits</li></ul></div>
+  </div>
+</section>
+
+<!-- ============================ 5 · CLOSE ============================ -->
+<section class="pp-section pp-close tw-close" id="contact" aria-labelledby="closeTitle">
   <div class="rev-in">
-    <h2 class="pp-h2">You're looking at it.</h2>
+    <p class="pp-eyebrow tw-center">What I learned</p>
+    <p class="pp-p tw-learned">The AI tools gave me raw material, a depth map and three edited photos. Most of the work came after that. Lining the edits up with the original, making the eyes behave and keeping it smooth on a phone.</p>
+    <h2 class="pp-h2 tw-big" id="closeTitle">Go move your cursor.</h2>
     <div class="pp-close-row">
-      <a class="pp-btn primary" href="https://github.com/ErbenDriessen/Portfolio" target="_blank" rel="noopener">View on GitHub</a>
-      <a class="pp-btn ghost" href="index.html#work">← All work</a>
+      <a class="pp-btn primary" href="./">Open the homepage</a>
+      <span class="tw-mail">
+        <a class="pp-btn ghost" href="mailto:erben.l.driessen@gmail.com">Email me</a>
+        <button class="pp-btn ghost tw-copy" type="button" data-copy="erben.l.driessen@gmail.com" aria-label="Copy email address"><span class="c-idle">copy</span><span class="c-done" aria-hidden="true">copied ✓</span></button>
+      </span>
+      <a class="pp-btn ghost" href="https://github.com/ErbenDriessen/Portfolio" target="_blank" rel="noopener">Code on GitHub</a>
     </div>
+    <p class="tw-allwork"><a href="./#work" data-back><span aria-hidden="true">←</span> All work</a></p>
+    <p class="tw-sr" id="copyStatus" role="status" aria-live="polite"></p>
   </div>
 </section>
+</main>
 
-<footer class="pp-footer">
-  <span>© <span id="ppyear"></span> Erben Driessen — This site, about itself</span>
-  <div style="display:flex; gap:18px;">
-    <a href="index.html">Portfolio</a>
-    <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
-    <a href="mailto:erben.l.driessen@gmail.com">Email</a>
-  </div>
+<!-- v2's sign-off: the ED mark, the year, back to top -->
+<footer class="tw-footer">
+  <img class="tw-edmark" src="img/ed-mark.svg" width="100" height="34" alt="" loading="lazy" decoding="async">
+  <span class="tw-foot-line"><span>© <span id="ppyear">2026</span> Erben Driessen</span><span class="sep" aria-hidden="true">·</span><a href="#main">back to top <span aria-hidden="true">↑</span></a></span>
 </footer>
 
 <script src="js/case-study.js"></script>
-<script src="js/this-website.js"></script>
+<script src="js/this-website-v2.js?v=20261012-2"></script>
 </body>
 </html>

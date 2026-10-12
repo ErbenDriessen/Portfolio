@@ -1,0 +1,258 @@
+/* =================================================================
+   this-website-v2.css: the "This website" case study about the v2
+   homepage (this-website-v2.html, staged: it becomes this-website.html
+   on launch day). Loaded after case-study.css: the pp-* shell stays,
+   re-skinned azure / violet like v1's page, plus this page's blocks:
+   the at-a-glance strip, the plate strip, the before/after sliders,
+   the live signature and the phone shot.
+   ================================================================= */
+
+/* ---------- theme: azure -> violet (the frontend / backend identity) ---------- */
+:root{
+  --pp-bg:#0b0e1a;
+  --pp-bg2:#0f1426;
+  --pp-forest:#161d33;
+  --pp-card:#141a2b;
+  --pp-line:rgba(255,255,255,.09);
+  --pp-line-strong:rgba(255,255,255,.16);
+  --pp-lime:#5B9DFF;          /* primary accent */
+  --pp-lime-bright:#86B8FF;
+  --pp-sun:#9B7CFF;           /* gradient end */
+  --pp-cream:#EAEFFA;
+  --pp-dim:#9AA6C0;
+  --pp-faint:#5b6480;
+  --pp-grad:linear-gradient(120deg,#5B9DFF,#7C8CFF 50%,#9B7CFF);
+  --tw-green:#00FF9C;         /* v2's brand dot + the signature */
+  --tw-gut:clamp(18px,4vw,40px);
+  --tw-radius:16px;
+}
+body.tw2{
+  background:
+    radial-gradient(120% 70% at 80% -5%, rgba(155,124,255,.13), transparent 55%),
+    radial-gradient(100% 60% at 0% 0%, rgba(91,157,255,.12), transparent 50%),
+    var(--pp-bg);
+}
+.tw2 .pp-hero-glow{ background:radial-gradient(circle, rgba(91,157,255,.22), rgba(155,124,255,.10) 45%, transparent 68%); }
+.tw2 .pp-close{ background:radial-gradient(80% 120% at 50% 0%, rgba(91,157,255,.11), transparent 60%); }
+.tw2 :focus-visible{ outline:2px solid var(--pp-lime-bright); outline-offset:3px; }
+
+.tw-skip{ position:absolute; left:12px; top:-60px; z-index:60; padding:10px 14px; border-radius:10px;
+  background:var(--pp-card); color:var(--pp-cream); font:500 13px "JetBrains Mono",monospace; }
+.tw-skip:focus{ top:12px; }
+.tw-sr{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+/* ---------- nav: v2's brand as the way back, one pill in this page's accent ---------- */
+.tw2 .pp-nav{ background:linear-gradient(180deg, rgba(11,14,26,.78), rgba(11,14,26,0)); }
+.tw2 .pp-nav.scrolled{ background:rgba(9,12,22,.9); -webkit-backdrop-filter:blur(14px) saturate(1.2); backdrop-filter:blur(14px) saturate(1.2); }
+.tw-brand{ gap:9px; font-weight:800; font-size:15px; letter-spacing:-.01em; }
+.tw-brand .ar{ color:var(--pp-dim); font-weight:500; }
+.tw-brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--tw-green); box-shadow:0 0 12px var(--tw-green); }
+.tw2 .pp-nav-right .gh{ color:#07101f; background:var(--pp-lime); }
+.tw2 .pp-nav-right .gh:hover{ box-shadow:0 8px 22px -8px rgba(91,157,255,.75); }
+
+/* ---------- 0 · hero ---------- */
+@media (min-width:761px){ .tw-hero{ grid-template-columns:.92fr 1.08fr; } }
+.tw-hero .pp-sub{ text-wrap:balance; }
+.tw2 .pp-btn.primary{ color:#07101f; }
+.tw2 .pp-btn.primary:hover{ box-shadow:0 12px 28px -10px rgba(91,157,255,.75); }
+.tw-split{ position:relative; margin:0; width:100%; max-width:640px; aspect-ratio:16/10; border-radius:18px; overflow:hidden;
+  border:1px solid var(--pp-line); background:#0b0e1a; box-shadow:0 40px 80px -40px rgba(0,0,0,.9); }
+.tw-split img{ display:block; width:100%; height:100%; object-fit:cover; }
+/* the seam, as on the homepage card */
+.tw-split::after{ content:""; position:absolute; top:0; bottom:0; left:50%; width:2px; translate:-50% 0; pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.7) 32%,rgba(134,184,255,.75) 72%,rgba(255,255,255,0));
+  box-shadow:0 0 12px 1px rgba(91,157,255,.3); }
+
+/* labels on a plate or a still (html, so they stay 12px crisp at any size) */
+.tw-tag{ position:absolute; z-index:2; bottom:12px; font:500 11.5px/1 "JetBrains Mono",monospace; letter-spacing:.04em;
+  padding:6px 8px; border-radius:6px; background:rgba(11,14,26,.74); color:var(--pp-dim); pointer-events:none; white-space:nowrap; }
+.tw-tag.l{ left:12px; } .tw-tag.r{ right:12px; color:var(--pp-lime-bright); }
+.tw-tag.top{ top:12px; bottom:auto; }
+
+/* ---------- at a glance ---------- */
+.tw-glance-wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--tw-gut); }
+.tw-glance{ display:grid; grid-template-columns:repeat(4,1fr); margin:0; border-top:1px solid var(--pp-line); border-bottom:1px solid var(--pp-line); }
+.tw-glance > div{ padding:22px 22px 22px 0; }
+.tw-glance > div + div{ padding-left:22px; border-left:1px solid var(--pp-line); }
+.tw-glance dt{ font-weight:800; font-size:clamp(21px,2.3vw,28px); letter-spacing:-.02em; line-height:1.1; color:var(--pp-cream); }
+.tw-glance dd{ margin:7px 0 0; font:400 12.5px/1.45 "JetBrains Mono",monospace; color:var(--pp-dim); }
+@media (max-width:760px){
+  .tw-glance{ grid-template-columns:1fr 1fr; }
+  .tw-glance > div, .tw-glance > div + div{ padding:18px 14px 18px 0; border-left:0; }
+  .tw-glance > div:nth-child(even){ padding-left:16px; border-left:1px solid var(--pp-line); }
+  .tw-glance > div:nth-child(n+3){ border-top:1px solid var(--pp-line); }
+  .tw-glance dt{ font-size:clamp(17px,5.2vw,21px); }
+}
+
+/* section eyebrows sit left on phones (the shared 760px rule centres every eyebrow) */
+@media (max-width:760px){
+  .tw2 .pp-section .pp-eyebrow{ justify-content:flex-start; }
+  .tw2 .pp-section .tw-center{ justify-content:center; }
+.tw2 .pp-sec-head{ max-width:none; }
+.tw2 .pp-sec-head .pp-h2, .tw-sign-grid .pp-h2, .tw-phone-grid .pp-h2{ max-width:24ch; }
+}
+.tw-center{ justify-content:center; }
+.tw2 .pp-sec-head{ max-width:none; }
+.tw2 .pp-sec-head .pp-h2, .tw-sign-grid .pp-h2, .tw-phone-grid .pp-h2{ max-width:24ch; }
+.tw-intro{ margin:18px 0 0; max-width:60ch; }
+
+/* ---------- 1 · how it's made: the plate strip ---------- */
+.tw-how-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; padding-bottom:30px; }
+.tw-how-head .pp-sec-head{ margin-bottom:0; }
+.tw-strip-nav{ display:flex; gap:10px; flex:none; }
+.tw-arrow{ width:46px; height:46px; border-radius:50%; border:1px solid var(--pp-line-strong); background:transparent; color:var(--pp-cream);
+  font:500 17px/1 "JetBrains Mono",monospace; cursor:pointer; transition:border-color .2s, color .2s, opacity .2s, background .2s; }
+.tw-arrow:hover:not(:disabled){ border-color:var(--pp-lime); color:var(--pp-lime-bright); background:rgba(91,157,255,.06); }
+.tw-arrow:disabled{ opacity:.3; cursor:default; }
+/* the strip starts at the content column and runs out to the window's right edge */
+.tw-strip-wrap{ --tw-lead:max(var(--tw-gut), calc((100vw - var(--maxw)) / 2 + var(--tw-gut))); }
+.tw-strip{ list-style:none; margin:0; display:flex; gap:18px; overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory; scroll-padding-inline:var(--tw-lead); scroll-behavior:smooth;
+  padding:6px var(--tw-lead) 26px; scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.14) transparent; }
+.tw-strip::-webkit-scrollbar{ height:6px; }
+.tw-strip::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.14); border-radius:6px; }
+.tw-strip:focus-visible{ outline-offset:-2px; }
+.tw-plate{ flex:0 0 clamp(272px, 34vw, 480px); scroll-snap-align:start; }
+.tw-plate figure, .tw-card, .tw-cmp, .tw-shot{ margin:0; }
+.tw-plate-img{ position:relative; aspect-ratio:16/10; border-radius:var(--tw-radius); overflow:hidden; background:#0b0e1a;
+  border:1px solid var(--pp-line); }
+.tw-plate-img img{ display:block; width:100%; height:100%; object-fit:cover; }
+.tw-plate figcaption{ padding:18px 2px 0; }
+.tw-n{ font:500 12px "JetBrains Mono",monospace; color:var(--pp-lime); letter-spacing:.08em; }
+.tw-plate h3{ font-size:19px; font-weight:700; letter-spacing:-.01em; margin:6px 0 8px; }
+.tw-plate p{ margin:0; font-size:15px; line-height:1.6; color:var(--pp-dim); max-width:44ch; }
+@media (max-width:600px){
+  .tw-strip-nav{ display:none; }
+  .tw-plate{ flex-basis:84vw; }
+  .tw-strip{ gap:14px; }
+}
+
+/* ---------- 2 + 3: two cards side by side ---------- */
+.tw-duo{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,3vw,32px); align-items:start; }
+@media (max-width:860px){ .tw-duo{ grid-template-columns:1fr; gap:44px; } }
+.tw-duo.tw-solo{ grid-template-columns:minmax(0, 820px); }   /* one slider: the light */
+.tw-cmp figcaption, .tw-card figcaption{ margin-top:16px; font-size:15.5px; line-height:1.6; color:var(--pp-dim); max-width:54ch; }
+
+/* ---------- before / after slider ----------
+   b (now) is clipped to the right of --pos; a (before) shows to the left of it.
+   The range input is the keyboard + screen reader handle (visually hidden),
+   pointer drags are handled on the frame (js/this-website-v2.js). */
+.tw-cmp-frame{ --pos:50%; position:relative; aspect-ratio:16/10; border-radius:var(--tw-radius); overflow:hidden; background:#0b0e1a;
+  border:1px solid var(--pp-line); cursor:ew-resize; touch-action:pan-y; -webkit-user-select:none; user-select:none;
+  -webkit-tap-highlight-color:transparent; }
+.tw-cmp-frame img{ position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; pointer-events:none; -webkit-user-drag:none; }
+.tw-cmp-b{ -webkit-clip-path:inset(0 0 0 var(--pos)); clip-path:inset(0 0 0 var(--pos)); }
+.tw-cmp-line{ position:absolute; top:0; bottom:0; left:var(--pos); width:2px; margin-left:-1px; z-index:3; pointer-events:none;
+  background:rgba(255,255,255,.92); box-shadow:0 0 0 1px rgba(11,14,26,.18), 0 0 14px rgba(0,0,0,.35); }
+.tw-knob{ position:absolute; top:50%; left:50%; width:40px; height:40px; translate:-50% -50%; border-radius:50%;
+  background:rgba(11,14,26,.8); border:1.5px solid rgba(255,255,255,.92); box-shadow:0 6px 18px -6px rgba(0,0,0,.6);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); transition:transform .2s var(--ease); }
+.tw-knob::before{ content:"\2039\00a0\203A"; position:absolute; inset:0; display:grid; place-items:center;
+  font:500 16px/1 "JetBrains Mono",monospace; color:#fff; letter-spacing:-.05em; }
+.tw-cmp-frame.dragging .tw-knob{ transform:scale(1.08); }
+.tw-cmp-range{ position:absolute; left:0; bottom:0; width:1px; height:1px; margin:0; opacity:0; pointer-events:none; overflow:hidden; }
+.tw-cmp-frame:focus-within{ outline:2px solid var(--pp-lime-bright); outline-offset:3px; }
+.tw-cmp .tw-tag{ transition:opacity .2s; }
+.tw-cmp-frame.hide-l .tw-tag.l, .tw-cmp-frame.hide-r .tw-tag.r{ opacity:0; }
+
+/* ---------- 3 · the live signature ---------- */
+.tw-sign-grid{ display:grid; grid-template-columns:.82fr 1.18fr; gap:clamp(32px,5vw,72px); align-items:center; }
+@media (max-width:860px){ .tw-sign-grid{ grid-template-columns:1fr; gap:36px; } }
+.tw-live-stage{ position:relative; aspect-ratio:16/10; border-radius:var(--tw-radius); overflow:hidden; background:#0b0e1a; border:1px solid var(--pp-line); }
+.tw-live-stage svg{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.tw-poster{ position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; transition:opacity .3s; }
+.tw-live-stage.has-svg .tw-poster{ opacity:0; visibility:hidden; }
+/* while the pen writes, the finished artwork waits underneath as a faint guide */
+.tw-live-stage #zoSignSettle{ opacity:.09; transition:opacity .25s linear; }
+.tw-live-stage.is-done #zoSignSettle{ opacity:1; }
+.tw-lands{ list-style:none; margin:0; padding:0; position:absolute; inset:0; z-index:2; pointer-events:none; display:none; }
+.tw-live-stage.has-svg .tw-lands{ display:block; }
+.tw-lands .d, .tw-lands .n{ position:absolute; border-radius:50%; opacity:.35; transition:opacity .25s; }
+.tw-lands .d{ width:10px; height:10px; margin:-5px 0 0 -5px; background:#0b0e1a; box-shadow:0 0 0 2px var(--tw-green); }
+.tw-lands .n{ width:22px; height:22px; margin:-11px 0 0 -11px; background:rgba(11,14,26,.86); border:1px solid rgba(0,255,156,.5);
+  font:700 11px/20px "JetBrains Mono",monospace; color:var(--tw-green); text-align:center; }
+.tw-lands li.on .d, .tw-lands li.on .n{ opacity:1; }
+.tw-live-ctrl{ display:flex; align-items:center; gap:16px; margin-top:16px; }
+.tw-replay{ flex:none; display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:999px; cursor:pointer;
+  font:700 13px "JetBrains Mono",monospace; color:var(--pp-cream); background:transparent; border:1px solid var(--pp-line-strong);
+  transition:border-color .2s, color .2s, opacity .2s; min-height:44px; }
+.tw-replay .ic{ font-size:15px; line-height:1; }
+.tw-replay:hover:not(:disabled){ border-color:var(--tw-green); color:var(--tw-green); }
+.tw-replay:disabled{ opacity:.4; cursor:default; }
+/* the scrubber: a thin track that fills in the signature's green */
+.tw-scrub{ --p:0%; flex:1; min-width:0; height:44px; margin:0; background:transparent; -webkit-appearance:none; appearance:none; cursor:pointer; }
+.tw-scrub:disabled{ opacity:.4; cursor:default; }
+.tw-scrub::-webkit-slider-runnable-track{ height:4px; border-radius:4px;
+  background:linear-gradient(90deg, var(--tw-green) var(--p), rgba(255,255,255,.14) var(--p)); }
+.tw-scrub::-moz-range-track{ height:4px; border-radius:4px; background:rgba(255,255,255,.14); }
+.tw-scrub::-moz-range-progress{ height:4px; border-radius:4px; background:var(--tw-green); }
+.tw-scrub::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:18px; height:18px; margin-top:-7px; border-radius:50%;
+  background:#0b0e1a; border:2px solid var(--tw-green); box-shadow:0 0 10px rgba(0,255,156,.35); }
+.tw-scrub::-moz-range-thumb{ width:14px; height:14px; border-radius:50%; background:#0b0e1a; border:2px solid var(--tw-green); }
+.tw-scrub:focus-visible{ outline:none; }
+.tw-scrub:focus-visible::-webkit-slider-thumb{ outline:2px solid var(--pp-lime-bright); outline-offset:3px; }
+.tw-scrub:focus-visible::-moz-range-thumb{ outline:2px solid var(--pp-lime-bright); outline-offset:3px; }
+/* without JS: nothing waits for a reveal (case-study.css hides .rev-in until js/case-study.js shows it) */
+html:not(.js) .rev-in{ opacity:1; transform:none; }
+/* without JS (or if the file can't load) the stroke-order plate tells it alone */
+html:not(.js) .tw-live-ctrl, .tw-live.is-off .tw-live-ctrl{ display:none; }
+
+/* ---------- 4 · light on a phone ---------- */
+.tw-phone-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(36px,6vw,80px); align-items:center; }
+.tw-facts{ margin:28px 0 0; max-width:520px; }
+.tw-facts dd{ margin:0; }
+.tw-note{ margin:18px 0 0; font-size:15px; line-height:1.6; color:var(--pp-dim); max-width:52ch; }
+.tw-shot{ justify-self:center; text-align:center; }
+.tw-shot img{ display:block; width:min(300px, 72vw); height:auto; padding:8px; border-radius:38px; background:var(--pp-card);
+  border:1px solid var(--pp-line-strong); box-shadow:0 40px 80px -40px rgba(0,0,0,.9); }
+.tw-shot figcaption{ margin-top:14px; font:400 12.5px "JetBrains Mono",monospace; color:var(--pp-dim); }
+@media (max-width:760px){
+  .tw-phone-grid{ grid-template-columns:1fr; }
+  .pp-fact{ font-size:13px; }
+}
+
+/* ---------- stack ---------- */
+.tw-stack{ padding-top:0; }
+.tw-stack-rows{ display:grid; gap:18px; border-top:1px solid var(--pp-line); padding-top:clamp(36px,6vh,56px); }
+.tw-stack-row{ display:grid; grid-template-columns:130px 1fr; gap:16px; align-items:baseline; }
+.tw-stack-k{ margin:0; font:500 12.5px "JetBrains Mono",monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--pp-lime); }
+.tw-stack .pp-stack-list{ list-style:none; margin:0; padding:0; }
+.tw-stack .pp-stack-list li{ font-family:"JetBrains Mono",monospace; font-size:13px; padding:8px 14px; border-radius:9px;
+  border:1px solid var(--pp-line); color:var(--pp-cream); background:var(--pp-card); }
+@media (max-width:560px){ .tw-stack-row{ grid-template-columns:1fr; gap:10px; } }
+
+/* ---------- 5 · close ---------- */
+.tw-learned{ max-width:58ch; margin:0 auto 40px; }
+.tw-big{ font-size:clamp(40px,7vw,78px); letter-spacing:-.03em; line-height:1; }
+.tw-mail{ display:inline-flex; gap:8px; }
+.tw-copy{ display:inline-grid; place-items:center; cursor:pointer; background:transparent; font-weight:500; font-size:13px; padding:13px 16px; }
+.tw-copy > span{ grid-area:1/1; transition:opacity .2s; }
+.tw-copy .c-done{ opacity:0; }
+.tw-copy.is-copied{ border-color:rgba(91,157,255,.6); background:rgba(91,157,255,.1); }
+.tw-copy.is-copied .c-idle{ opacity:0; }
+.tw-copy.is-copied .c-done{ opacity:1; }
+.tw2 .pp-btn{ min-height:44px; display:inline-flex; align-items:center; justify-content:center; gap:.5em; }
+.tw2 .tw-copy{ display:inline-grid; }
+.tw-allwork{ margin:26px 0 0; font:500 14px "JetBrains Mono",monospace; }
+.tw-allwork a{ color:var(--pp-dim); transition:color .2s; }
+.tw-allwork a:hover{ color:var(--pp-cream); }
+@media (max-width:480px){
+  .tw-close .pp-close-row{ flex-direction:column; align-items:stretch; max-width:340px; margin:0 auto; }
+  .tw-mail{ display:flex; }
+  .tw-mail .pp-btn:first-child{ flex:1; }
+}
+
+/* ---------- footer: v2's sign-off ---------- */
+.tw-footer{ border-top:1px solid var(--pp-line); padding:36px var(--tw-gut) calc(34px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;
+  font:400 13px "JetBrains Mono",monospace; color:var(--pp-dim); }
+/* translateZ: its own layer (WebKit draws a drop-shadow in the root layer wrongly) */
+.tw-edmark{ display:block; height:34px; width:auto; filter:drop-shadow(0 0 8px rgba(0,255,156,.22)); transform:translateZ(0); }
+.tw-foot-line{ display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px 12px; }
+.tw-footer a{ color:var(--pp-dim); transition:color .2s; }
+.tw-footer a:hover{ color:var(--pp-cream); }
+
+@media (prefers-reduced-motion:reduce){
+  .tw-strip{ scroll-behavior:auto; }
+  .tw-knob, .tw-cmp .tw-tag, .tw-live-stage #zoSignSettle, .tw-lands .d, .tw-lands .n, .tw-poster{ transition:none; }
+}
