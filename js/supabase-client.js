@@ -39,6 +39,10 @@ function dbRowToProject(row) {
     stack: Array.isArray(row.stack) ? row.stack : [],
     desc: row.description || '',
     image: row.image_url || '',
+    // two links: the live site and the code. Rows from before the two columns
+    // existed only have `link`: a GitHub link counts as the code, anything else as live
+    live: row.live_url || (row.link && !/github\.com/i.test(row.link) ? row.link : null),
+    repo: row.repo_url || (row.link && /github\.com/i.test(row.link) ? row.link : null),
     link: row.link || null,
     linkLabel: row.link_label || null,
     year: row.year || '',
@@ -55,8 +59,10 @@ function projectToDbRow(p) {
     stack: p.stack,
     description: p.desc,
     image_url: p.image,
-    link: p.link || null,
-    link_label: p.linkLabel || null,
+    live_url: p.live || null,
+    repo_url: p.repo || null,
+    link: p.live || p.repo || null,   // kept filled for anything that still reads the one link
+    link_label: null,
     year: p.year || '',
     category: p.category || 'other',
     featured: !!p.featured,

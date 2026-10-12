@@ -29,16 +29,23 @@
   /* unknown and all-lowercase ('flask') → capitalised; anything typed with capitals is kept as is */
   function tagLabel(s){ s=String(s); var k=s.toLowerCase(); return LBL[k] || (s===k ? s.charAt(0).toUpperCase()+s.slice(1) : s); }
   /* DB strings go into innerHTML: escape them */
+  function safe(u){ return /^https?:\/\//i.test(String(u||'')) ? String(u) : ''; }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
   /* a DB row → the shape the cards use (as dbRowToProject in supabase-client.js) */
+  var GH=/github\.com/i;
   function fromRow(r){
     return { id:r.id, title:r.title, stack:Array.isArray(r.stack)?r.stack:[], desc:r.description||'',
-      image:r.image_url||'', link:r.link||null, linkLabel:r.link_label||null, year:r.year||'',
+      image:r.image_url||'', year:r.year||'',
+      /* two links: the live site and the code (rows from before the two columns
+         only have `link`: a GitHub link is the code, anything else the live site) */
+      live:r.live_url || (r.link && !GH.test(r.link) ? r.link : null),
+      repo:r.repo_url || (r.link && GH.test(r.link) ? r.link : null),
       category:r.category||'other' };
   }
   function fetchProjects(){
-    var url=SB_URL+'/rest/v1/projects?select=id,title,stack,description,image_url,link,link_label,year,category'
+    /* select=*: works with and without the live_url/repo_url columns */
+    var url=SB_URL+'/rest/v1/projects?select=*'
       +'&order=sort_order.desc,created_at.desc';
     return fetch(url, { headers:{ apikey:SB_KEY, Accept:'application/json' } })
       .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
@@ -79,16 +86,24 @@
     var pic=img ? '<img src="'+esc(s2||img)+'"'+(s1?' srcset="'+esc(s1)+' 400w, '+esc(s2)+' 800w" sizes="(max-width:760px) 120px, 400px" data-orig="'+esc(img)+'"':'')
         +' alt="" width="640" height="400" loading="lazy" decoding="async">'
       : '<span class="mini-glyph" aria-hidden="true">'+esc(initials)+'</span>';
-    var label=p.link ? (p.linkLabel || (/github\.com/i.test(p.link)?'Code on GitHub':'Visit site')) : '';
-    var inner='<div class="mini-thumb">'+pic+'</div>'
+    var live=safe(p.live), repo=safe(p.repo);
+    var head='<div class="mini-thumb">'+pic+'</div>'
       +'<div class="mini-body"><div class="mini-tags">'+tags+'</div>'
       +'<h4>'+esc(p.title||'Untitled')+'</h4>'
-      +(p.desc?'<p class="mini-desc">'+esc(p.desc)+'</p>':'')
-      +(label?'<span class="mini-more">'+esc(label)+' <span class="arr">→</span></span>':'')
-      +'</div>';
-    return p.link
-      ? '<a class="mini-card" href="'+esc(p.link)+'" target="_blank" rel="noopener" aria-label="'+esc(p.title+(label?' — '+label:''))+'">'+inner+'</a>'
-      : '<div class="mini-card no-link">'+inner+'</div>';
+      +(p.desc?'<p class="mini-desc">'+esc(p.desc)+'</p>':'');
+    var arr=' <span class="arr" aria-hidden="true">→</span>';
+    /* both links: the card itself opens the live site (its link stretches over
+       the card), and "Code on GitHub" sits on top as its own link */
+    if(live && repo) return '<div class="mini-card two-links">'+head
+      +'<span class="mini-links">'
+      +'<a class="mini-more mini-main" href="'+esc(live)+'" target="_blank" rel="noopener" aria-label="'+esc(p.title+': visit site')+'">Visit site'+arr+'</a>'
+      +'<a class="mini-more mini-code" href="'+esc(repo)+'" target="_blank" rel="noopener" aria-label="'+esc(p.title+': code on GitHub')+'">Code on GitHub'+arr+'</a>'
+      +'</span></div></div>';
+    var one=live || repo, label=live ? 'Visit site' : 'Code on GitHub';
+    return one
+      ? '<a class="mini-card" href="'+esc(one)+'" target="_blank" rel="noopener" aria-label="'+esc(p.title+': '+label.toLowerCase())+'">'+head
+        +'<span class="mini-more">'+label+arr+'</span></div></a>'
+      : '<div class="mini-card no-link">'+head+'</div></div>';
   }
 
   /* ---------------- index.html: "Also built", always visible ---------------- */
@@ -113,7 +128,7 @@
           [].forEach.call(rest, function(el){ el.hidden=false; });
           allBtn.hidden=true;
           /* keyboard users land on the first newly shown project */
-          if(rest[0]) rest[0].focus({ preventScroll:true });
+          var f=rest[0] && (rest[0].matches('a') ? rest[0] : rest[0].querySelector('a')); if(f) f.focus({ preventScroll:true });
         });
       }
     }

@@ -192,8 +192,8 @@
             <div class="field"><label for="f_year">Year</label><input type="text" id="f_year" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><label for="f_link">Link (optional)</label><input type="url" id="f_link" pattern="https://.*" placeholder="https://..." title="A full link that starts with https://" autocomplete="off" spellcheck="false"></div>
-            <div class="field"><label for="f_linkLabel">Link label</label><input type="text" id="f_linkLabel" maxlength="30" placeholder="View code"></div>
+            <div class="field"><label for="f_live">Live site (optional)</label><input type="url" id="f_live" pattern="https://.*" placeholder="https://..." title="A full link that starts with https://" autocomplete="off" spellcheck="false"></div>
+            <div class="field"><label for="f_repo">Code on GitHub (optional)</label><input type="url" id="f_repo" pattern="https://.*" placeholder="https://github.com/..." title="A full link that starts with https://" autocomplete="off" spellcheck="false"></div>
           </div>
           <div class="field">
             <span class="lbl" id="imgLbl">Image</span>
@@ -229,7 +229,7 @@
 <!-- pinned SDK version + SRI hash: if jsdelivr ever served a different file, the browser refuses to run it.
      To upgrade: change the version and take the new hash from jsdelivr ("Copy HTML + SRI"). -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
-<script src="js/supabase-client.js?v=20261012"></script>
+<script src="js/supabase-client.js?v=twolinks-1"></script>
 <script>
 (function(){
   /* ==========================================================================
@@ -293,9 +293,10 @@
     return d;
   }
   $('f_desc').addEventListener('input', updateDesc);
-  function checkLink(){ var i=$('f_link'), v=i.value.trim();
-    i.setCustomValidity(v && !httpsUrl(v) ? 'Use a full link that starts with https:// (no spaces).' : ''); }
-  $('f_link').addEventListener('input', checkLink);
+  function checkLink(){ ['f_live','f_repo'].forEach(function(id){ var i=$(id), v=i.value.trim();
+    i.setCustomValidity(v && !httpsUrl(v) ? 'Use a full link that starts with https:// (no spaces).' : ''); }); }
+  $('f_live').addEventListener('input', checkLink);
+  $('f_repo').addEventListener('input', checkLink);
 
   /* ---- client-side resize: long edge 1600px, WebP .82 (JPEG where the browser can't encode WebP) ---- */
   function decode(file){
@@ -440,7 +441,7 @@
   function clearForm(){
     state.editing=null; setPending(null);
     $('projId').value=''; $('f_title').value=''; $('f_stack').value=''; $('f_desc').value='';
-    $('f_category').value='web'; $('f_year').value=new Date().getFullYear(); $('f_link').value=''; $('f_linkLabel').value='';
+    $('f_category').value='web'; $('f_year').value=new Date().getFullYear(); $('f_live').value=''; $('f_repo').value='';
     $('f_image').value=''; $('f_imgfile').value=''; $('f_featured').checked=false;
     $('formTitle').textContent='New project'; $('saveBtn').textContent='Save project';
     updateDesc(); checkLink(); showImage(); markEditing();
@@ -449,7 +450,7 @@
     clearForm(); state.editing=p;
     $('projId').value=p.id; $('f_title').value=p.title||''; $('f_stack').value=(p.stack||[]).join(', ');
     $('f_desc').value=p.desc||''; $('f_category').value=p.category||'other'; $('f_year').value=p.year||'';
-    $('f_link').value=p.link||''; $('f_linkLabel').value=p.linkLabel||''; $('f_image').value=httpsUrl(p.image);
+    $('f_live').value=p.live||''; $('f_repo').value=p.repo||''; $('f_image').value=httpsUrl(p.image);
     $('f_featured').checked=!!p.featured; $('formTitle').textContent='Edit project'; $('saveBtn').textContent='Save changes';
     updateDesc(); checkLink(); showImage(); markEditing();
   }
@@ -476,7 +477,7 @@
     var payload={ title:$('f_title').value.trim(),
       stack:$('f_stack').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
       desc:$('f_desc').value.trim(), category:$('f_category').value, year:$('f_year').value.trim(),
-      link:httpsUrl($('f_link').value)||null, linkLabel:$('f_linkLabel').value.trim()||null,
+      live:httpsUrl($('f_live').value)||null, repo:httpsUrl($('f_repo').value)||null,
       image:$('f_image').value||null, featured:$('f_featured').checked };
     var b=$('saveBtn'), label=b.textContent, uploaded='';
     b.disabled=true;
