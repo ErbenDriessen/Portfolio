@@ -71,7 +71,7 @@ a{ color:inherit; text-decoration:none; }
 .pp-eyebrow::before{ content:""; width:26px; height:1px; background:var(--pp-lime); }
 .pp-title{ font-size:clamp(46px,7vw,86px); font-weight:800; line-height:.96; letter-spacing:-.03em; margin:0 0 8px; }
 .pp-title .t{ color:var(--pp-lime-bright); }
-.pp-sub{ font-size:clamp(17px,2vw,22px); line-height:1.5; color:var(--pp-cream); margin:0 0 14px; font-weight:500; max-width:30ch; }
+.pp-sub{ font-size:clamp(17px,2vw,22px); line-height:1.5; color:var(--pp-cream); margin:0 0 14px; font-weight:500; max-width:30ch; text-wrap:balance; }
 .pp-lead{ font-size:clamp(15px,1.6vw,17px); line-height:1.6; color:var(--pp-dim); margin:0 0 28px; max-width:46ch; }
 .pp-meta{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:30px; }
 .pp-chip{ font-family:"JetBrains Mono",monospace; font-size:12px; padding:6px 12px; border-radius:999px;
@@ -84,8 +84,8 @@ a{ color:inherit; text-decoration:none; }
 .pp-btn.ghost{ border:1px solid var(--pp-line-strong); color:var(--pp-cream); }
 .pp-btn.ghost:hover{ border-color:var(--pp-lime); color:var(--pp-lime); }
 
-.pp-hero-stage{ display:flex; justify-content:center; position:relative; }
-.pp-hero-cap{ position:absolute; bottom:-6px; left:50%; transform:translateX(-50%); white-space:nowrap;
+.pp-hero-stage{ display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; }
+.pp-hero-cap{ display:block; margin-top:14px; text-align:center;
   font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--pp-dim); letter-spacing:.04em; }
 
 /* ============================ PHONE MOCK ============================ */
@@ -104,12 +104,12 @@ a{ color:inherit; text-decoration:none; }
   background:#13251b;
 }
 .device .screen img{ width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
-/* video: native 1080x1920 with a 144px black bar baked on the RIGHT (content = left 936px).
-   Screen aspect = 936/1920. Video box is widened to 1080/936 (115.385%) of the screen and left-pinned,
-   so the bar overflows the right edge and is clipped. width is explicit (not auto) to ignore the file's
-   pixel-aspect flag; object-fit:fill is exact because the box keeps the native 1080:1920 ratio. */
+/* video: media/powerplant-640.mp4 is already cropped to the 936x1920 app area (the black bar the
+   recording had on the right is gone), so it simply covers the screen. The recording has no status
+   bar, so the fake island would sit on top of the app's title: hide it on the video mock. */
 .device.video{ --screen-ar:936/1920; }
-.device.video .screen video{ position:absolute; top:0; left:0; height:100%; width:115.385%; object-fit:fill; display:block; }
+.device.video::before{ display:none; }
+.device.video .screen video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
 .device .glare{ position:absolute; inset:0; z-index:3; pointer-events:none; border-radius:36px;
   background:linear-gradient(125deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,.05) 100%); }
 .device .btn-pow{ position:absolute; right:-3px; top:150px; width:3px; height:64px; border-radius:3px; background:#2a322c; }
@@ -125,10 +125,20 @@ a{ color:inherit; text-decoration:none; }
   .pp-hero{ grid-template-columns:1fr; gap:34px; text-align:center; padding-top:calc(var(--navh) + 36px); }
   .pp-hero-copy{ order:1; }
   .pp-hero-stage{ order:2; }
-  .pp-eyebrow{ justify-content:center; }
+  .pp-hero .pp-eyebrow{ justify-content:center; }
+  .pp-hero .pp-eyebrow::before{ display:none; }   /* centred, and it may wrap: a lone rule on the left reads as a glitch */
   .pp-sub, .pp-lead{ max-width:38ch; margin-left:auto; margin-right:auto; }
-  .pp-meta, .pp-cta{ justify-content:center; }
+  .pp-hero .pp-meta, .pp-hero .pp-cta{ justify-content:center; }
   .pp-hero-glow{ display:none; }
+  /* a phone-app hero: skip the chips so the moving screen shows on the first screen */
+  .pp-hero-phone .pp-meta{ display:none; }
+}
+/* hero phone on laptops: never taller than the window (fits 720px-tall screens) */
+@media (min-width:761px){
+  .pp-hero-phone .device{ width:min(clamp(248px,30vw,310px), max(200px, calc((100vh - 230px) * .47))); }
+  @supports (height:100svh){
+    .pp-hero-phone .device{ width:min(clamp(248px,30vw,310px), max(200px, calc((100svh - 230px) * .47))); }
+  }
 }
 @media (max-width:560px){
   /* keep only the back link + GitHub button in the bar so it never overflows */
@@ -170,6 +180,7 @@ a{ color:inherit; text-decoration:none; }
 .pp-kicker{ font-family:"JetBrains Mono",monospace; font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--pp-lime); margin:0 0 12px; }
 .pp-feat h3{ font-size:clamp(24px,3vw,34px); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
 .pp-feat p{ font-size:16px; line-height:1.6; color:var(--pp-dim); margin:0 0 16px; }
+.pp-feat .pp-kicker{ font-size:12.5px; color:var(--pp-lime); margin:0 0 12px; }
 .pp-feat .tags{ display:flex; flex-wrap:wrap; gap:8px; }
 .pp-feat .tags span{ font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--pp-dim); border:1px solid var(--pp-line); padding:5px 11px; border-radius:8px; }
 @media (max-width:780px){

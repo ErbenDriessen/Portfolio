@@ -6,18 +6,36 @@
 <meta name="color-scheme" content="dark">
 <style>html{background:#0b1310}</style>
 <meta name="darkreader-lock">
-<title>PowerPlan(t) — Case study · Erben Driessen</title>
-<meta name="description" content="PowerPlan(t) — a calm, wellness-first planner that grows a forest as you focus. Case study by Erben Driessen.">
+<title>PowerPlan(t) · Case study · Erben Driessen</title>
+<meta name="description" content="PowerPlan(t): a calm, wellness-first planner that grows a forest as you focus. Case study by Erben Driessen.">
+<link rel="canonical" href="https://erbendriessen.nl/powerplant.html">
+<meta name="theme-color" content="#0b1310">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- share preview (LinkedIn / WhatsApp / mail): 1200x630 render of this page's hero -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://erbendriessen.nl/powerplant.html">
+<meta property="og:title" content="PowerPlan(t) · Case study · Erben Driessen">
+<meta property="og:description" content="PowerPlan(t): a calm, wellness-first planner that grows a forest as you focus. Case study by Erben Driessen.">
+<meta property="og:image" content="https://erbendriessen.nl/media/og-powerplant.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PowerPlan(t) case study: the app on a phone, its window view at dusk over a pixel landscape">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://erbendriessen.nl/media/og-powerplant.jpg">
+<meta name="twitter:image:alt" content="PowerPlan(t) case study: the app on a phone, its window view at dusk over a pixel landscape">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/case-study.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
+<link rel="preload" as="image" href="media/powerplant-poster.webp" fetchpriority="high">
 </head>
 <body>
 
 <!-- ============================ NAV ============================ -->
 <nav class="pp-nav" id="ppnav">
-  <a class="pp-back" href="index.html#work"><span class="ar">←</span> Erben&nbsp;Driessen</a>
+  <a class="pp-back" href="./#work" data-back><span class="ar">←</span> All&nbsp;work</a>
   <div class="pp-nav-right">
     <a href="#window">the&nbsp;window</a>
     <a href="#features">features</a>
@@ -27,7 +45,7 @@
 </nav>
 
 <!-- ============================ HERO ============================ -->
-<header class="pp-hero">
+<header class="pp-hero pp-hero-phone">
   <div class="pp-hero-glow" aria-hidden="true"></div>
   <div class="pp-hero-copy rev-in">
     <p class="pp-eyebrow">Case study · Mobile app</p>
@@ -47,16 +65,16 @@
   </div>
 
   <div class="pp-hero-stage rev-in">
-    <!-- HERO VIDEO — the living-window feature. media/powerplant.mp4 has a 144px black bar baked on the
-         right; the .device.video screen is sized to the 936x1920 content so the bar overflows & is clipped. -->
+    <!-- HERO VIDEO: the living-window feature in demo mode. media/powerplant-640.mp4 is the original
+         recording cropped to the app area, 640w, no audio, faststart (~0.5 MB). Poster = its first frame. -->
     <div class="device video">
       <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
       <div class="screen">
-        <video id="heroVid" src="media/powerplant.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <video id="heroVid" src="media/powerplant-640.mp4" poster="media/powerplant-poster.webp" width="640" height="1312" autoplay loop muted playsinline preload="metadata"></video>
         <span class="glare"></span>
       </div>
     </div>
-    <span class="pp-hero-cap">live · the window tracks the time of day</span>
+    <span class="pp-hero-cap">demo mode · four days in 24 seconds</span>
   </div>
 </header>
 
@@ -92,7 +110,7 @@
     <div class="pp-spot-stage rev-in">
       <div class="device tilt-r">
         <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
-        <div class="screen"><img src="media/window.jpeg" alt="PowerPlan(t) — the window view showing a sunset landscape with planted trees"><span class="glare"></span></div>
+        <div class="screen"><img src="media/pp-window-600.webp" width="600" height="1300" loading="lazy" decoding="async" alt="PowerPlan(t): the window view showing a sunset landscape with planted trees"><span class="glare"></span></div>
       </div>
     </div>
   </div>
@@ -115,7 +133,7 @@
     </div>
     <div class="stage rev-in">
       <div class="device tilt-r"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
-        <div class="screen"><img src="media/home.jpeg" alt="Home screen with greeting, grown tree and today's goals"><span class="glare"></span></div></div>
+        <div class="screen"><img src="media/pp-home-600.webp" width="600" height="1300" loading="lazy" decoding="async" alt="Home screen with greeting, grown tree and today's goals"><span class="glare"></span></div></div>
     </div>
   </div>
 
@@ -129,7 +147,7 @@
     </div>
     <div class="stage rev-in">
       <div class="device tilt-l"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
-        <div class="screen"><img src="media/focus.jpeg" alt="Focus timer at 25:00 with a calm breathing Sprout"><span class="glare"></span></div></div>
+        <div class="screen"><img src="media/pp-focus-600.webp" width="600" height="1300" loading="lazy" decoding="async" alt="Focus timer at 25:00 with a calm breathing Sprout"><span class="glare"></span></div></div>
     </div>
   </div>
 
@@ -143,7 +161,7 @@
     </div>
     <div class="stage rev-in">
       <div class="device tilt-r"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
-        <div class="screen"><img src="media/adem.jpeg" alt="Breathing exercise screen — Adem in, 4 seconds"><span class="glare"></span></div></div>
+        <div class="screen"><img src="media/pp-adem-600.webp" width="600" height="1300" loading="lazy" decoding="async" alt="Breathing exercise screen: Adem in, 4 seconds"><span class="glare"></span></div></div>
     </div>
   </div>
 
@@ -157,7 +175,7 @@
     </div>
     <div class="stage rev-in">
       <div class="device tilt-l"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
-        <div class="screen"><img src="media/dagboek-entry.jpeg" alt="New journal entry with mood picker"><span class="glare"></span></div></div>
+        <div class="screen"><img src="media/pp-dagboek-600.webp" width="600" height="1300" loading="lazy" decoding="async" alt="New journal entry with mood picker"><span class="glare"></span></div></div>
     </div>
   </div>
 </section>
@@ -191,21 +209,21 @@
     <h2 class="pp-h2">Want the full picture?</h2>
     <div class="pp-close-row">
       <a class="pp-btn primary" href="https://github.com/ErbenDriessen/PowerPlan-t-" target="_blank" rel="noopener">View on GitHub</a>
-      <a class="pp-btn ghost" href="index.html#work">← Back to portfolio</a>
+      <a class="pp-btn ghost" href="./#work" data-back>← All work</a>
     </div>
   </div>
 </section>
 
 <footer class="pp-footer">
-  <span>© <span id="ppyear"></span> Erben Driessen — PowerPlan(t) case study</span>
+  <span>© <span id="ppyear">2026</span> Erben Driessen</span>
   <div style="display:flex; gap:18px;">
-    <a href="index.html">Portfolio</a>
+    <a href="./#work" data-back>← All work</a>
     <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
     <a href="mailto:erben.l.driessen@gmail.com">Email</a>
   </div>
 </footer>
 
-<script src="js/case-study.js"></script>
+<script src="js/case-study.js?v=20261012-cs"></script>
 <script>
 (function(){
   // respect reduced motion: don't autoplay the ambient loop

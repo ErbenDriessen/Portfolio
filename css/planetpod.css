@@ -41,9 +41,13 @@ body{
 
 /* ---------- image-based 3/4 laptop mockup (live dashboard) ---------- */
 .lapimg{ position:relative; width:100%; max-width:680px; margin:0 auto; }
-.pp-hero{ grid-template-columns:0.82fr 1.18fr; }
+/* the laptop gets the wider column, but only side by side: on phones the shared
+   one-column rule must win, or the copy is squeezed and the page scrolls sideways */
+@media (min-width:761px){ .pp-hero{ grid-template-columns:0.82fr 1.18fr; } }
 .pp-hero-stage{ flex-direction:column; align-items:center; overflow:visible; }
 .pp-hero-stage .lapimg{ max-width:none; width:116%; margin:0; }
+/* the overhang may use the hero's side padding, never more (no sideways scroll at 761-1279px) */
+.pp-hero-stage .lapimg{ width:min(116%, calc(100% + 2 * clamp(18px,4vw,40px))); }
 .pp-hero-stage .live-cap{ align-self:center; }
 .lapimg-frame{ display:block; width:100%; height:auto; filter:drop-shadow(0 38px 46px rgba(0,0,0,.5)); }
 .lapimg-screen{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
@@ -60,7 +64,10 @@ body{
 /* caption under a live mock */
 .live-cap{ display:inline-flex; align-items:center; gap:8px; margin-top:16px;
   font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--pp-dim); }
-.live-cap .dot{ width:7px; height:7px; border-radius:50%; background:var(--pp-lime);
-  box-shadow:0 0 0 0 rgba(55,194,196,.6); animation:livePulse 2s infinite; }
-@keyframes livePulse{ 0%{box-shadow:0 0 0 0 rgba(55,194,196,.5)} 70%{box-shadow:0 0 0 7px rgba(55,194,196,0)} 100%{box-shadow:0 0 0 0 rgba(55,194,196,0)} }
-@media (prefers-reduced-motion:reduce){ .live-cap .dot{ animation:none; } }
+/* live dot: the ring is a pseudo-element animated with opacity + transform only
+   (compositor work, no repaint per frame like an animated box-shadow) */
+.live-cap .dot{ position:relative; flex:none; width:7px; height:7px; border-radius:50%; background:var(--pp-lime); }
+.live-cap .dot::after{ content:""; position:absolute; inset:-5px; border-radius:50%; background:rgba(55,194,196,.45);
+  opacity:0; transform:scale(.45); animation:liveRing 2s ease-out infinite; }
+@keyframes liveRing{ 0%{opacity:.9; transform:scale(.45)} 70%,100%{opacity:0; transform:scale(1)} }
+@media (prefers-reduced-motion:reduce){ .live-cap .dot::after{ animation:none; } }

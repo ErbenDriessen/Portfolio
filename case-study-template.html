@@ -6,12 +6,30 @@
 <meta name="color-scheme" content="dark">
 <style>html{background:#0b1310}</style>
 <meta name="darkreader-lock">
-<title>Project Name — Case study · Erben Driessen</title>
+<title>Project Name · Case study · Erben Driessen</title>
 <meta name="description" content="One-line description of the project.">
+<link rel="canonical" href="https://erbendriessen.nl/project-name.html">
+<meta name="theme-color" content="#0b1310">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- share preview (LinkedIn / WhatsApp / mail): render a 1200x630 JPG of the hero to media/og-project-name.jpg.
+     Rename "project-name" in the canonical/og URLs to the real file name. No em dashes in titles, meta or alt text. -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://erbendriessen.nl/project-name.html">
+<meta property="og:title" content="Project Name · Case study · Erben Driessen">
+<meta property="og:description" content="One-line description of the project.">
+<meta property="og:image" content="https://erbendriessen.nl/media/og-project-name.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Project Name case study: [ what the hero shows ]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://erbendriessen.nl/media/og-project-name.jpg">
+<meta name="twitter:image:alt" content="Project Name case study: [ what the hero shows ]">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/case-study.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
 <style>
   /* ---- template-only helpers (placeholders + per-project accent) ----
      To re-skin a project, override the accent colours here, e.g.:
@@ -29,10 +47,10 @@
       1. Duplicate this file and rename it, e.g.  "My Project.html".
       2. Put your screenshots / video in  media/  and replace each
          <div class="ph">…</div> placeholder with a real <img> or <video>:
-            • screenshot →  <img src="media/your-shot.jpg" alt="…">
-            • video      →  <video src="media/your-clip.mp4" autoplay loop muted playsinline></video>
-         (If a screen recording has a black bar baked on one side, ask me to crop it
-          like the PowerPlan window video — it's a one-line CSS tweak.)
+            • screenshot →  <img src="media/your-shot-600.webp" width="600" height="1300" loading="lazy" decoding="async" alt="…">
+            • video      →  <video src="media/your-clip.mp4" poster="media/your-clip-poster.webp" autoplay loop muted playsinline preload="metadata"></video>
+              (crop/scale it to the phone screen first, no audio, +faststart: see the PowerPlan(t) video)
+         Iframes below the hero get loading="lazy"; js/case-study.js pauses offscreen video and iframes.
       3. Replace every  [ … ]  placeholder text with your own copy.
       4. Add a card on  index.html  →  "Things I've built":
             <a class="card reveal" href="My Project.html" aria-label="…">
@@ -46,7 +64,7 @@
 
 <!-- ============================ NAV ============================ -->
 <nav class="pp-nav" id="ppnav">
-  <a class="pp-back" href="index.html#work"><span class="ar">←</span> Erben&nbsp;Driessen</a>
+  <a class="pp-back" href="./#work" data-back><span class="ar">←</span> All&nbsp;work</a>
   <div class="pp-nav-right">
     <a href="#features">features</a>
     <!-- EDIT: repo / live link -->
@@ -55,7 +73,7 @@
 </nav>
 
 <!-- ============================ HERO ============================ -->
-<header class="pp-hero">
+<header class="pp-hero pp-hero-phone">
   <div class="pp-hero-glow" aria-hidden="true"></div>
   <div class="pp-hero-copy rev-in">
     <p class="pp-eyebrow">Case study · [ Type ]</p>
@@ -79,7 +97,7 @@
     <div class="device">
       <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
       <div class="screen">
-        <div class="ph"><b>Hero media</b>Replace with<br>&lt;video src="media/clip.mp4"<br>autoplay loop muted playsinline&gt;</div>
+        <div class="ph"><b>Hero media</b>Replace with<br>&lt;video src="media/clip.mp4"<br>poster="media/clip-poster.webp"<br>autoplay loop muted playsinline<br>preload="metadata"&gt;</div>
         <span class="glare"></span>
       </div>
     </div>
@@ -187,20 +205,20 @@
     <h2 class="pp-h2">Want the full picture?</h2>
     <div class="pp-close-row">
       <a class="pp-btn primary" href="#" target="_blank" rel="noopener">View on GitHub</a>
-      <a class="pp-btn ghost" href="index.html#work">← Back to portfolio</a>
+      <a class="pp-btn ghost" href="./#work" data-back>← All work</a>
     </div>
   </div>
 </section>
 
 <footer class="pp-footer">
-  <span>© <span id="ppyear"></span> Erben Driessen — [ Project ] case study</span>
+  <span>© <span id="ppyear">2026</span> Erben Driessen</span>
   <div style="display:flex; gap:18px;">
-    <a href="index.html">Portfolio</a>
+    <a href="./#work" data-back>← All work</a>
     <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
     <a href="mailto:erben.l.driessen@gmail.com">Email</a>
   </div>
 </footer>
 
-<script src="js/case-study.js"></script>
+<script src="js/case-study.js?v=20261012-cs"></script>
 </body>
 </html>

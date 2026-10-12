@@ -23,9 +23,13 @@
     function ready(){ return typeof win.__zoScrub==='function'; }
     function start(){
       if(reduce){ try{ win.__zoScrub(1); }catch(e){} return; }
-      var start=null, DUR=5200, HOLD=900;
+      var start=null, DUR=5200, HOLD=900, pausedAt=null;
       function loop(ts){
         if(start===null) start=ts;
+        /* offscreen (case-study.js marks the iframe paused): hold the frame and
+           shift the clock, so the loop resumes where it stopped */
+        if(frame.classList.contains('paused')){ if(pausedAt===null) pausedAt=ts; requestAnimationFrame(loop); return; }
+        if(pausedAt!==null){ start+=ts-pausedAt; pausedAt=null; }
         var e=(ts-start);
         var cycle=DUR*2+HOLD;
         var p=e % cycle;

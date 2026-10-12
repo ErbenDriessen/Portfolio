@@ -7,19 +7,36 @@
 <style>html{background:#0a0f12}</style>
 <script>document.documentElement.classList.add('js')</script>
 <meta name="darkreader-lock">
-<title>PlanetPod — Fleet Monitoring · Erben Driessen</title>
+<title>PlanetPod fleet monitoring · Case study · Erben Driessen</title>
 <meta name="description" content="An internship assignment at PlanetPod: monitoring dashboards that spot a home-battery fault before the customer notices.">
+<link rel="canonical" href="https://erbendriessen.nl/planetpod.html">
+<meta name="theme-color" content="#0a0f12">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- share preview (LinkedIn / WhatsApp / mail): 1200x630 render of this page's hero -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://erbendriessen.nl/planetpod.html">
+<meta property="og:title" content="PlanetPod fleet monitoring · Case study · Erben Driessen">
+<meta property="og:description" content="An internship assignment at PlanetPod: monitoring dashboards that spot a home-battery fault before the customer notices.">
+<meta property="og:image" content="https://erbendriessen.nl/media/og-planetpod.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FleetMonitor case study: a laptop showing the PlanetPod fleet dashboard, rebuilt with sample data">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://erbendriessen.nl/media/og-planetpod.jpg">
+<meta name="twitter:image:alt" content="FleetMonitor case study: a laptop showing the PlanetPod fleet dashboard, rebuilt with sample data">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/case-study.css">
-<link rel="stylesheet" href="css/planetpod.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
+<link rel="stylesheet" href="css/planetpod.css?v=20261012-cs">
 </head>
 <body>
 
 <!-- ============================ NAV ============================ -->
 <nav class="pp-nav" id="ppnav">
-  <a class="pp-back" href="index.html#work"><span class="ar">←</span> Erben&nbsp;Driessen</a>
+  <a class="pp-back" href="./#work" data-back><span class="ar">←</span> All&nbsp;work</a>
   <div class="pp-nav-right">
     <a href="#fleet">the&nbsp;map</a>
     <a href="#detail">pod&nbsp;detail</a>
@@ -49,7 +66,7 @@
 
   <div class="pp-hero-stage rev-in">
     <div class="lapimg">
-      <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+      <img class="lapimg-frame" src="media/laptop-frame.png" width="1300" height="979" alt="" aria-hidden="true">
       <div class="lapimg-screen">
         <iframe data-live="fleet" src="planetpod-dashboard.html" title="Live PlanetPod fleet dashboard" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
         <div class="lapimg-glare"></div>
@@ -92,9 +109,9 @@
     <div class="pp-spot-stage rev-in">
       <div style="display:flex; flex-direction:column; align-items:center;">
       <div class="lapimg" style="max-width:560px;">
-        <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+        <img class="lapimg-frame" src="media/laptop-frame.png" width="1300" height="979" loading="lazy" decoding="async" alt="" aria-hidden="true">
         <div class="lapimg-screen">
-          <iframe data-live="fleet" src="planetpod-dashboard.html" title="Fleet overview" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+          <iframe data-live="fleet" src="planetpod-dashboard.html" loading="lazy" title="Fleet overview" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
           <div class="lapimg-glare"></div>
         </div>
       </div>
@@ -116,9 +133,9 @@
     <div class="stage rev-in">
       <div style="display:flex; flex-direction:column; align-items:center;">
       <div class="lapimg" style="max-width:560px;">
-        <img class="lapimg-frame" src="media/laptop-frame.png" alt="" aria-hidden="true">
+        <img class="lapimg-frame" src="media/laptop-frame.png" width="1300" height="979" loading="lazy" decoding="async" alt="" aria-hidden="true">
         <div class="lapimg-screen">
-          <iframe data-live="detail" src="planetpod-dashboard.html#detail" title="Pod detail" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+          <iframe data-live="detail" src="planetpod-dashboard.html#detail" loading="lazy" title="Pod detail" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
           <div class="lapimg-glare"></div>
         </div>
       </div>
@@ -158,20 +175,20 @@
     <h2 class="pp-h2">Want to click around?</h2>
     <div class="pp-close-row">
       <a class="pp-btn primary" href="planetpod-dashboard.html">Open the interactive recreation</a>
-      <a class="pp-btn ghost" href="index.html#work">← All work</a>
+      <a class="pp-btn ghost" href="./#work" data-back>← All work</a>
     </div>
   </div>
 </section>
 
 <footer class="pp-footer">
-  <span>© <span id="ppyear"></span> Erben Driessen — PlanetPod fleet monitoring (recreation)</span>
+  <span>© <span id="ppyear">2026</span> Erben Driessen</span>
   <div style="display:flex; gap:18px;">
-    <a href="index.html">Portfolio</a>
+    <a href="./#work" data-back>← All work</a>
     <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
     <a href="mailto:erben.l.driessen@gmail.com">Email</a>
   </div>
 </footer>
 
-<script src="js/case-study.js"></script>
+<script src="js/case-study.js?v=20261012-cs"></script>
 </body>
 </html>

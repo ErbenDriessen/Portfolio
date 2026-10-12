@@ -1,8 +1,9 @@
 // =============================================================
 // case-study.js — shared behaviour for every case-study page
 // (powerplant, this-website, planetpod, case-study-template):
-// nav scroll state, footer year, reveal-on-scroll, and fitting
-// the live iframes onto the angled laptop / phone mockups.
+// nav scroll state, footer year, reveal-on-scroll, fitting the
+// live iframes onto the angled laptop / phone mockups, the smart
+// "All work" back link, and pausing media while it's offscreen.
 // All steps no-op gracefully when their elements are absent.
 // =============================================================
 (function(){
@@ -14,6 +15,40 @@
   }
   var yearEl = document.getElementById('ppyear');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ---------------- smart back ("← All work") ----------------
+     The links point at ./#work. When the reader came from the homepage
+     (same origin, path / or /index.html or /v2/ or /v2/index.html), go
+     back in history instead, so they land on the exact spot they left.
+     Jumps to in-page anchors add history entries, so we count them
+     (csDepth in history.state) and step back past all of them. */
+  /* /v2/ stays in the list for old bookmarks (it redirects to /) */
+  var HOME = ['/', '/index.html', '/v2/', '/v2/index.html'];
+  function fromHome(){
+    try{
+      if(!document.referrer) return false;
+      var r = new URL(document.referrer);
+      return r.origin === location.origin && HOME.indexOf(r.pathname) >= 0;
+    }catch(e){ return false; }
+  }
+  var depth = 0;
+  try{
+    if(history.state && typeof history.state.csDepth === 'number') depth = history.state.csDepth;
+    else history.replaceState({csDepth:0}, '');
+  }catch(e){}
+  window.addEventListener('hashchange', function(){
+    try{
+      if(history.state && typeof history.state.csDepth === 'number'){ depth = history.state.csDepth; }
+      else { depth = depth + 1; history.replaceState({csDepth:depth}, ''); }
+    }catch(e){}
+  });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-back]');
+    if(!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if(!fromHome() || history.length < depth + 2) return;   // opened in a new tab etc.: follow the link
+    e.preventDefault();
+    history.go(-(depth + 1));
+  });
 
   /* ---------------- reveal on scroll (bounding-rect, robust) ---------------- */
   var els = [].slice.call(document.querySelectorAll('.rev-in'));
@@ -69,4 +104,32 @@
     document.querySelectorAll('.lapimg-screen iframe, .device.live .screen iframe')
       .forEach(function(f){ f.classList.add('fitted'); });
   }, 1200);
+
+  /* ---------- pause what's offscreen ----------
+     Videos pause and resume (only if they were meant to autoplay).
+     Live iframes get a "paused" class, on the iframe and on the embedded
+     page's <html> (same origin), which stops its CSS animations and its
+     update loop until it scrolls back into view. */
+  if(!('IntersectionObserver' in window)) return;
+  function setFramePaused(f, paused){
+    f.classList.toggle('paused', paused);
+    try{ var d=f.contentDocument; if(d && d.documentElement) d.documentElement.classList.toggle('paused', paused); }catch(e){}
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      var el = en.target, on = en.isIntersecting;
+      if(el.tagName === 'VIDEO'){
+        if(!on){ if(!el.paused) el.pause(); }
+        else if(el.autoplay && el.paused){ var p = el.play(); if(p && p.catch) p.catch(function(){}); }
+      } else {
+        setFramePaused(el, !on);
+      }
+    });
+  }, { rootMargin:'120px 0px' });
+  document.querySelectorAll('video').forEach(function(v){ io.observe(v); });
+  document.querySelectorAll('.lapimg-screen iframe, .device.live .screen iframe').forEach(function(f){
+    io.observe(f);
+    // a (lazy) iframe gets a fresh document when it loads: carry the state over
+    f.addEventListener('load', function(){ setFramePaused(f, f.classList.contains('paused')); });
+  });
 })();
