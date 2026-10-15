@@ -61,7 +61,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
-<link rel="stylesheet" href="css/slaapcampus.css?v=20261015-sc11">
+<link rel="stylesheet" href="css/slaapcampus.css?v=20261015-sc12">
 <link rel="preload" as="image" href="media/sc-app2-home-441.webp" imagesrcset="media/sc-app2-home-441.webp 441w, media/sc-app2-home-882.webp 882w" imagesizes="(max-width:760px) 230px, 280px" fetchpriority="high">
 <link rel="stylesheet" href="css/transitions.css?v=20261015-fx1">
 </head>
@@ -383,17 +383,14 @@
     </div>
   </div>
 
-  <!-- the data model, redrawn from the ER diagram (Student Sleep Management, 26 March 2026).
-       Field names stay as in the code (Dutch); the English names and notes are for the reader. -->
+  <!-- the data model, redrawn from the design-phase ER diagram and simplified on purpose (no
+       login fields, not the live schema). Field names stay Dutch; English names and notes are for the reader. -->
   <figure class="sc-er rev-in" aria-labelledby="erCap">
     <div class="sc-er-top">
       <div class="sc-tbl sc-tbl-root">
         <p class="sc-tbl-h"><span class="nm">STUDENT</span><span class="en">the account</span></p>
         <ul>
           <li><span>id</span><b>PK</b></li>
-          <li><span>gebruikersnaam</span></li>
-          <li><span>email</span></li>
-          <li><span>wachtwoord_hash</span></li>
           <li><span>aangemaakt_op</span></li>
         </ul>
       </div>
@@ -463,7 +460,7 @@
         </div>
       </div>
     </div>
-    <figcaption id="erCap">The data model: one student has one sleep goal and any number of sleep, screen-time and points entries.</figcaption>
+    <figcaption id="erCap">The data model: one student has one sleep goal and any number of sleep, screen-time and points entries.<span class="note">Simplified from the design phase. For security, this isn&rsquo;t the exact database structure.</span></figcaption>
   </figure>
 </section>
 

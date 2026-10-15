@@ -496,6 +496,7 @@ html:not(.js) .rev-in{ opacity:1; transform:none; }
 .sc-tbl li + li b{ color:var(--pp-lime-bright); background:rgba(183,164,245,.14); }   /* FK */
 .sc-tbl-n{ margin:auto 0 0; padding:13px 16px 15px; border-top:1px solid var(--pp-line); font-size:13.5px; line-height:1.55; color:var(--pp-dim); }
 .sc-er figcaption{ margin:26px auto 0; max-width:60ch; text-align:center; font:400 12.5px/1.6 "JetBrains Mono",monospace; color:var(--pp-dim); }
+.sc-er figcaption .note{ display:block; margin-top:6px; font-size:11.5px; color:var(--pp-faint); }
 
 /* two columns and one: no rail to every table, so each pill names its subject ("student logs · many"),
    and STUDENT's line ends on the first two pills (two columns) or the first one (one column) */
