@@ -1,0 +1,666 @@
+/* =================================================================
+   slaapcampus.css: case study, SlaapCampus (a sleep app for mbo students)
+   Loaded AFTER case-study.css. Re-skins pp-* to the app's own evening
+   palette from the design brief (night blue / deep purple, lavender,
+   misty lilac, a warm cream-yellow for the star, a touch of peach for
+   small callouts) and adds this page's blocks: the questionnaire card,
+   the idea-to-app steps, the phones (screenshots of the built app in a
+   demo account, a screen recording of the avatar stages, plus the one
+   design-mockup comparison), the data model and the pilot band with its
+   photos, lesson steps and timeline.
+   ================================================================= */
+:root{
+  --pp-bg:#0e0c1f;            /* night */
+  --pp-bg2:#141129;
+  --pp-forest:#1a1633;
+  --pp-card:#15122c;
+  --pp-line:rgba(214,201,250,.10);
+  --pp-line-strong:rgba(214,201,250,.19);
+  --pp-lime:#B7A4F5;          /* lavender: the primary accent */
+  --pp-lime-bright:#D3C6FB;   /* misty lilac */
+  --pp-sun:#F5DC94;           /* warm cream-yellow: the star */
+  --pp-peach:#F2B39A;         /* small bullets only */
+  --pp-cream:#EEEAF9;
+  --pp-dim:#A39DC3;
+  --pp-faint:#8a84ad;          /* 5.2:1 on the cards, 5.5:1 on the page */
+  --pp-grad:linear-gradient(120deg,#B7A4F5,#D8CAF7 50%,#F5DC94);
+  --sc-ink:#17122e;           /* text on lavender */
+  --sc-blue:#9FB0F2;          /* night blue, for the screen-time log */
+  --sc-gut:clamp(18px,4vw,40px);
+}
+
+/* ---------- page: a night sky that fades into the page ---------- */
+body.sc{
+  color-scheme:dark;
+  background:
+    url("../media/sc-sky.svg") 50% 0 / 2400px auto no-repeat,
+    radial-gradient(1100px 760px at 78% -120px, rgba(183,164,245,.17), transparent 70%),
+    radial-gradient(900px 700px at 4% -80px, rgba(98,74,190,.24), transparent 70%),
+    linear-gradient(180deg, #120f29 0, var(--pp-bg) 1100px);
+  background-color:var(--pp-bg);
+}
+@media (max-width:760px){
+  body.sc{ background-size:1500px auto, auto, auto, auto; }
+}
+.sc ::selection{ background:rgba(183,164,245,.35); color:#fff; }
+.sc :focus-visible{ outline:2px solid var(--pp-lime-bright); outline-offset:3px; border-radius:6px; }
+.sc-skip{ position:absolute; left:12px; top:-60px; z-index:60; padding:10px 14px; border-radius:10px;
+  background:var(--pp-card); color:var(--pp-cream); font:500 13px "JetBrains Mono",monospace; }
+.sc-skip:focus{ top:12px; }
+/* without JS nothing waits for a reveal (case-study.css hides .rev-in until js/case-study.js shows it) */
+html:not(.js) .rev-in{ opacity:1; transform:none; }
+
+/* ---------- shared pp-* pieces in this palette ---------- */
+/* no-repeat: the gradient's tile is the padding box, so by default it repeats into the 1px
+   (transparent) bottom border and draws a dark hairline under the bar at the top of the page */
+.sc .pp-nav{ background:linear-gradient(180deg, rgba(14,12,31,.78), rgba(14,12,31,0)) no-repeat; }
+.sc .pp-nav.scrolled{ background:rgba(13,11,28,.9); -webkit-backdrop-filter:blur(14px) saturate(1.2); backdrop-filter:blur(14px) saturate(1.2); }
+.sc .pp-nav-right .gh{ color:var(--sc-ink); background:var(--pp-lime); }
+.sc .pp-nav-right .gh:hover{ box-shadow:0 8px 22px -8px rgba(183,164,245,.75); }
+.sc .pp-chip.on{ color:var(--sc-ink); }
+.sc .pp-btn{ min-height:46px; display:inline-flex; align-items:center; justify-content:center; gap:.5em; }
+.sc .pp-btn.primary{ color:var(--sc-ink); }
+.sc .pp-btn.primary:hover{ box-shadow:0 12px 30px -10px rgba(183,164,245,.75); }
+.sc .pp-btn.ghost:hover{ border-color:var(--pp-lime); color:var(--pp-lime-bright); }
+.sc .pp-title .t{ color:var(--pp-lime-bright); }
+.sc .pp-p{ margin:0 0 18px; }
+.sc .pp-p:last-child{ margin-bottom:0; }
+.sc .sc-first{ margin-top:24px; }
+/* Dutch quotes: set off in lilac, upright (Poppins is loaded without an italic, so no fake slant) */
+.sc i[lang="nl"]{ color:var(--pp-lime-bright); font-style:normal; }
+.sc .pp-close{ background:radial-gradient(70% 120% at 50% 0%, rgba(183,164,245,.13), transparent 62%); }
+/* right after the pilot band: the band's own full-width line is the divider, no second (shorter) one */
+.sc .sc-pilot + .sc-close{ border-top:0; }
+/* bigger tap targets for the back link and the footer links (the bar is 64px, nothing moves) */
+.sc .pp-back{ min-height:44px; }
+.sc .pp-footer{ align-items:center; padding-top:13px; padding-bottom:13px; }
+
+/* ---------- phone mock: the design mockups already carry the notch and the rounded
+   screen corners (drawn in #12151a), so the bezel is that colour, the CSS island is
+   off, and the screen clips at the image's own corner radius (50px of 441 wide) ---------- */
+.device.sc-dev{
+  --screen-ar:441/957;
+  border-radius:14.6% / 6.9%;
+  padding:3.6%;
+  background:linear-gradient(160deg,#272836 0%,#14161c 30%,#101217 70%,#1b1c26 100%);
+  box-shadow:
+    0 0 0 1px rgba(214,201,250,.10),
+    inset 0 0 0 1.5px rgba(255,255,255,.05),
+    0 50px 90px -40px rgba(0,0,0,.9),
+    0 30px 80px -30px rgba(120,96,210,.35);
+}
+.device.sc-dev::before{ display:none; }
+.device.sc-dev .screen{ border-radius:11.8% / 5.45%; background:#12151a; }
+.device.sc-dev .glare{ border-radius:inherit;
+  background:linear-gradient(128deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 72%, rgba(255,255,255,.04) 100%); }
+.device.sc-dev .btn-pow, .device.sc-dev .btn-vol{ background:#2b2b39; }
+
+/* real screenshots of the built app (Android): no notch or corners baked in, and the status bar
+   is blanked to the app's own background, so the frame adds a small punch-hole camera in that
+   empty band, like the phone they were taken on. Same frame geometry as the mockups above */
+.device.sc-real::before{ display:block; content:""; top:3.25%; left:50%; width:3.3%; height:auto; aspect-ratio:1;
+  border-radius:50%; transform:translateX(-50%); background:#07060d; box-shadow:0 0 0 1px rgba(255,255,255,.05); z-index:4; }
+.device.sc-real .screen{ background:#faf9f5; }
+.device.sc-real.is-dark .screen{ background:#0d0c2b; }
+.device.sc-real .glare{
+  background:linear-gradient(128deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,0) 26%, rgba(255,255,255,0) 74%, rgba(255,255,255,.03) 100%); }
+
+/* a small round arrow between two things (design to build, before to after) */
+.sc-ar{ flex:none; display:grid; place-items:center; width:34px; height:34px; border-radius:50%;
+  border:1px solid var(--pp-line-strong); background:var(--pp-bg2);
+  font:500 14px/1 "JetBrains Mono",monospace; color:var(--pp-lime); }
+
+/* ============================ 0 · HERO ============================ */
+/* isolation: the glows (z-index:-1) paint above the page background, not under it.
+   The clip sits on <main> (full width), not on the 1160px hero column: the star's glow may
+   spill past the column and fade out on its own, but never past the window */
+.sc main{ overflow-x:clip; }
+.sc-hero{ isolation:isolate; }
+@media (min-width:761px){ .sc-hero{ grid-template-columns:1.12fr .88fr; } }
+/* "SlaapCampus" is one word: it has to fit its column, it can't wrap */
+.sc-hero .pp-title{ font-size:clamp(44px,5.5vw,76px); }
+.sc-hero .pp-sub{ max-width:32ch; }
+.sc-hero .pp-hero-glow{ display:none; }
+/* the glowing star: a warm core behind the phone's mascot, a lavender halo around it */
+.sc-hero .pp-hero-stage::before{
+  content:""; position:absolute; z-index:-1; left:50%; top:34%; width:min(640px,150%); aspect-ratio:1;
+  transform:translate(-50%,-50%); pointer-events:none;
+  background:radial-gradient(closest-side, rgba(245,220,148,.20), rgba(183,164,245,.15) 42%, rgba(120,96,210,.06) 66%, transparent 100%);
+}
+.sc-hero .pp-hero-cap{ color:var(--pp-dim); }
+
+/* ============================ 1 · THE RESEARCH ============================ */
+.sc-research-grid{ display:grid; grid-template-columns:1.08fr .92fr; gap:clamp(36px,6vw,84px); align-items:start; }
+.sc-research .pp-h2{ max-width:17ch; }
+.sc-research .pp-p{ max-width:56ch; }
+.sc-source{ margin:26px 0 0; font:500 13px/1.5 "JetBrains Mono",monospace; }
+.sc-source a{ color:var(--pp-lime); text-decoration:underline; text-decoration-color:rgba(183,164,245,.38);
+  text-underline-offset:5px; text-decoration-thickness:1px; transition:color .2s, text-decoration-color .2s; }
+.sc-source a:hover{ color:var(--pp-lime-bright); text-decoration-color:currentColor; }
+
+.sc-quest{
+  position:relative; margin-top:6px; padding:clamp(24px,3vw,32px); border-radius:24px; border:1px solid var(--pp-line);
+  background:
+    radial-gradient(110% 70% at 100% 0%, rgba(183,164,245,.12), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01)),
+    var(--pp-card);
+  box-shadow:0 40px 80px -50px rgba(0,0,0,.9);
+}
+.sc-k{ margin:0 0 16px; font:500 12px/1.4 "JetBrains Mono",monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--pp-lime); }
+.sc-topics{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
+.sc-topics li{ font:400 13px/1 "JetBrains Mono",monospace; padding:9px 13px; border-radius:999px;
+  border:1px solid var(--pp-line-strong); color:var(--pp-dim); }
+.sc-topics li.on{ color:var(--pp-sun); border-color:rgba(245,220,148,.42); background:rgba(245,220,148,.08); }
+.sc-and{ margin:16px 0 0; font-size:16px; font-weight:500; color:var(--pp-cream); display:flex; align-items:baseline; gap:10px; }
+.sc-and span{ font:400 13px "JetBrains Mono",monospace; color:var(--pp-dim); }
+.sc-quest-note{ margin:20px 0 0; padding-top:20px; border-top:1px solid var(--pp-line); font-size:15px; line-height:1.6; color:var(--pp-dim); }
+.sc-quest-note .hl{ color:var(--pp-sun); }
+.sc-rounds{ margin-top:22px; padding-top:22px; border-top:1px solid var(--pp-line); }
+.sc-rounds ol{ position:relative; list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); }
+.sc-rounds ol::before{ content:""; position:absolute; top:6px; left:7px; right:calc(100% / 3 - 7px); height:1px;
+  background:linear-gradient(90deg, var(--pp-lime), rgba(183,164,245,.35)); }
+.sc-rounds li{ position:relative; font:400 13px "JetBrains Mono",monospace; color:var(--pp-cream); }
+.sc-rounds .dot{ display:block; width:13px; height:13px; margin-bottom:12px; border-radius:50%;
+  border:1.5px solid var(--pp-lime); background:var(--pp-card); }
+.sc-rounds li:first-child .dot{ background:var(--pp-lime); }
+
+@media (max-width:860px){
+  .sc-research-grid{ grid-template-columns:1fr; gap:40px; }
+  .sc-research .pp-h2{ max-width:20ch; }
+}
+
+/* ============================ bands (idea, pilot) ============================ */
+.sc-band{
+  border-top:1px solid var(--pp-line); border-bottom:1px solid var(--pp-line);
+  background:
+    radial-gradient(70% 110% at 12% 0%, rgba(98,74,190,.20), transparent 60%),
+    radial-gradient(60% 80% at 95% 55%, rgba(183,164,245,.07), transparent 60%),   /* fades out before the bottom line */
+    linear-gradient(180deg, var(--pp-bg2), var(--pp-bg));
+}
+.sc-band-inner{ max-width:var(--maxw); margin:0 auto; padding:clamp(64px,10vh,116px) var(--sc-gut); }
+.sc-band .pp-sec-head{ max-width:none; }
+.sc-band .pp-sec-head .pp-h2{ max-width:21ch; }
+
+/* ============================ 2 · FROM IDEA TO APP ============================ */
+.sc-flow{ --g:22px; list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:var(--g); counter-reset:none; }
+.sc-step{ position:relative; display:flex; flex-direction:column; padding:28px 26px 28px; border-radius:22px;
+  border:1px solid var(--pp-line); background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.008)), var(--pp-card); }
+/* a small arrow in the gap between the steps */
+.sc-step + .sc-step::before{
+  content:"\2192"; position:absolute; z-index:1; top:26px; left:calc(var(--g) / -2 - 15px); width:30px; height:30px;
+  display:grid; place-items:center; border-radius:50%; border:1px solid var(--pp-line-strong); background:var(--pp-bg2);
+  font:500 13px/1 "JetBrains Mono",monospace; color:var(--pp-lime); }
+.sc-n{ display:block; margin-bottom:22px; font:500 12.5px "JetBrains Mono",monospace; letter-spacing:.1em; color:var(--pp-lime); }
+.sc-step h3{ margin:0 0 8px; font-size:21px; font-weight:700; letter-spacing:-.01em; }
+.sc-step p{ margin:0; font-size:15.5px; line-height:1.6; color:var(--pp-dim); }
+.sc-names{ list-style:none; margin:auto 0 0; padding:20px 0 0; display:flex; flex-wrap:wrap; gap:7px; }
+.sc-names li{ font:400 12.5px/1 "JetBrains Mono",monospace; padding:7px 10px; border-radius:8px; border:1px solid var(--pp-line-strong); color:var(--pp-cream); }
+.sc-names li.more{ border-style:dashed; color:var(--pp-dim); }
+/* step 02: three blank phone sketches, the designs being worked out */
+.sc-wires{ margin-top:auto; padding-top:20px; display:flex; gap:10px; }
+.sc-wires span{ width:32px; height:58px; border-radius:9px; border:1px solid rgba(183,164,245,.32);
+  background:
+    radial-gradient(circle at 50% 38%, rgba(183,164,245,.34) 0 6px, transparent 6.5px),
+    linear-gradient(rgba(183,164,245,.26),rgba(183,164,245,.26)) 50% 70% / 16px 2px no-repeat,
+    linear-gradient(rgba(183,164,245,.16),rgba(183,164,245,.16)) 50% 80% / 11px 2px no-repeat,
+    rgba(183,164,245,.04); }
+.sc-wires span:nth-child(2){
+  background:
+    linear-gradient(rgba(183,164,245,.30),rgba(183,164,245,.30)) 50% 30% / 18px 9px no-repeat,
+    linear-gradient(rgba(183,164,245,.18),rgba(183,164,245,.18)) 50% 56% / 18px 5px no-repeat,
+    linear-gradient(rgba(183,164,245,.18),rgba(183,164,245,.18)) 50% 72% / 18px 5px no-repeat,
+    rgba(183,164,245,.04); }
+.sc-wires span:nth-child(3){
+  background:
+    linear-gradient(rgba(183,164,245,.30),rgba(183,164,245,.30)) 50% 26% / 14px 4px no-repeat,
+    linear-gradient(rgba(183,164,245,.16),rgba(183,164,245,.16)) 50% 84% / 18px 5px no-repeat,
+    radial-gradient(circle at 50% 52%, transparent 0 4.5px, rgba(183,164,245,.3) 5px 6px, transparent 6.5px),
+    rgba(183,164,245,.04); }
+/* the winner: a gold border and the star's own halo (a warm tint over this purple turns grey) */
+.sc-pick{ border-color:rgba(245,220,148,.30); }
+.sc-pick .sc-n{ color:var(--pp-sun); }
+.sc-step p.sc-winner{ margin:auto 0 0; padding-top:20px; display:flex; align-items:center; gap:12px;
+  font-size:22px; font-weight:800; letter-spacing:-.015em; color:var(--pp-cream); }
+.sc-winner .star{ position:relative; flex:none; width:28px; height:28px; }
+.sc-winner .star::before{ content:""; position:absolute; inset:-12px; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(245,220,148,.38), transparent); }
+.sc-winner .star svg{ position:relative; display:block; width:100%; height:100%; overflow:visible; }
+
+@media (max-width:860px){
+  .sc-flow{ grid-template-columns:1fr; --g:30px; }
+  .sc-step + .sc-step::before{ content:"\2193"; top:calc(var(--g) / -2 - 16px); left:26px; }
+  .sc-names, .sc-wires, .sc-step p.sc-winner{ margin-top:0; }
+}
+
+/* design to build: the brief's mockup next to the built app, small and labelled */
+.sc-d2b{ margin:clamp(28px,4vh,40px) 0 0; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(24px,5vw,72px); align-items:center;
+  padding:clamp(24px,3vw,34px) clamp(24px,3.4vw,44px); border-radius:22px; border:1px solid var(--pp-line);
+  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.006)), var(--pp-card); }
+.sc-d2b .sc-k{ margin-bottom:12px; }
+.sc-d2b-p{ margin:0; max-width:46ch; font-size:16px; line-height:1.65; color:var(--pp-dim); }
+.sc-d2b-pair{ display:flex; align-items:center; gap:clamp(14px,2vw,24px); }
+.sc-d2b-item{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+.sc-d2b-item .lb{ font:400 12px/1 "JetBrains Mono",monospace; letter-spacing:.04em; color:var(--pp-dim); white-space:nowrap; }
+/* while an image is still on its way (slow connection, lazy load just kicking in) the browser paints its
+   alt text inside the box; keep that text for screen readers but invisible, so a phone reads as an empty
+   bezel for a moment instead of a block of words */
+.sc img{ color:transparent; }
+/* a mini phone: the screenshot in a thin dark bezel (the mockup's own corners are 11.3% of its width) */
+.sc-mini{ display:block; width:clamp(118px,13vw,150px); height:auto; border:5px solid #12151a; border-radius:21px; background:#12151a;
+  box-shadow:0 0 0 1px rgba(214,201,250,.12), 0 30px 50px -28px rgba(0,0,0,.9), 0 18px 44px -24px rgba(120,96,210,.4); }
+/* the built app's screens in a mini phone get the same punch-hole camera as the big ones; it sits on a
+   wrapper because an img can't carry a ::before. Top = the bezel, then 3.4% of the width, like .sc-real */
+.sc-ph{ position:relative; display:block; }
+.sc-ph::before{ content:""; position:absolute; z-index:1; top:5px; left:50%; margin-top:3.4%; width:3.5%; aspect-ratio:1; border-radius:50%;
+  transform:translateX(-50%); background:#07060d; box-shadow:0 0 0 1px rgba(255,255,255,.05); pointer-events:none; }
+@media (max-width:860px){
+  .sc-d2b{ grid-template-columns:1fr; }
+  .sc-d2b-pair{ justify-content:center; }
+}
+@media (max-width:420px){
+  .sc-d2b{ padding:22px 16px 24px; }
+  .sc-d2b-pair{ gap:10px; }
+  .sc-mini{ width:calc((100vw - 36px - 32px - 2px - 34px - 20px) / 2); border-width:4px; border-radius:17px; }
+  .sc-ph::before{ top:4px; }
+}
+
+/* ============================ 3 · INSIDE THE APP ============================ */
+.sc-app{ isolation:isolate; overflow-x:clip; }
+.sc-app .pp-sec-head{ max-width:none; }
+.sc-app .pp-sec-head .pp-h2{ max-width:20ch; }
+.sc-intro{ margin-top:18px !important; max-width:60ch; }
+.sc-principles{ margin-top:6px; }
+.sc-principles .pp-concept{ border-radius:22px;
+  background:linear-gradient(180deg, rgba(183,164,245,.06), rgba(183,164,245,.015)), var(--pp-card); }
+.sc-principles .ic{ width:46px; height:46px; display:grid; place-items:center; border-radius:14px; font-size:22px; line-height:1;
+  background:rgba(183,164,245,.11); border:1px solid rgba(183,164,245,.16); }
+.sc-principles h3{ margin-top:18px; }
+.sc-shotnote{ display:flex; align-items:baseline; gap:10px; margin:clamp(48px,7vh,72px) 0 0; padding-top:22px; border-top:1px solid var(--pp-line);
+  font:400 12.5px/1.6 "JetBrains Mono",monospace; color:var(--pp-dim); }
+.sc-shotnote::before{ content:""; flex:none; width:7px; height:7px; border-radius:50%; background:var(--pp-peach); transform:translateY(-1px); }
+.sc-app .pp-feat{ margin-top:clamp(72px,10vh,120px); }
+.sc-app .pp-kicker{ color:var(--pp-lime); }
+.sc-app .pp-kicker > span[lang]{ white-space:nowrap; }
+.sc-app .pp-feat .pp-kicker{ max-width:none; }
+.sc-app .pp-feat h3{ text-wrap:balance; }
+.sc-app .pp-feat p{ max-width:48ch; }
+.sc-app .pp-feat .hl{ color:var(--pp-cream); }
+/* a soft glow behind every phone, warmer on the evening screen */
+.sc-app .pp-feat .stage{ position:relative; }
+.sc-app .pp-feat .stage::before{ content:""; position:absolute; z-index:-1; left:50%; top:46%; width:min(560px,130%); aspect-ratio:1;
+  transform:translate(-50%,-50%); pointer-events:none;
+  background:radial-gradient(closest-side, rgba(183,164,245,.15), rgba(120,96,210,.07) 55%, transparent 100%); }
+.sc-app .pp-feat.is-night .stage::before{
+  background:radial-gradient(closest-side, rgba(110,128,230,.16), rgba(70,60,160,.08) 55%, transparent 100%); }
+.sc-app .pp-feat .copy p + p{ margin-top:-2px; }
+
+/* ---------- getting started: the welcome screen and the four setup questions, small, in one strip ---------- */
+.sc-start{ margin-top:clamp(64px,9vh,104px); }
+.sc-start-head{ display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:clamp(20px,5vw,72px); align-items:end; }
+.sc-start-head h3{ margin:0; font-size:clamp(24px,3vw,34px); font-weight:800; letter-spacing:-.02em; line-height:1.08; }
+.sc-start-head > p{ margin:0; max-width:54ch; font-size:16px; line-height:1.6; color:var(--pp-dim); }
+.sc-strip{ margin-top:clamp(26px,4vh,38px); display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(12px,2.2vw,30px);
+  padding:clamp(24px,3vw,36px) clamp(20px,3.2vw,44px) clamp(20px,2.6vw,28px); border-radius:24px; border:1px solid var(--pp-line);
+  background:
+    radial-gradient(70% 90% at 50% 0%, rgba(183,164,245,.09), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.006)), var(--pp-card); }
+.sc-strip:focus-visible{ outline-offset:4px; border-radius:24px; }
+.sc-strip figure{ margin:0; min-width:0; display:flex; flex-direction:column; align-items:center; }
+.sc-strip .sc-ph{ width:100%; max-width:176px; }
+.sc-strip .sc-mini{ width:100%; }
+.sc-strip figcaption{ margin-top:14px; font:400 12px/1.3 "JetBrains Mono",monospace; letter-spacing:.04em; color:var(--pp-dim); white-space:nowrap; }
+.sc-strip figcaption b{ margin-right:6px; font-weight:500; color:var(--pp-lime); }
+
+/* ---------- log + grow: the screen recording in a phone, with the five stages beside it ---------- */
+.sc-grow2{ margin:0; display:flex; align-items:center; gap:clamp(18px,2vw,28px); }
+.sc-app .pp-feat .sc-grow2 .device{ width:clamp(240px,22vw,300px); }
+.device.sc-real .screen video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; display:block; background:#faf9f5; }
+.sc-stages-wrap{ display:flex; flex-direction:column; align-items:flex-start; }
+.sc-stages-wrap .sc-k{ display:block; margin-bottom:20px; }
+.sc-stages{ position:relative; list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; }
+/* a thin rail through the avatars, like a ladder */
+.sc-stages::before{ content:""; position:absolute; left:20.5px; top:21px; bottom:21px; width:1px;
+  background:linear-gradient(180deg, rgba(183,164,245,.45), rgba(183,164,245,.18)); }
+.sc-stages li{ display:grid; grid-template-columns:42px auto; column-gap:14px; align-items:center; }
+.sc-stages img{ position:relative; grid-row:1 / span 2; width:42px; height:42px; border-radius:50%; background:#d3c6e5;
+  box-shadow:0 0 0 1px rgba(214,201,250,.22), 0 6px 16px -8px rgba(0,0,0,.8);
+  transition:box-shadow .45s var(--ease, ease), filter .45s var(--ease, ease), opacity .45s var(--ease, ease); }
+.sc-stages .nm{ align-self:end; font-size:14.5px; font-weight:600; line-height:1.25; color:var(--pp-cream); transition:color .45s var(--ease, ease); white-space:nowrap; }
+.sc-stages .sc-pt{ align-self:start; margin-top:2px; font:400 11.5px/1.3 "JetBrains Mono",monospace; letter-spacing:.04em; color:var(--pp-faint); }
+/* while the video plays, the stage on screen lights up and the others rest */
+.is-live .sc-stages img{ opacity:.6; filter:saturate(.55); }
+.is-live .sc-stages .nm{ color:var(--pp-dim); }
+.is-live .sc-stages li.on img{ opacity:1; filter:none; box-shadow:0 0 0 2px var(--pp-lime), 0 0 22px rgba(183,164,245,.5); }
+.is-live .sc-stages li.on .nm{ color:var(--pp-cream); }
+.sc-vidbtn{ margin-top:24px; display:inline-flex; align-items:center; gap:9px; min-height:38px; padding:0 15px 0 13px; border-radius:999px;
+  border:1px solid var(--pp-line-strong); background:transparent; color:var(--pp-dim); cursor:pointer;
+  font:400 12px/1 "JetBrains Mono",monospace; letter-spacing:.04em; transition:color .2s, border-color .2s; }
+.sc-vidbtn[hidden]{ display:none; }
+.sc-vidbtn:hover{ color:var(--pp-lime-bright); border-color:var(--pp-lime); }
+.sc-vidbtn .i{ width:9px; height:10px; background:linear-gradient(90deg, currentColor 0 34%, transparent 34% 66%, currentColor 66%); }
+.sc-vidbtn.is-paused .i{ background:currentColor; -webkit-clip-path:polygon(0 0,100% 50%,0 100%); clip-path:polygon(0 0,100% 50%,0 100%); }
+
+/* ---------- soft or strict: the same moment (a distracting app after bedtime), two answers ---------- */
+.sc-modes{ --pw:clamp(176px,18vw,228px); margin:clamp(56px,8vh,88px) 0 0; padding:clamp(28px,3.6vw,48px) clamp(20px,3.4vw,44px) clamp(30px,3.6vw,46px);
+  border-radius:26px; border:1px solid var(--pp-line);
+  background:
+    radial-gradient(42% 62% at 27% 42%, rgba(183,164,245,.11), transparent 72%),
+    radial-gradient(42% 62% at 73% 42%, rgba(98,118,230,.13), transparent 72%),
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.005)), var(--pp-card); }
+.sc-modes-head{ display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:clamp(28px,4vh,40px); text-align:center; }
+.sc-modes-head .sc-k{ margin:0; }
+.sc-modes-p{ max-width:52ch; font-size:16px; line-height:1.6; color:var(--pp-dim); text-wrap:balance; }
+.sc-modes-pair{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); column-gap:clamp(18px,4vw,56px); max-width:820px; margin:0 auto; }
+.sc-mode{ display:flex; flex-direction:column; align-items:center; text-align:center; min-width:0; }
+.sc-modes .device.sc-dev{ width:var(--pw); }
+.sc-mode h4{ margin:28px 0 8px; font-size:19px; font-weight:700; letter-spacing:-.01em; line-height:1.3; color:var(--pp-cream); }
+.sc-mode .lv{ display:block; margin-bottom:9px; font:500 12px/1 "JetBrains Mono",monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--pp-lime); }
+.sc-mode p{ margin:0; max-width:31ch; font-size:15px; line-height:1.6; color:var(--pp-dim); }
+/* "or", level with the middle of the phones (a phone is ~2.09 times as tall as it is wide) */
+.sc-or{ align-self:start; margin-top:calc(var(--pw) * 1.043 - 22px); display:grid; place-items:center; width:44px; height:44px; border-radius:50%;
+  border:1px solid var(--pp-line-strong); background:var(--pp-bg2); font:500 13px/1 "JetBrains Mono",monospace; color:var(--pp-lime); }
+.device.sc-real.is-dim .screen{ background:#4b4a48; }
+
+/* two screens of one feature: the front phone, the other tucked in behind it */
+.sc-duo{ position:relative; width:min(440px,100%); padding-bottom:2%; }
+.sc-app .pp-feat .sc-duo .device{ width:62%; }
+.sc-duo .device.front{ position:relative; z-index:1; transform:rotate(-2.5deg); }
+.sc-duo .device.back{ position:absolute; z-index:0; right:0; top:6%; width:55%; transform:rotate(4deg); filter:brightness(.86) saturate(.92); }
+.sc-duo.flip .device.front{ margin-left:auto; transform:rotate(2.5deg); }
+.sc-duo.flip .device.back{ right:auto; left:0; transform:rotate(-4deg); }
+.sc-app .pp-feat .sc-duo .device.back{ width:55%; }
+
+/* two screens side by side, each with a name */
+.sc-twin{ display:flex; align-items:flex-start; gap:clamp(16px,2.6vw,28px); width:min(500px,100%); }
+.sc-twin figure{ margin:0; flex:1 1 0; min-width:0; }
+.sc-twin figure + figure{ margin-top:48px; }
+.sc-app .pp-feat .sc-twin .device{ width:100%; }
+.sc-twin figcaption{ margin-top:18px; text-align:center; font:400 12px "JetBrains Mono",monospace; letter-spacing:.04em; color:var(--pp-dim); }
+.sc-twin figcaption .sub{ display:block; margin-top:5px; font-size:11px; color:var(--pp-faint); }
+@media (max-width:720px){
+  .sc-principles{ gap:12px; }
+  .sc-principles .pp-concept{ display:grid; grid-template-columns:46px minmax(0,1fr); column-gap:16px; padding:20px; align-items:start; }
+  .sc-principles .ic{ grid-row:span 2; }
+  .sc-principles h3{ margin:1px 0 4px; font-size:18px; }
+}
+@media (max-width:780px){
+  .sc-app .pp-feat .device{ width:min(290px,74vw); }
+  .sc-app .pp-feat .stage::before{ width:100%; }
+  .sc-app .pp-feat{ margin-top:72px; }
+  .sc-shotnote{ margin-top:44px; }
+  .sc-duo{ width:min(400px,100%); }
+  .sc-twin{ width:min(420px,100%); }
+  .sc-twin figure + figure{ margin-top:32px; }
+}
+@media (max-width:420px){
+  .sc-twin .device .btn-pow, .sc-twin .device .btn-vol{ display:none; }
+}
+/* the new blocks on smaller screens */
+@media (max-width:860px){
+  .sc-start-head{ grid-template-columns:minmax(0,1fr); gap:14px; }
+}
+@media (max-width:1200px){
+  /* the phone, then the five stages as one row under it, the rail running through the avatars
+     (beside the phone they'd squeeze it to ~215px here) */
+  .sc-grow2{ flex-direction:column; gap:30px; width:100%; }
+  .sc-app .pp-feat .sc-grow2 .device{ width:clamp(250px,27vw,300px); }
+  .sc-stages-wrap{ align-items:center; width:min(440px,100%); }
+  .sc-stages{ flex-direction:row; justify-content:space-between; gap:4px; width:100%; }
+  .sc-stages::before{ left:10%; right:10%; top:21px; bottom:auto; width:auto; height:1px;
+    background:linear-gradient(90deg, rgba(183,164,245,.45), rgba(183,164,245,.18)); }
+  .sc-stages li{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  /* each name on two lines (first word, second word), so the points line up in one row */
+  .sc-stages .nm{ align-self:center; margin-top:10px; font-size:12.5px; }
+  .sc-stages .nm > span{ display:block; }
+  .sc-stages .sc-pt{ align-self:center; margin-top:4px; font-size:10.5px; }
+}
+@media (max-width:780px){
+  .sc-app .pp-feat .sc-grow2 .device{ width:min(262px,66vw); }
+  .sc-modes{ margin-top:64px; }
+}
+/* phones: the setup strip scrolls sideways, edge to edge, like the photos further down */
+@media (max-width:760px){
+  .sc-strip{ display:flex; gap:14px; overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    margin-left:calc(-1 * var(--sc-gut)); margin-right:calc(-1 * var(--sc-gut)); padding:4px 0 6px var(--sc-gut); scroll-padding-left:var(--sc-gut);
+    border:0; border-radius:0; background:none; }
+  .sc-strip::-webkit-scrollbar{ display:none; }
+  .sc-strip::after{ content:""; flex:0 0 calc(var(--sc-gut) - 14px); }
+  .sc-strip:focus-visible{ outline-offset:-2px; border-radius:16px; }
+  .sc-strip figure{ flex:0 0 40%; scroll-snap-align:start; }
+  .sc-strip .sc-ph{ max-width:none; }
+}
+/* phones: soft and strict become two rows, the phone left and its words right */
+@media (max-width:600px){
+  .sc-modes{ --pw:min(36vw,150px); padding:24px 16px 26px; border-radius:22px; }
+  .sc-modes-head{ margin-bottom:26px; }
+  .sc-modes-p{ font-size:15px; }
+  .sc-modes-pair{ grid-template-columns:minmax(0,1fr); }
+  .sc-mode{ display:grid; grid-template-columns:var(--pw) minmax(0,1fr); column-gap:16px; text-align:left; }
+  .sc-mode .device{ grid-column:1; grid-row:1 / span 2; }
+  .sc-mode h4{ grid-column:2; align-self:end; margin:0 0 6px; font-size:16.5px; }
+  .sc-mode p{ grid-column:2; align-self:start; font-size:14px; }
+  .sc-or{ margin:18px auto; width:36px; height:36px; font-size:12px; }
+  .sc-modes .device .btn-pow, .sc-modes .device .btn-vol{ display:none; }
+}
+
+/* ============================ 4 · HOW IT'S BUILT ============================ */
+.sc-build .pp-h2{ max-width:20ch; }
+.sc-build .pp-stack-list{ margin-top:26px; }
+.sc-facts{ margin:6px 0 0; }
+.sc-facts dd{ margin:0; }
+
+/* the data model, redrawn from the ER diagram */
+.sc-er{ --g:16px; margin:clamp(56px,8vh,88px) 0 0; padding:clamp(22px,3.4vw,40px); border-radius:26px; border:1px solid var(--pp-line);
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(183,164,245,.10), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+}
+.sc-er-top{ display:flex; justify-content:center; }
+.sc-tbl.sc-tbl-root{ flex:0 1 300px; width:min(100%,300px); }
+/* connectors: STUDENT down to a rail, the rail down to each table */
+.sc-er-bus{ position:relative; height:44px; }
+.sc-er-bus::before{ content:""; position:absolute; left:50%; top:0; height:23px; border-left:1px solid rgba(183,164,245,.45); }
+.sc-er-bus::after{ content:""; position:absolute; top:22px; height:22px;
+  left:calc((100% - 3 * var(--g)) / 8); right:calc((100% - 3 * var(--g)) / 8);
+  border:1px solid rgba(183,164,245,.45); border-bottom:0; border-radius:14px 14px 0 0; }
+.sc-er-row{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:var(--g); }
+.sc-er-col{ position:relative; display:flex; flex-direction:column; min-width:0; }
+.sc-er-col:nth-child(2)::before, .sc-er-col:nth-child(3)::before{ content:""; position:absolute; left:50%; top:-22px; height:22px;
+  border-left:1px solid rgba(183,164,245,.45); }
+.sc-rel{ position:relative; display:flex; gap:7px; width:fit-content; margin:0 auto 12px; padding:6px 12px; border-radius:999px;
+  border:1px solid rgba(183,164,245,.4); background:var(--pp-bg2); font:400 12px/1 "JetBrains Mono",monospace; }
+.sc-rel .v{ color:var(--pp-cream); }
+.sc-rel .c{ color:var(--pp-lime); }
+.sc-rel .c::before{ content:"\00b7"; margin-right:7px; color:var(--pp-faint); }
+
+.sc-tbl{ --a:183,164,245; flex:1; display:flex; flex-direction:column; border-radius:16px; overflow:hidden;
+  border:1px solid rgba(var(--a),.30); background:var(--pp-card); }
+.sc-tbl.is-goal{ --a:245,220,148; }
+.sc-tbl.is-sleep{ --a:183,164,245; }
+.sc-tbl.is-screen{ --a:159,176,242; }
+.sc-tbl.is-points{ --a:242,179,154; }
+.sc-tbl-root{ --a:211,198,251; }
+/* the table's colour as a thin top accent + its name, over a light tint (a stronger warm fill reads grey) */
+.sc-tbl-h{ margin:0; padding:13px 16px 12px; display:flex; flex-direction:column; gap:3px;
+  background:linear-gradient(180deg, rgba(var(--a),.09), rgba(var(--a),.03)); border-bottom:1px solid rgba(var(--a),.18);
+  box-shadow:inset 0 2px 0 rgba(var(--a),.8); }
+.sc-tbl-h .nm{ font:700 13px "JetBrains Mono",monospace; letter-spacing:.04em; color:rgb(var(--a)); overflow-wrap:anywhere; }
+.sc-tbl-h .en{ font-size:13px; color:var(--pp-dim); }
+.sc-tbl ul{ list-style:none; margin:0; padding:6px 0; }
+.sc-tbl li{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 16px;
+  font:400 12.5px/1.45 "JetBrains Mono",monospace; color:rgba(238,234,249,.88); }
+.sc-tbl li + li{ border-top:1px solid rgba(255,255,255,.045); }
+.sc-tbl li span{ min-width:0; overflow-wrap:anywhere; }
+.sc-tbl li b{ flex:none; font:700 10px/1 "JetBrains Mono",monospace; letter-spacing:.08em; padding:4px 6px; border-radius:5px; }
+.sc-tbl li:first-child b{ color:var(--pp-sun); background:rgba(245,220,148,.12); }   /* PK */
+.sc-tbl li + li b{ color:var(--pp-lime-bright); background:rgba(183,164,245,.14); }   /* FK */
+.sc-tbl-n{ margin:auto 0 0; padding:13px 16px 15px; border-top:1px solid var(--pp-line); font-size:13.5px; line-height:1.55; color:var(--pp-dim); }
+.sc-er figcaption{ margin:26px auto 0; max-width:60ch; text-align:center; font:400 12.5px/1.6 "JetBrains Mono",monospace; color:var(--pp-dim); }
+
+/* two columns and one: no rail to every table, so each pill names its subject ("student logs · many"),
+   and STUDENT's line ends on the first two pills (two columns) or the first one (one column) */
+@media (max-width:1100px){
+  .sc-er-row{ grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:26px; }
+  .sc-er-bus{ height:30px; }
+  .sc-er-bus::before{ height:15px; }
+  .sc-er-bus::after{ top:14px; height:16px; border-radius:12px 12px 0 0;
+    left:calc((100% - var(--g)) / 4); right:calc((100% - var(--g)) / 4); }
+  .sc-er-col::before{ display:none; }
+  .sc-rel .v::before{ content:"student "; color:var(--pp-dim); }
+}
+@media (max-width:560px){
+  .sc-er{ padding:18px 14px; border-radius:22px; }
+  .sc-er-row{ grid-template-columns:minmax(0,1fr); row-gap:22px; }
+  .sc-er-bus::before{ height:30px; }
+  .sc-er-bus::after{ display:none; }
+  .sc-tbl.sc-tbl-root{ flex-basis:100%; width:100%; }
+  /* one column: the fields flow as small chips, so five tables don't fill five screens */
+  .sc-tbl ul{ display:flex; flex-wrap:wrap; gap:6px; padding:14px 14px 15px; }
+  .sc-tbl li{ gap:7px; padding:5px 8px; border-radius:7px; border:1px solid rgba(255,255,255,.07); background:rgba(255,255,255,.02); }
+  .sc-tbl li + li{ border-top:1px solid rgba(255,255,255,.07); }
+  .sc-tbl li b{ padding:3px 5px; font-size:9.5px; }
+  .sc-tbl-n{ padding:12px 14px 14px; }
+}
+
+/* (after the two media blocks above, so its row-gap:0 wins)
+   four across (and two by two): the tables in a row share their rows (pill, header, fields, note),
+   so the note dividers line up and the slack sits under the shorter field lists */
+@supports (grid-template-rows:subgrid){
+  @media (min-width:561px){
+    .sc-er-col{ grid-row:1 / span 4; display:grid; grid-template-rows:subgrid; row-gap:0; }
+    .sc-tbl{ grid-row:2 / span 3; display:grid; grid-template-rows:subgrid; row-gap:0; }
+    .sc-tbl-n{ margin:0; }
+  }
+  @media (min-width:1101px){
+    .sc-er-row{ grid-template-rows:auto auto 1fr auto; row-gap:0; }
+  }
+  @media (min-width:561px) and (max-width:1100px){
+    .sc-er-row{ grid-template-rows:auto auto 1fr auto 26px auto auto 1fr auto; row-gap:0; }
+    .sc-er-col:nth-child(n+3){ grid-row:6 / span 4; }
+  }
+}
+
+/* ============================ 5 · GUEST LESSONS AND THE PILOT ============================ */
+/* head: the title left, the story right */
+.sc-pilot-head{ display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(28px,6vw,84px); align-items:start; }
+.sc-pilot .pp-h2{ max-width:12ch; }
+.sc-pilot .pp-p{ max-width:56ch; }
+.sc-pilot-head .pp-p:first-child{ margin-top:6px; }
+
+/* photos: a two-row bento on a 20-column grid. Row one: the wide team shot (13) next to the tall
+   table shot (7), which takes the row's height. Row two: two landscape shots, half and half.
+   Students' faces are blurred (or cropped out) in the image files themselves. */
+.sc-photos{ margin-top:clamp(44px,7vh,72px); display:grid; grid-template-columns:repeat(20,minmax(0,1fr)); gap:clamp(12px,1.6vw,18px); }
+.sc-photos:focus-visible{ outline-offset:6px; border-radius:22px; }
+.sc-photo{ position:relative; margin:0; border-radius:20px; overflow:hidden; background:var(--pp-card); aspect-ratio:3/2;
+  box-shadow:0 0 0 1px rgba(214,201,250,.12), 0 40px 80px -46px rgba(0,0,0,.95); }
+.sc-photo.f-team{ grid-column:span 13; }
+.sc-photo.f-table{ grid-column:span 7; aspect-ratio:auto; }
+.sc-photo.f-point, .sc-photo.f-demo{ grid-column:span 10; }
+.sc-photo img{ position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:50% 50%; }
+.sc-photo.f-table img{ object-position:50% 40%; }
+/* a soft night tint at the edge, so the bright classroom sits in the page */
+.sc-photo::after{ content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05); background:linear-gradient(180deg, rgba(14,12,31,0) 62%, rgba(14,12,31,.22)); }
+/* the caption sits on the photo, on a soft dark fade */
+.sc-photo figcaption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:48px 18px 15px;
+  font-size:13.5px; font-weight:500; line-height:1.45; text-wrap:balance; color:rgba(238,234,249,.94); text-shadow:0 1px 2px rgba(0,0,0,.4);
+  background:linear-gradient(180deg, rgba(14,12,31,0), rgba(14,12,31,.5) 45%, rgba(14,12,31,.78)); }
+.sc-photos-note{ margin:14px 0 0; font:400 12.5px/1.6 "JetBrains Mono",monospace; color:var(--pp-dim); }
+@media (max-width:900px){ .sc-photo figcaption{ padding:38px 14px 12px; font-size:12.5px; } }
+
+/* the two cards: a guest lesson step by step, and where the project is now */
+.sc-pilot-cards{ margin-top:clamp(40px,6vh,64px); display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(16px,2vw,24px); align-items:stretch; }
+.sc-card{ padding:clamp(22px,3vw,32px); border-radius:24px; border:1px solid var(--pp-line);
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.008)), var(--pp-card); }
+.sc-card > .sc-k{ margin-bottom:22px; }
+.sc-steps{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px 26px; }
+.sc-steps li{ display:grid; grid-template-columns:30px minmax(0,1fr); column-gap:8px; }
+.sc-steps .n{ font:500 12.5px/1.75 "JetBrains Mono",monospace; letter-spacing:.06em; color:var(--pp-lime); }
+.sc-steps .t{ font-size:15.5px; font-weight:700; line-height:1.45; color:var(--pp-cream); }
+.sc-steps .d{ display:block; margin-top:4px; font-size:14.5px; font-weight:400; line-height:1.55; color:var(--pp-dim); }
+.sc-time{ list-style:none; margin:0; padding:0; }
+.sc-time li{ position:relative; padding:0 0 20px 34px; }
+.sc-time li:last-child{ padding-bottom:0; }
+/* the rail between two markers */
+.sc-time li::before{ content:""; position:absolute; left:7.5px; top:20px; bottom:2px; width:1px; background:var(--pp-line-strong); }
+.sc-time li.done::before{ background:rgba(183,164,245,.5); }
+.sc-time li:last-child::before{ display:none; }
+.sc-time .mk{ position:absolute; left:0; top:3px; width:16px; height:16px; border-radius:50%; }
+.sc-time .done .mk{ background:var(--pp-lime); }
+.sc-time .done .mk::after{ content:""; position:absolute; left:5.5px; top:3.5px; width:3.5px; height:6.5px;
+  border:solid var(--sc-ink); border-width:0 1.8px 1.8px 0; transform:rotate(42deg); }
+.sc-time .now .mk{ background:var(--pp-sun); box-shadow:0 0 0 4px rgba(245,220,148,.14), 0 0 18px rgba(245,220,148,.45); }
+.sc-time .now .mk::after{ content:""; position:absolute; inset:-6px; border-radius:50%; border:1px solid rgba(245,220,148,.55);
+  opacity:0; animation:scRing 2.8s ease-out infinite; }
+@keyframes scRing{ 0%{ opacity:.9; transform:scale(.6); } 70%,100%{ opacity:0; transform:scale(1.25); } }
+.sc-time .next .mk{ border:1.5px dashed var(--pp-faint); }
+.sc-time .t{ display:block; font-size:15.5px; line-height:1.45; color:var(--pp-cream); }
+.sc-time .done .t{ color:rgba(238,234,249,.82); }
+.sc-time .now .t{ font-weight:700; color:var(--pp-cream); }
+.sc-time .next .t{ color:var(--pp-dim); }
+.sc-time .s{ display:block; margin-top:4px; font:500 11.5px "JetBrains Mono",monospace; letter-spacing:.12em; text-transform:uppercase; }
+.sc-time .now .s{ color:var(--pp-sun); }
+.sc-time .next .s{ color:var(--pp-faint); }
+.sc-time .done .s{ color:var(--pp-faint); }
+@media (max-width:1020px){
+  .sc-pilot-cards{ grid-template-columns:1fr; }
+}
+@media (max-width:860px){
+  .sc-pilot-head{ grid-template-columns:1fr; gap:6px; }
+  .sc-pilot .pp-h2{ max-width:none; }
+  .sc-pilot-head .pp-p:first-child{ margin-top:18px; }
+}
+/* phones: the photos become a swipeable strip, edge to edge, every frame 4:3, with a peek of the
+   next one (the tall table shot is framed on the students and their phones) */
+@media (max-width:640px){
+  .sc-photos{ display:flex; gap:12px; overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory;
+    margin-left:calc(-1 * var(--sc-gut)); margin-right:calc(-1 * var(--sc-gut));
+    padding:0 0 0 var(--sc-gut); scroll-padding-left:var(--sc-gut); scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  .sc-photos::-webkit-scrollbar{ display:none; }
+  /* the gap before it plus its width: the gutter after the last photo (padding-right is unreliable in a scroller) */
+  .sc-photos::after{ content:""; flex:0 0 calc(var(--sc-gut) - 12px); }
+  .sc-photos:focus-visible{ outline-offset:-2px; border-radius:16px; }
+  .sc-photo, .sc-photo.f-table{ flex:0 0 84%; aspect-ratio:4/3; border-radius:16px; scroll-snap-align:start; }
+  .sc-photo.f-table img{ object-position:50% 48%; }
+  .sc-photo.f-point img{ object-position:58% 50%; }
+  .sc-photos-note{ margin-top:12px; }
+  .sc-steps{ grid-template-columns:1fr; gap:18px; }
+}
+
+/* ============================ 6 · CLOSE + FOOTER ============================ */
+.sc-close .pp-h2{ max-width:22ch; margin-left:auto; margin-right:auto; }
+/* one quiet line under the buttons: PowerPlan(t), from the same project one round later */
+.sc-also{ margin:30px auto 0; max-width:44ch; font-size:14.5px; line-height:1.6; color:var(--pp-dim); }
+.sc-also a{ color:var(--pp-lime); font-weight:600; text-decoration:underline; text-decoration-color:rgba(183,164,245,.38);
+  text-underline-offset:4px; text-decoration-thickness:1px; transition:color .2s, text-decoration-color .2s; }
+.sc-also a:hover{ color:var(--pp-lime-bright); text-decoration-color:currentColor; }
+.sc-foot-links{ display:flex; flex-wrap:wrap; column-gap:18px; }
+.sc-foot-links a{ display:inline-flex; align-items:center; min-height:44px; }
+
+/* ---------- phones ---------- */
+@media (max-width:760px){
+  /* one column that may shrink, and a title that scales below 375px wide ("SlaapCampus" is ~7.07em
+     and can't wrap): 44px from 375 up, ~39px at 320 */
+  .sc-hero{ grid-template-columns:minmax(0,1fr); }
+  .sc-hero .pp-title{ font-size:clamp(34px, calc((100vw - 36px) / 7.2), 44px); }
+  .sc-hero .pp-sub{ max-width:30ch; }
+  .sc-hero .pp-hero-stage::before{ top:40%; width:100%; }
+  .sc .pp-fact{ font-size:13px; }
+}
+/* the smallest phones (320 to 360): keep the eyebrow on one line */
+@media (max-width:360px){
+  .sc-hero .pp-eyebrow{ font-size:12px; letter-spacing:.12em; }
+}
+/* the nav's "Email me" pill is on screen here, so the hero doesn't repeat it */
+@media (max-width:560px){
+  .sc-hero .pp-cta .ghost{ display:none; }
+}
+@media (max-width:480px){
+  .sc-close .pp-close-row{ flex-direction:column; align-items:stretch; max-width:320px; margin:0 auto; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sc-time .now .mk::after{ animation:none; opacity:0; }
+  .sc-source a, .sc .pp-btn, .sc-vidbtn, .sc-stages img, .sc-stages .nm{ transition:none; }
+}

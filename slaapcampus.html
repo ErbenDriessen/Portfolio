@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<!-- SlaapCampus: the sleep app for mbo students, made within Sifra Swagerman's research
+     at the Open Universiteit. The phone screens are screenshots of the built app (Android, in Dutch,
+     a demo account with demo data, status bar blanked); the nursing students' design mockup appears
+     once, labelled, under "From idea to app". -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<style>html{background:#0e0c1f}</style>
+<script>document.documentElement.classList.add('js')</script>
+<!-- page transitions (css/transitions.css, js/transitions.js): a page opened through the
+     curtain starts covered, before its first paint. window.__ed.onOpen(fn) runs fn once
+     nothing covers the page any more (at once when nothing did). -->
+<script>
+(function(h){
+  var ed = window.__ed = { t0:performance.now(), cover:'', q:[],
+    onOpen:function(f){ if(ed.q) ed.q.push(f); else f(); },
+    open:function(){ var q = ed.q; if(!q) return; ed.q = null; h.classList.remove('cover-up');
+      q.forEach(function(f){ try{ f(); }catch(e){} }); } };
+  try{
+    var s = sessionStorage, c = JSON.parse(s.getItem('ed:pt') || 'null'), hex = /^#[0-9a-f]{3,8}$/i,
+        k = location.pathname.replace(/(\/index)?(\.html)?$/, '').split('/').pop() || 'home',
+        calm = window.top === window && !matchMedia('(prefers-reduced-motion:reduce)').matches;
+    s.removeItem('ed:pt');
+    if(calm && c && c.k === k && Date.now() - c.t < 8000 && hex.test(c.bg) && hex.test(c.fg)){
+      ed.cover = 'pt';
+      h.classList.add('pt-in', 'cover-up', 'cover-load');
+      h.style.setProperty('--pt-bg', c.bg); h.style.setProperty('--pt-fg', c.fg);
+      h.style.setProperty('--pt-name', JSON.stringify(String(c.n))); h.style.setProperty('--pt-kind', JSON.stringify(String(c.l)));
+      h.style.backgroundColor = c.bg;
+    }
+  }catch(e){}
+  if(!ed.cover) ed.q = null;
+  /* failsafe: never stuck covered */
+  else setTimeout(function(){ if(ed.q){ h.classList.remove('pt-in', 'ld-on'); ed.open(); } }, 5000);
+})(document.documentElement);
+</script>
+<meta name="darkreader-lock">
+<title>SlaapCampus · Case study · Erben Driessen</title>
+<meta name="description" content="SlaapCampus: a sleep app for mbo students, made with students, not for them. Built in React Native (Expo) with Max Klant, now in its first pilot.">
+<link rel="canonical" href="https://erbendriessen.nl/slaapcampus">
+<meta name="theme-color" content="#0e0c1f">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- share preview (LinkedIn / WhatsApp / mail): 1200x630 render of this page's hero -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://erbendriessen.nl/slaapcampus">
+<meta property="og:title" content="SlaapCampus · Case study · Erben Driessen">
+<meta property="og:description" content="A sleep app for mbo students, made with students, not for them. Built in React Native (Expo), now in its first pilot.">
+<meta property="og:image" content="https://erbendriessen.nl/media/og-slaapcampus.jpg?v=20261014-2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SlaapCampus case study: the app's home screen on a phone, with a cartoon monkey avatar called Clever Monkey, in a night-blue sky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://erbendriessen.nl/media/og-slaapcampus.jpg?v=20261014-2">
+<meta name="twitter:image:alt" content="SlaapCampus case study: the app's home screen on a phone, with a cartoon monkey avatar called Clever Monkey, in a night-blue sky">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
+<link rel="stylesheet" href="css/slaapcampus.css?v=20261015-sc11">
+<link rel="preload" as="image" href="media/sc-app2-home-441.webp" imagesrcset="media/sc-app2-home-441.webp 441w, media/sc-app2-home-882.webp 882w" imagesizes="(max-width:760px) 230px, 280px" fetchpriority="high">
+<link rel="stylesheet" href="css/transitions.css?v=20261015-fx1">
+</head>
+<body class="sc">
+<!-- the page-transition curtain (css/transitions.css, js/transitions.js) -->
+<div class="pt" aria-hidden="true"><span class="pt-name"></span><span class="pt-kind"></span></div>
+<a class="sc-skip" href="#main">Skip to content</a>
+
+<!-- ============================ NAV ============================ -->
+<nav class="pp-nav" id="ppnav" aria-label="Case study">
+  <a class="pp-back" href="./#work" data-back><span class="ar" aria-hidden="true">←</span> All&nbsp;work</a>
+  <div class="pp-nav-right">
+    <a href="#research">the&nbsp;research</a>
+    <a href="#app">the&nbsp;app</a>
+    <a href="#pilot">the&nbsp;pilot</a>
+    <a class="gh" href="mailto:erben.l.driessen@gmail.com">Email&nbsp;me</a>
+  </div>
+</nav>
+
+<main id="main">
+<!-- ============================ 0 · HERO ============================ -->
+<header class="pp-hero pp-hero-phone sc-hero">
+  <div class="pp-hero-glow" aria-hidden="true"></div>
+  <div class="pp-hero-copy rev-in">
+    <p class="pp-eyebrow">Case study · Mobile app · Pilot</p>
+    <h1 class="pp-title">Slaap<span class="t">Campus</span></h1>
+    <p class="pp-sub">A sleep app for mbo students, made with students, not for them.</p>
+    <p class="pp-lead">SlaapCampus helps students sleep better. You track your sleep and screen time and earn points. Night mode or a screen break blocks distracting apps for a while, or even your whole phone.</p>
+    <div class="pp-meta">
+      <span class="pp-chip on">2026</span>
+      <span class="pp-chip">React Native</span>
+      <span class="pp-chip">Expo</span>
+      <span class="pp-chip">Android</span>
+      <span class="pp-chip">Pilot</span>
+    </div>
+    <div class="pp-cta">
+      <a class="pp-btn primary" href="#app">How it works <span aria-hidden="true">↓</span></a>
+      <a class="pp-btn ghost" href="mailto:erben.l.driessen@gmail.com">Email me</a>
+    </div>
+  </div>
+
+  <div class="pp-hero-stage rev-in">
+    <div class="device sc-dev sc-real">
+      <span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+      <div class="screen"><img src="media/sc-app2-home-441.webp" srcset="media/sc-app2-home-441.webp 441w, media/sc-app2-home-882.webp 882w" sizes="(max-width:760px) 230px, 280px" width="441" height="956" fetchpriority="high" decoding="async" alt="The SlaapCampus home screen in the evening: Goedenavond, a streak and points, a cartoon monkey avatar called Clever Monkey with a bar towards its next stage, and the question Hoe heb je geslapen? with a button to log last night"><span class="glare"></span></div>
+    </div>
+    <span class="pp-hero-cap">the built app · home, in the evening</span>
+  </div>
+</header>
+
+<!-- ============================ 1 · THE RESEARCH ============================ -->
+<section class="pp-section sc-research" id="research" aria-labelledby="researchTitle">
+  <div class="sc-research-grid">
+    <div class="rev-in">
+      <p class="pp-eyebrow">The research</p>
+      <h2 class="pp-h2" id="researchTitle">How do you improve the <span class="g">(mental) health</span> of mbo students?</h2>
+      <p class="pp-p sc-first">Sifra Swagerman has been working on that question for a while, and lately I got to do my bit too.</p>
+      <p class="pp-p">Her research at the Open Universiteit is called LEMBO: <i lang="nl">Leefstijl En Mentaal welbevinden in het BeroepsOnderwijs</i>, lifestyle and mental wellbeing in vocational education. Students at Dutch vocational schools (mbo), aged 16 and up, fill in a questionnaire about how they live and how they feel.</p>
+      <p class="pp-p">Within her research, the idea came up to make an app <span class="hl">not for students, but with them</span>.</p>
+      <p class="sc-source"><a href="https://www.ou.nl/documents/40554/9166924/PSY_Informatie_Flyer_Onderzoek_Leefstijl_Mentaal_Welbevinden_MBO_studenten.pdf" target="_blank" rel="noopener">Source: the LEMBO flyer, Open Universiteit (PDF, Dutch) <span aria-hidden="true">↗</span></a></p>
+    </div>
+
+    <aside class="sc-quest rev-in" aria-labelledby="questTitle">
+      <p class="sc-k" id="questTitle">The questionnaire asks about</p>
+      <ul class="sc-topics">
+        <li>diet</li><li>exercise</li><li>sitting</li><li class="on">sleep</li><li>smoking and vaping</li>
+        <li>alcohol</li><li>drugs</li><li class="on">screen use</li>
+      </ul>
+      <p class="sc-and"><span>and</span> mental wellbeing</p>
+      <p class="sc-quest-note">SlaapCampus focuses on two of those: <span class="hl">sleep</span> and <span class="hl">screen use</span>.</p>
+      <div class="sc-rounds">
+        <p class="sc-k">Three times within a year</p>
+        <ol>
+          <li><span class="dot" aria-hidden="true"></span>start</li>
+          <li><span class="dot" aria-hidden="true"></span>6 months</li>
+          <li><span class="dot" aria-hidden="true"></span>12 months</li>
+        </ol>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================ 2 · FROM IDEA TO APP ============================ -->
+<section class="sc-band" id="idea" aria-labelledby="ideaTitle">
+  <div class="sc-band-inner">
+    <div class="pp-sec-head rev-in">
+      <p class="pp-eyebrow">From idea to app</p>
+      <h2 class="pp-h2" id="ideaTitle">Nursing students came up with the ideas. <span class="g">We turned them into an app.</span></h2>
+    </div>
+    <ol class="sc-flow">
+      <li class="sc-step rev-in">
+        <span class="sc-n">01</span>
+        <h3>The concepts</h3>
+        <p>Nursing students came up with different app concepts and designed them.</p>
+        <ul class="sc-names" aria-label="Some of the concepts">
+          <li>Screenbreak</li><li>Nachtwacht</li><li>Ontbijt koning</li><li class="more">and more</li>
+        </ul>
+      </li>
+      <li class="sc-step rev-in">
+        <span class="sc-n">02</span>
+        <h3>The apps</h3>
+        <p>We, the software development students, turned those designs into working apps.</p>
+        <div class="sc-wires" aria-hidden="true"><span></span><span></span><span></span></div>
+      </li>
+      <li class="sc-step sc-pick rev-in">
+        <span class="sc-n">03</span>
+        <h3>The pick</h3>
+        <p>Out of those, our app was picked as the best.</p>
+        <p class="sc-winner"><span class="star" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><defs><linearGradient id="scStar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF4CF"/><stop offset=".55" stop-color="#F5DC94"/><stop offset="1" stop-color="#E7B866"/></linearGradient></defs><path d="M12.00 2.20 L14.94 8.75 L22.08 9.52 L16.76 14.35 L18.23 21.38 L12.00 17.80 L5.77 21.38 L7.24 14.35 L1.92 9.52 L9.06 8.75 Z" fill="url(#scStar)" stroke="url(#scStar)" stroke-width="2.2" stroke-linejoin="round"/></svg></span>SlaapCampus</p>
+      </li>
+    </ol>
+
+    <!-- design to build: the one place the nursing students' design mockup still shows, labelled as such -->
+    <figure class="sc-d2b rev-in" aria-labelledby="d2bCap">
+      <div class="sc-d2b-copy">
+        <p class="sc-k">Design → build</p>
+        <p class="sc-d2b-p" id="d2bCap">The nursing students made the first design. The app we built kept their little mouse that grows as you go, in a lighter look.</p>
+      </div>
+      <div class="sc-d2b-pair">
+        <div class="sc-d2b-item">
+          <img class="sc-mini" src="media/sc-home-441.webp" width="441" height="957" loading="lazy" decoding="async" alt="The nursing students' design mockup of the home screen: a mouse peeking out of a glowing star in a purple night sky, above a chart of sleep and screen time">
+          <span class="lb">their design</span>
+        </div>
+        <span class="sc-ar" aria-hidden="true">→</span>
+        <div class="sc-d2b-item">
+          <span class="sc-ph"><img class="sc-mini" src="media/sc-app2-home-mouse-441.webp" width="441" height="956" loading="lazy" decoding="async" alt="The built app's home screen: the first avatar stage, a cartoon mouse called Sleepy Mouse, and the question Hoe heb je geslapen? with a button to log last night"></span>
+          <span class="lb">the built app</span>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ 3 · INSIDE THE APP ============================ -->
+<!-- every screen here comes from the built app (Android, in Dutch), filled with a demo account and demo
+     data. Status bars are blanked to the app's own background; on the Buddies screen the invite code is
+     blurred. The video is a screen recording of the home screen going through the five avatar stages. -->
+<section class="pp-section sc-app" id="app" aria-labelledby="appTitle">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">Inside the app</p>
+    <h2 class="pp-h2" id="appTitle">Encourage, don&rsquo;t punish.</h2>
+    <p class="pp-p sc-intro">The nursing students&rsquo; design asked for a calm, motivating app for students who want to sleep earlier and longer. Clear limits, but never harsh. The built app keeps that tone: you earn points, your avatar grows, and you decide how strict bedtime gets.</p>
+  </div>
+
+  <div class="pp-concepts sc-principles">
+    <div class="pp-concept rev-in"><div class="ic" aria-hidden="true">🌙</div><h3>Less distraction</h3><p>At bedtime the apps you pick are blocked, gently or strictly. A screen break locks your phone for a while.</p></div>
+    <div class="pp-concept rev-in"><div class="ic" aria-hidden="true">⭐</div><h3>Visible goals</h3><p>Your sleep goal, your average and your streak, right on the home screen.</p></div>
+    <div class="pp-concept rev-in"><div class="ic" aria-hidden="true">🐭</div><h3>Soft rewards</h3><p>Points, an avatar that grows from a mouse into a giraffe, and themes to unlock.</p></div>
+  </div>
+
+  <p class="sc-shotnote rev-in">The screens below come from the built app on Android, in Dutch. They show a demo account with demo data.</p>
+
+  <!-- getting started: the welcome screen and the four setup questions, small, as one strip -->
+  <div class="sc-start">
+    <div class="sc-start-head rev-in">
+      <div>
+        <p class="pp-kicker">Getting started · <span lang="nl">Start je slaaptraject</span></p>
+        <h3>Set up in a minute</h3>
+      </div>
+      <p>The welcome screen says setting up takes a minute. Then come four short questions: how old you are, how many hours of sleep you want (experts recommend 7 to 9), when you want to go to sleep, and which apps keep you up at night.</p>
+    </div>
+    <div class="sc-strip rev-in" role="region" aria-label="The welcome screen and the four setup questions" tabindex="0">
+      <figure><span class="sc-ph"><img class="sc-mini" src="media/sc-app2-welcome-441.webp" srcset="media/sc-app2-welcome-441.webp 441w, media/sc-app2-welcome-882.webp 882w" sizes="(max-width:760px) 40vw, 170px" width="441" height="956" loading="lazy" decoding="async" alt="The welcome screen: a crescent moon, Slaapcampus, Beter slapen begint met minder schermtijd, and a button Start je slaaptraject"></span><figcaption>welcome</figcaption></figure>
+      <figure><span class="sc-ph"><img class="sc-mini" src="media/sc-app2-ob-age-441.webp" srcset="media/sc-app2-ob-age-441.webp 441w, media/sc-app2-ob-age-882.webp 882w" sizes="(max-width:760px) 40vw, 170px" width="441" height="956" loading="lazy" decoding="async" alt="Setup step 1 of 4: Hoe oud ben je? with a field for your age"></span><figcaption><b>01</b> age</figcaption></figure>
+      <figure><span class="sc-ph"><img class="sc-mini" src="media/sc-app2-ob-sleep-441.webp" srcset="media/sc-app2-ob-sleep-441.webp 441w, media/sc-app2-ob-sleep-882.webp 882w" sizes="(max-width:760px) 40vw, 170px" width="441" height="956" loading="lazy" decoding="async" alt="Setup step 2 of 4: Hoeveel uur slaap wil je? Experts recommend 7 to 9 hours, set to 8 with minus and plus buttons"></span><figcaption><b>02</b> sleep goal</figcaption></figure>
+      <figure><span class="sc-ph"><img class="sc-mini" src="media/sc-app2-ob-bedtime-441.webp" srcset="media/sc-app2-ob-bedtime-441.webp 441w, media/sc-app2-ob-bedtime-882.webp 882w" sizes="(max-width:760px) 40vw, 170px" width="441" height="956" loading="lazy" decoding="async" alt="Setup step 3 of 4: Wanneer wil je gaan slapen? with bedtimes from 21:00 to 23:30 in half hours"></span><figcaption><b>03</b> bedtime</figcaption></figure>
+      <figure><span class="sc-ph"><img class="sc-mini" src="media/sc-app2-ob-apps-441.webp" srcset="media/sc-app2-ob-apps-441.webp 441w, media/sc-app2-ob-apps-882.webp 882w" sizes="(max-width:760px) 40vw, 170px" width="441" height="956" loading="lazy" decoding="async" alt="Setup step 4 of 4: Welke apps houden je 's nachts wakker? with Instagram, TikTok, Snapchat, YouTube, X, Reddit, Discord, Twitch, Netflix and WhatsApp to pick from"></span><figcaption><b>04</b> apps</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- log the night, grow the avatar: a screen recording of the home screen through all five stages.
+       Plays (muted, looping) only while it's on screen; with reduced motion it stays on its poster. -->
+  <div class="pp-feat">
+    <div class="copy rev-in">
+      <p class="pp-kicker">Home · <span lang="nl">Hoe heb je geslapen?</span></p>
+      <h3>Log the night, grow an avatar</h3>
+      <p>Until you&rsquo;ve logged, the home screen asks one question: <i lang="nl">&ldquo;Hoe heb je geslapen?&rdquo;</i>, how did you sleep? You fill in how long you slept and your screen time that evening.</p>
+      <p>Logging earns points and keeps your streak going. With enough points your avatar moves on to its next stage, from <span class="hl">Sleepy Mouse all the way to Mighty Giraffe</span>.</p>
+      <div class="tags"><span>Sleep log</span><span>Streak</span><span>Points</span><span>Five stages</span></div>
+    </div>
+    <div class="stage rev-in">
+      <figure class="sc-grow2">
+        <div class="device sc-dev sc-real sc-vid"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+          <div class="screen">
+            <video id="scStages" poster="media/sc-app2-stages-poster.webp" width="720" height="1560" muted loop playsinline preload="none" data-src-small="media/sc-app2-stages-480.mp4" data-src-big="media/sc-app2-stages-720.mp4" aria-label="Screen recording: the home screen while the avatar grows from Sleepy Mouse into Cozy Cat, Loyal Dog, Clever Monkey and Mighty Giraffe, each with a small puff of smoke"></video>
+            <span class="glare"></span>
+          </div>
+        </div>
+        <figcaption class="sc-stages-wrap">
+          <span class="sc-k">Five stages</span>
+          <ol class="sc-stages">
+            <li><img src="media/sc-app2-stage-mouse.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><span class="nm"><span>Sleepy</span> <span>Mouse</span></span><span class="sc-pt">start</span></li>
+            <li><img src="media/sc-app2-stage-cat.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><span class="nm"><span>Cozy</span> <span>Cat</span></span><span class="sc-pt">50 pts</span></li>
+            <li><img src="media/sc-app2-stage-dog.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><span class="nm"><span>Loyal</span> <span>Dog</span></span><span class="sc-pt">150 pts</span></li>
+            <li><img src="media/sc-app2-stage-monkey.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><span class="nm"><span>Clever</span> <span>Monkey</span></span><span class="sc-pt">300 pts</span></li>
+            <li><img src="media/sc-app2-stage-giraffe.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><span class="nm"><span>Mighty</span> <span>Giraffe</span></span><span class="sc-pt">500 pts</span></li>
+          </ol>
+          <button class="sc-vidbtn" type="button" aria-controls="scStages" hidden><span class="i" aria-hidden="true"></span><span class="t">Pause</span></button>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- bedtime: the settings, then soft against strict -->
+  <div class="pp-feat rev">
+    <div class="copy rev-in">
+      <p class="pp-kicker">Bedtime · <span lang="nl">Bedtijd</span></p>
+      <h3>A bedtime that blocks for you</h3>
+      <p>In the settings you set a sleep goal (the app recommends 7 to 9 hours), a bedtime and a wake-up time. At bedtime your phone <span class="hl">blocks automatically</span>, and at wake-up time the block stops on its own.</p>
+      <p>What that block feels like is up to you: a gentle question, or a phone that stays locked until morning.</p>
+      <div class="tags"><span>Sleep goal</span><span>Bedtime</span><span>Wake-up time</span><span>Auto-block</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="device sc-dev sc-real tilt-r"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+        <div class="screen"><img src="media/sc-app2-settings-441.webp" srcset="media/sc-app2-settings-441.webp 441w, media/sc-app2-settings-882.webp 882w" sizes="(max-width:780px) 265px, 290px" width="441" height="956" loading="lazy" decoding="async" alt="Instellingen: sleep goal 8 hours with 7 to 9 recommended, Bedtijd 23:30 with the line Telefoon blokkeert automatisch om 23:30, and Wektijd 07:00 with the line De blokkade stopt automatisch op dit tijdstip"><span class="glare"></span></div></div>
+    </div>
+  </div>
+
+  <figure class="sc-modes rev-in">
+    <figcaption class="sc-modes-head">
+      <span class="sc-k">Soft or strict</span>
+      <span class="sc-modes-p">After bedtime, the app can ask before a distracting app opens, or lock the phone until morning.</span>
+    </figcaption>
+    <div class="sc-modes-pair">
+      <div class="sc-mode">
+        <div class="device sc-dev sc-real is-dim"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+          <div class="screen"><img src="media/sc-app2-nudge-441.webp" srcset="media/sc-app2-nudge-441.webp 441w, media/sc-app2-nudge-882.webp 882w" sizes="(max-width:600px) 40vw, 230px" width="441" height="956" loading="lazy" decoding="async" alt="Over the dimmed home screen, a dialog: Weet je het zeker? Instagram hoort niet bij bedtijd. Wil je toch openen? with the buttons Ja, open toch and Terug"><span class="glare"></span></div></div>
+        <h4><span class="lv">Soft</span> A nudge</h4>
+        <p>The app asks first: <i lang="nl">&ldquo;Weet je het zeker?&rdquo;</i> Instagram doesn&rsquo;t belong at bedtime. You can still open it, or go back.</p>
+      </div>
+      <span class="sc-or" aria-hidden="true">or</span>
+      <div class="sc-mode">
+        <div class="device sc-dev sc-real is-dark"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+          <div class="screen"><img src="media/sc-app2-night-441.webp" srcset="media/sc-app2-night-441.webp 441w, media/sc-app2-night-882.webp 882w" sizes="(max-width:600px) 40vw, 230px" width="441" height="956" loading="lazy" decoding="async" alt="The night mode lock in dark blue: Nachtmodus, a crescent moon, the time 10:14 PM, a ring around a second moon, Nog 8u 45min tot ontgrendeling, and a button Noodtoegang (1 min)"><span class="glare"></span></div></div>
+        <h4><span class="lv">Strict</span> Locked until morning</h4>
+        <p>Night mode locks the phone and shows how long until it unlocks. If you really need it, there&rsquo;s one minute of emergency access.</p>
+      </div>
+    </div>
+  </figure>
+
+  <!-- statistics: the two tabs -->
+  <div class="pp-feat">
+    <div class="copy rev-in">
+      <p class="pp-kicker">Stats · <span lang="nl">Statistieken</span></p>
+      <h3>Sleep and screen time, side by side</h3>
+      <p>Statistics has two tabs, sleep and screen time, over the last 7, 14 or 30 days. Below the chart: your average sleep and screen time, <span class="hl">this week against last week</span>, and your best night.</p>
+      <div class="tags"><span>7 · 14 · 30 days</span><span>Averages</span><span>Week on week</span><span>Best night</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="sc-duo">
+        <div class="device sc-dev sc-real front"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+          <div class="screen"><img src="media/sc-app2-stats-sleep-441.webp" srcset="media/sc-app2-stats-sleep-441.webp 441w, media/sc-app2-stats-sleep-882.webp 882w" sizes="(max-width:440px) 56vw, 265px" width="441" height="956" loading="lazy" decoding="async" alt="Statistieken, the sleep tab: a bar chart of hours slept over the last 7 days, buttons for 7, 14 and 30 days, cards for average sleep and screen time, Deze week vs vorige week, and the best night"><span class="glare"></span></div></div>
+        <div class="device sc-dev sc-real back"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+          <div class="screen"><img src="media/sc-app2-stats-screen-441.webp" srcset="media/sc-app2-stats-screen-441.webp 441w, media/sc-app2-stats-screen-882.webp 882w" sizes="(max-width:440px) 51vw, 245px" width="441" height="956" loading="lazy" decoding="async" alt="Statistieken, the screen time tab: a line chart of screen time in minutes over the last 7 days, with the same cards below"><span class="glare"></span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- screen break: the lock screen -->
+  <div class="pp-feat rev is-night">
+    <div class="copy rev-in">
+      <p class="pp-kicker">Screen break · <span lang="nl">Schermpauze</span></p>
+      <h3>A break from your phone</h3>
+      <p>From the home screen you can start a screen break, and your phone locks for a while. The lock screen keeps it short: the time, when it unlocks and how long is left.</p>
+      <p>The apps you allow, like Phone and Spotify, still open. If you really need it, you can <span class="hl">unlock for one minute</span>, and in an emergency you can switch the block off.</p>
+      <div class="tags"><span>Screen break</span><span>Allowed apps</span><span>One-minute unlock</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="device sc-dev sc-real is-dark tilt-r"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+        <div class="screen"><img src="media/sc-app2-break-441.webp" srcset="media/sc-app2-break-441.webp 441w, media/sc-app2-break-882.webp 882w" sizes="(max-width:780px) 265px, 290px" width="441" height="956" loading="lazy" decoding="async" alt="The screen-break lock screen in dark blue: the time 10:15 PM in large type, Ontgrendelt om 10:40 PM, Nog 25 min, allowed apps Telefoon and Spotify, a button Ontgrendel voor 1 minuut and a link Noodgeval: blokkade uitzetten"><span class="glare"></span></div></div>
+    </div>
+  </div>
+
+  <!-- buddies and the theme shop -->
+  <div class="pp-feat">
+    <div class="copy rev-in">
+      <p class="pp-kicker">Friends and themes · <span lang="nl">Buddies, Thema Winkel</span></p>
+      <h3>Friends, and something to spend points on</h3>
+      <p>In Buddies you start a group with friends. The group has a leaderboard with everyone&rsquo;s streak, average sleep and points, an invite code to share, and you can send each other a bit of motivation.</p>
+      <p>The theme shop has light, dark and a <span class="hl">high-contrast theme for colour blindness</span>. Points buy more, like <span lang="nl">Nachtelijke Hemel</span> (night sky) and <span lang="nl">Bos</span> (forest).</p>
+      <div class="tags"><span>Groups</span><span>Leaderboard</span><span>Motivation</span><span>Themes</span></div>
+    </div>
+    <div class="stage rev-in">
+      <div class="sc-twin">
+        <figure>
+          <div class="device sc-dev sc-real"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+            <div class="screen"><img src="media/sc-app2-buddies-441.webp" srcset="media/sc-app2-buddies-441.webp 441w, media/sc-app2-buddies-882.webp 882w" sizes="(max-width:440px) 41vw, (max-width:780px) 190px, 220px" width="441" height="956" loading="lazy" decoding="async" alt="Buddies, a demo group: Ranglijst, a leaderboard of five members with their streaks, average sleep and points, an Uitnodigen card with the invite code blurred and a button Delen, and Ontvangen Motivatie with the message Je streak is indrukwekkend!"><span class="glare"></span></div></div>
+          <figcaption>Buddies <span class="sub">invite code blurred</span></figcaption>
+        </figure>
+        <figure>
+          <div class="device sc-dev sc-real"><span class="btn-vol"></span><span class="btn-vol two"></span><span class="btn-pow"></span>
+            <div class="screen"><img src="media/sc-app2-themes-441.webp" srcset="media/sc-app2-themes-441.webp 441w, media/sc-app2-themes-882.webp 882w" sizes="(max-width:440px) 41vw, (max-width:780px) 190px, 220px" width="441" height="956" loading="lazy" decoding="async" alt="Thema Winkel, the theme shop: the active theme Licht, owned themes Donker and Kleurenblind, and themes to buy with points, such as Nachtelijke Hemel and Bos"><span class="glare"></span></div></div>
+          <figcaption><span lang="nl">Thema Winkel</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 4 · HOW IT'S BUILT ============================ -->
+<section class="pp-section sc-build" id="build" aria-labelledby="buildTitle">
+  <div class="pp-stack">
+    <div class="rev-in">
+      <p class="pp-eyebrow">How it&rsquo;s built</p>
+      <h2 class="pp-h2" id="buildTitle">React Native, with a small data model underneath.</h2>
+      <p class="pp-p sc-first">Together with Max Klant I built the app in React Native with Expo. The data behind it is simple: a student, their sleep goal, and three logs that fill up over time.</p>
+      <div class="pp-stack-list">
+        <span>React Native</span><span>Expo</span>
+      </div>
+    </div>
+    <div class="rev-in">
+      <dl class="pp-facts sc-facts">
+        <div class="pp-fact"><dt class="k">type</dt><dd class="v">Android app</dd></div>
+        <div class="pp-fact"><dt class="k">year</dt><dd class="v">2026</dd></div>
+        <div class="pp-fact"><dt class="k">built&nbsp;with</dt><dd class="v">Max Klant</dd></div>
+        <div class="pp-fact"><dt class="k">context</dt><dd class="v">Sifra Swagerman&rsquo;s research at the Open&nbsp;Universiteit</dd></div>
+        <div class="pp-fact"><dt class="k">status</dt><dd class="v">LEMBO NXT pilot, first test phase</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- the data model, redrawn from the ER diagram (Student Sleep Management, 26 March 2026).
+       Field names stay as in the code (Dutch); the English names and notes are for the reader. -->
+  <figure class="sc-er rev-in" aria-labelledby="erCap">
+    <div class="sc-er-top">
+      <div class="sc-tbl sc-tbl-root">
+        <p class="sc-tbl-h"><span class="nm">STUDENT</span><span class="en">the account</span></p>
+        <ul>
+          <li><span>id</span><b>PK</b></li>
+          <li><span>gebruikersnaam</span></li>
+          <li><span>email</span></li>
+          <li><span>wachtwoord_hash</span></li>
+          <li><span>aangemaakt_op</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="sc-er-bus" aria-hidden="true"></div>
+    <div class="sc-er-row">
+      <div class="sc-er-col">
+        <p class="sc-rel"><span class="v">has</span><span class="c">one</span></p>
+        <div class="sc-tbl is-goal">
+          <p class="sc-tbl-h"><span class="nm">SLAAPDOEL</span><span class="en">sleep goal</span></p>
+          <ul>
+            <li><span>id</span><b>PK</b></li>
+            <li><span>student_id</span><b>FK</b></li>
+            <li><span>gewenste_slaaptijd</span></li>
+            <li><span>gewenste_wektijd</span></li>
+            <li><span>avondmodus_start</span></li>
+            <li><span>max_schermtijd_minuten</span></li>
+            <li><span>actief</span></li>
+          </ul>
+          <p class="sc-tbl-n">When you want to sleep and wake up, when evening mode starts, and your screen-time limit.</p>
+        </div>
+      </div>
+      <div class="sc-er-col">
+        <p class="sc-rel"><span class="v">logs</span><span class="c">many</span></p>
+        <div class="sc-tbl is-sleep">
+          <p class="sc-tbl-h"><span class="nm">SLAAP_LOG</span><span class="en">sleep log</span></p>
+          <ul>
+            <li><span>id</span><b>PK</b></li>
+            <li><span>student_id</span><b>FK</b></li>
+            <li><span>datum</span></li>
+            <li><span>slaaptijd</span></li>
+            <li><span>wektijd</span></li>
+            <li><span>slaapduur_minuten</span></li>
+          </ul>
+          <p class="sc-tbl-n">Per night: when you fell asleep, when you woke up, and how long you slept.</p>
+        </div>
+      </div>
+      <div class="sc-er-col">
+        <p class="sc-rel"><span class="v">logs</span><span class="c">many</span></p>
+        <div class="sc-tbl is-screen">
+          <p class="sc-tbl-h"><span class="nm">SCHERMTIJD_LOG</span><span class="en">screen-time log</span></p>
+          <ul>
+            <li><span>id</span><b>PK</b></li>
+            <li><span>student_id</span><b>FK</b></li>
+            <li><span>datum</span></li>
+            <li><span>start_monitoring</span></li>
+            <li><span>eind_monitoring</span></li>
+            <li><span>schermtijd_minuten</span></li>
+            <li><span>doel_behaald</span></li>
+          </ul>
+          <p class="sc-tbl-n">Per day: when tracking started and stopped, the minutes of screen time, and whether you hit your goal.</p>
+        </div>
+      </div>
+      <div class="sc-er-col">
+        <p class="sc-rel"><span class="v">earns</span><span class="c">many</span></p>
+        <div class="sc-tbl is-points">
+          <p class="sc-tbl-h"><span class="nm">PUNTEN_LOG</span><span class="en">points log</span></p>
+          <ul>
+            <li><span>id</span><b>PK</b></li>
+            <li><span>student_id</span><b>FK</b></li>
+            <li><span>punten</span></li>
+            <li><span>reden</span></li>
+            <li><span>datum</span></li>
+            <li><span>aangemaakt_op</span></li>
+          </ul>
+          <p class="sc-tbl-n">Every time you earn points: how many, the reason, and the date.</p>
+        </div>
+      </div>
+    </div>
+    <figcaption id="erCap">The data model: one student has one sleep goal and any number of sleep, screen-time and points entries.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================ 5 · GUEST LESSONS AND THE PILOT ============================ -->
+<section class="sc-band sc-pilot" id="pilot" aria-labelledby="pilotTitle">
+  <div class="sc-band-inner">
+    <div class="sc-pilot-head">
+      <div class="rev-in">
+        <p class="pp-eyebrow">Guest lessons and the pilot</p>
+        <h2 class="pp-h2" id="pilotTitle">Into the classroom.</h2>
+      </div>
+      <div class="rev-in">
+        <p class="pp-p">In September 2026 we gave guest lessons at several programmes at Aventus. We presented the app and looked for testers, who&rsquo;ll use it over the coming weeks.</p>
+        <p class="pp-p">This first test phase is part of the <span class="hl">LEMBO NXT pilot study</span>, which evaluates SlaapCampus: an app made together with mbo students to help them sleep better and spend less time on screens.</p>
+        <p class="pp-p">It was great to see students install the app and try it right there. Their feedback will help us make the app even better. Now it&rsquo;s time to sit back and let the data come in.</p>
+      </div>
+    </div>
+
+    <!-- photos from the guest lessons. Erben, Sifra Swagerman and the co-presenter may be shown (the
+         co-presenter is never named); every student's face is blurred or cropped out in the files
+         themselves. Desktop: a two-row bento. Phones: a swipeable strip. -->
+    <div class="sc-photos rev-in" role="region" aria-label="Photos from the guest lessons" tabindex="0">
+      <figure class="sc-photo f-team"><img src="media/sc-lesson-team-1180.webp" srcset="media/sc-lesson-team-800.webp 800w, media/sc-lesson-team-1180.webp 1180w" sizes="(max-width:640px) 84vw, (max-width:1160px) calc(64vw - 50px), 700px" width="1180" height="788" loading="lazy" decoding="async" alt="Erben and researcher Sifra Swagerman presenting at the front of a classroom, with a slide titled Win punten! and two app screens on the display behind them"><figcaption>Presenting with researcher Sifra Swagerman.</figcaption></figure>
+      <figure class="sc-photo f-table"><img src="media/sc-lesson-table-960.webp" srcset="media/sc-lesson-table-480.webp 480w, media/sc-lesson-table-640.webp 640w, media/sc-lesson-table-760.webp 760w, media/sc-lesson-table-960.webp 960w" sizes="(max-width:640px) 84vw, (max-width:1160px) calc(34vw - 26px), 370px" width="960" height="1200" loading="lazy" decoding="async" alt="Students on benches along a long table, each trying SlaapCampus on their phone, while Erben and a fellow presenter stand by. The students' faces are blurred."><figcaption>Students trying it on their own phones.</figcaption></figure>
+      <figure class="sc-photo f-point"><img src="media/sc-lesson-point-1000.webp" srcset="media/sc-lesson-point-800.webp 800w, media/sc-lesson-point-1000.webp 1000w" sizes="(max-width:640px) 84vw, (max-width:1160px) calc(49vw - 40px), 540px" width="1000" height="666" loading="lazy" decoding="async" alt="Erben presenting SlaapCampus during a guest lesson, pointing at the app's home screen on the classroom display"><figcaption>Walking the class through the home screen.</figcaption></figure>
+      <figure class="sc-photo f-demo"><img src="media/sc-lesson-demo-1140.webp" srcset="media/sc-lesson-demo-800.webp 800w, media/sc-lesson-demo-1140.webp 1140w" sizes="(max-width:640px) 84vw, (max-width:1160px) calc(49vw - 40px), 540px" width="1140" height="760" loading="lazy" decoding="async" alt="A fellow presenter showing night mode on his phone, mirrored on the classroom display as an App geblokkeerd screen, with Erben beside him and students in the foreground. The students' faces are blurred."><figcaption>A live demo of night mode blocking an app.</figcaption></figure>
+    </div>
+    <p class="sc-photos-note">Students&rsquo; faces are blurred for their privacy.</p>
+
+    <div class="sc-pilot-cards">
+      <div class="sc-card sc-lesson rev-in">
+        <p class="sc-k">A guest lesson, step by step</p>
+        <ol class="sc-steps">
+          <li><span class="n" aria-hidden="true">01</span><span class="t">The research<span class="d">How students think an unhealthy lifestyle affects how they feel, what they want to change and can change themselves, and how to build an app together with them.</span></span></li>
+          <li><span class="n" aria-hidden="true">02</span><span class="t">Consent first<span class="d">Testers had to be 18 or older. It&rsquo;s anonymous, you can always ask questions, you never have to answer, and you can stop at any time.</span></span></li>
+          <li><span class="n" aria-hidden="true">03</span><span class="t">A questionnaire<span class="d">The first measurement, T1.</span></span></li>
+          <li><span class="n" aria-hidden="true">04</span><span class="t">Installing the app<span class="d">The app runs on Android, so Android users installed it with a QR code and a handout.</span></span></li>
+          <li><span class="n" aria-hidden="true">05</span><span class="t">A walkthrough<span class="d">The app&rsquo;s features, one by one, and joining a group in the app.</span></span></li>
+          <li><span class="n" aria-hidden="true">06</span><span class="t">Two teams<span class="d">Android users tested the app (Team Testen). iPhone users joined Team Onderzoek: a post-it and card exercise about what would help them sleep better, so we still learned from them.</span></span></li>
+        </ol>
+      </div>
+      <div class="sc-card rev-in">
+        <p class="sc-k" id="timeTitle">Where SlaapCampus is now</p>
+        <ol class="sc-time" aria-labelledby="timeTitle">
+          <li class="done"><span class="mk" aria-hidden="true"></span><span class="t">Concepts and designs by nursing students</span></li>
+          <li class="done"><span class="mk" aria-hidden="true"></span><span class="t">Built into apps by software development students</span></li>
+          <li class="done"><span class="mk" aria-hidden="true"></span><span class="t">SlaapCampus picked as the best</span></li>
+          <li class="done"><span class="mk" aria-hidden="true"></span><span class="t">Built in React Native (Expo)</span></li>
+          <li class="done"><span class="mk" aria-hidden="true"></span><span class="t">Guest lessons at Aventus to find testers<span class="s">September 2026</span></span></li>
+          <li class="now"><span class="mk" aria-hidden="true"></span><span class="t">LEMBO NXT pilot study, first test phase<span class="s">running now</span></span></li>
+          <li class="next"><span class="mk" aria-hidden="true"></span><span class="t">Results<span class="s">to follow</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 6 · CLOSE ============================ -->
+<section class="pp-section pp-close sc-close" id="contact" aria-labelledby="closeTitle">
+  <div class="rev-in">
+    <h2 class="pp-h2" id="closeTitle">Curious what the pilot will teach us? <span class="g">Me too.</span></h2>
+    <div class="pp-close-row">
+      <a class="pp-btn primary" href="mailto:erben.l.driessen@gmail.com">Email me</a>
+      <a class="pp-btn ghost" href="./#work" data-back>← All work</a>
+    </div>
+    <p class="sc-also"><a href="powerplant">PowerPlan(t)</a> came from the same project, one round later. That one wasn&rsquo;t part of the research.</p>
+  </div>
+</section>
+</main>
+
+<footer class="pp-footer">
+  <span>© <span id="ppyear">2026</span> Erben Driessen</span>
+  <div class="sc-foot-links">
+    <a href="./#work" data-back>← All work</a>
+    <a href="https://github.com/ErbenDriessen" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:erben.l.driessen@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script src="js/case-study.js?v=20261015-fx1"></script>
+<script>
+/* safety net for the reveal in js/case-study.js: that one only shows what overlaps the window
+   when a scroll event fires, so a very fast scroll can skip a section. Once scrolling settles,
+   show everything at or above the fold too. */
+(function(){
+  var t;
+  function sweep(){
+    var els=document.querySelectorAll('.rev-in:not(.vis)');
+    for(var i=0;i<els.length;i++){ if(els[i].getBoundingClientRect().top < window.innerHeight*0.92) els[i].classList.add('vis'); }
+  }
+  window.addEventListener('scroll', function(){ clearTimeout(t); t=setTimeout(sweep,120); }, {passive:true});
+})();
+/* the photo strip and the setup strip are tab stops (so they can be scrolled with the arrow keys)
+   only while they actually scroll: on phones. On the desktop there is nothing to scroll. */
+(function(){
+  var strips=document.querySelectorAll('.sc-photos, .sc-strip'); if(!strips.length) return;
+  function sync(){
+    for(var i=0;i<strips.length;i++){
+      var s=strips[i];
+      if(s.scrollWidth > s.clientWidth + 1) s.setAttribute('tabindex','0');
+      else s.removeAttribute('tabindex');
+    }
+  }
+  sync();
+  var r; window.addEventListener('resize', function(){ clearTimeout(r); r=setTimeout(sync,150); }, {passive:true});
+  window.addEventListener('load',sync);
+})();
+/* the avatar video: loads and plays (muted, looping) only while it is on screen, 720 wide where
+   the phone is drawn with more than ~500 device pixels, 480 otherwise. The legend beside it lights
+   up the stage on screen. With reduced motion (or without JS) it stays on its poster, the first
+   frame, and the legend simply lists all five stages. */
+(function(){
+  var v=document.getElementById('scStages'); if(!v) return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var fig=v.closest('.sc-grow2'), items=fig.querySelectorAll('.sc-stages li'), btn=fig.querySelector('.sc-vidbtn');
+  /* where each stage starts in the recording (s); from the last mark on, the loop fades back to the mouse */
+  var T=[0, 1.66, 5.3, 8.87, 12.37, 15.95];
+  var src='', big=false, held=false, want=false, cur=-1;
+  v.muted=true; v.defaultMuted=true;
+  function mark(){
+    var t=v.currentTime, k=0;
+    for(var i=1;i<T.length;i++) if(t>=T[i]) k=i;
+    if(k===T.length-1) k=0;
+    if(k===cur) return; cur=k;
+    for(var j=0;j<items.length;j++) items[j].classList.toggle('on', j===k);
+  }
+  /* the file is only set here, on first play: a <source> in the markup gets fetched at page load
+     by some WebKit builds, preload="none" or not */
+  function play(){
+    want=true;
+    var b=v.getBoundingClientRect().width*(window.devicePixelRatio||1) > 500;
+    if(!src || (b && !big)){ big=b; src=v.getAttribute(b?'data-src-big':'data-src-small'); v.src=src; }
+    var p=v.play(); if(p && p.catch) p.catch(function(){});
+  }
+  function label(){ var on=!v.paused; btn.querySelector('.t').textContent=on?'Pause':'Play'; btn.classList.toggle('is-paused',!on); btn.setAttribute('aria-label', on?'Pause the video':'Play the video'); }
+  fig.classList.add('is-live'); mark();
+  v.addEventListener('timeupdate', mark);
+  v.addEventListener('play', label); v.addEventListener('pause', label);
+  btn.hidden=false; label();
+  btn.addEventListener('click', function(){ if(v.paused){ held=false; play(); } else { held=true; want=false; v.pause(); } });
+  /* some WebKit builds stop a looping video right after it wraps around: carry on if it should be playing */
+  v.addEventListener('pause', function(){ if(want && v.currentTime < .5){ var p=v.play(); if(p && p.catch) p.catch(function(){}); } });
+  if(!('IntersectionObserver' in window)){ play(); return; }
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ if(!held) play(); } else { want=false; if(!v.paused) v.pause(); } });
+  }, {rootMargin:'120px 0px'}).observe(v);
+})();
+</script>
+<script src="js/transitions.js?v=20261015-fx1"></script>
+</body>
+</html>
