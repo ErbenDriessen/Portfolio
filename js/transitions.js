@@ -62,7 +62,14 @@
     var c = PAGES[k];
     sessionStorage.setItem(KEY, JSON.stringify({ k:k, t:Date.now(), bg:c.bg, fg:c.fg, n:c.n, l:c.l }));
   }
-  function forget(){ try{ sessionStorage.removeItem(KEY); }catch(e){} }
+  function forget(){ try{ sessionStorage.removeItem(KEY); }catch(e){} unmark(); }
+  /* "All work" steps back in history instead of loading: the page it lands on is
+     often restored from the bfcache, and Firefox hands a restored page the
+     sessionStorage it had when it was hidden, so it can't see KEY. A cookie is
+     always read fresh: a short-lived marker that only says which page the curtain
+     is going to (no personal data, gone after 15 s) */
+  function mark(k){ document.cookie = 'ed_pt=' + k + '_' + Date.now() + '; max-age=15; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : ''); }
+  function unmark(){ document.cookie = 'ed_pt=; max-age=0; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : ''); }
   /* our own page loads: a load that cuts a pending one short is no stop (below) */
   function load(href){ quiet = true; try{ location.href = href; }finally{ quiet = false; } }
   /* everything back to rest at once, no animation */
@@ -101,6 +108,7 @@
       try{ save(k); }catch(e){}   /* fresh timestamp for the new page */
       if(navigate){
         stepping = false;
+        mark(k);
         navigate();
         /* a step back to an entry that isn't there does nothing, silently; a real
            one hides this page first (pagehide clears this timer), and where the
@@ -218,21 +226,20 @@
   window.addEventListener('pageshow', function(e){
     if(!e.persisted) return;
     /* restored from the bfcache, maybe still covered as it was left. Came here
-       through the curtain ("All work" going back), or it left under one (then the
-       browser's own Back brought it here): cover in this page's own colour and
-       lift it; otherwise just show the page.
-       The page's own memory decides first: Firefox hands a restored page the
-       sessionStorage it had when it was hidden, so the key the other page left
-       ("going home") isn't visible here yet; Chromium's is */
-    var leftCovered = sent || pt.classList.contains('is-cover');
+       through the curtain ("All work" stepping back): cover in this page's own
+       colour and lift it. The browser's own Back / Forward: no curtain, the page
+       just shows (only the second half could play, which reads as a glitch).
+       The cookie marker decides (see mark()); Chromium also sees the fresh KEY */
+    var m = /(?:^|;\s*)ed_pt=([a-z-]+)_(\d+)/.exec(document.cookie || '');
     var c = null;
     try{
       c = JSON.parse(sessionStorage.getItem(KEY) || 'null');
       sessionStorage.removeItem(KEY);
     }catch(err){}
+    unmark();
     reset();
-    var cameBack = leftCovered || (c && c.k === here && Date.now() - c.t < 8000);
-    if(cameBack && PAGES[here] && !reduce.matches){
+    var viaCurtain = (m && m[1] === here && Date.now() - +m[2] < 8000) || (c && c.k === here && Date.now() - c.t < 8000);
+    if(viaCurtain && PAGES[here] && !reduce.matches){
       css(h, PAGES[here]);
       h.classList.add('pt-in');
       ed.t0 = performance.now();
