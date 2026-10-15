@@ -56,7 +56,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
-<link rel="stylesheet" href="css/this-website-v2.css?v=20261013-b">
+<link rel="stylesheet" href="css/this-website-v2.css?v=20261015-ver3">
 <link rel="stylesheet" href="css/transitions.css?v=20261015-fx1">
 </head>
 <body class="tw2">
@@ -72,6 +72,8 @@
     <a href="#how">how&nbsp;it&rsquo;s&nbsp;made</a>
     <a href="#sides">light</a>
     <a href="#signature">signature</a>
+    <a href="#motion">way&nbsp;in</a>
+    <a href="#versions">versions</a>
     <a class="gh" href="#contact">Get&nbsp;in&nbsp;touch</a>
   </div>
 </nav>
@@ -229,7 +231,73 @@
   </div>
 </section>
 
-<!-- ============================ 4 · LIGHT ON A PHONE ============================ -->
+<!-- ============================ 4 · THE WAY IN AND THE WAY BETWEEN ============================ -->
+<!-- replays of the homepage's loader (the inline script in index.html) and the
+     page-transition curtain (css/transitions.css, js/transitions.js), rebuilt small for this
+     page on stills of the live site: js/this-website-v2.js, section 4. Same shapes, timing and
+     easing; they play once in view and pause off screen. The markup is each one's key frame,
+     so without JS (or with reduced motion, until Play) that is what shows. -->
+<section class="pp-section tw-motion" id="motion" aria-labelledby="motionTitle">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">The way in and the way between</p>
+    <h2 class="pp-h2" id="motionTitle">You don't see it half-built.</h2>
+    <p class="pp-p tw-intro">Two animations with one job. They cover the page while it loads, then get out of the way.</p>
+  </div>
+  <div class="tw-duo tw-demos">
+    <!-- the loader: the favicon's ED (img/favicon.svg, glyph units in .tw-ld-pens) written on a
+         960x600 stand-in for the screen, then the letters open as a window onto the hero -->
+    <figure class="tw-demo rev-in" data-demo="loader" style="--ink:#00FF9C">
+      <div class="tw-demo-stage" role="img" aria-label="Replay of the homepage loader: my initials ED are written in green, stroke by stroke, on a dark screen. Then the letters open like a window onto the live portrait.">
+        <img class="tw-demo-img" src="media/tw2-evo-4-now-1280.webp" srcset="media/tw2-evo-4-now-720.webp 720w, media/tw2-evo-4-now-1280.webp 1280w" sizes="(max-width:860px) 92vw, 540px" width="1280" height="800" loading="lazy" decoding="async" alt="">
+        <svg class="tw-ld" viewBox="0 0 960 600" aria-hidden="true" focusable="false">
+          <defs><clipPath id="twLdSweep"><rect x="24" y="14" width="36" height="18" transform="rotate(-90 42 32)"/></clipPath></defs>
+          <path class="tw-ld-veil" fill-rule="evenodd" d="M-4 -4H964V604H-4Z"/>
+          <path class="tw-ld-ink" fill-rule="evenodd" d="M434 268L474 268L474 282L448 282L448 293L470 293L470 307L448 307L448 318L474 318L474 332L434 332ZM486 268L504 268C518 268 526 276 526 290L526 310C526 324 518 332 504 332L486 332ZM500 282L500 318L504 318C509.6 318 512 315.2 512 309L512 291C512 284.8 509.6 282 504 282Z"/>
+          <g class="tw-ld-pens" transform="translate(416 236) scale(2)" visibility="hidden">
+            <rect x="9" y="16" width="7" height="32"/>
+            <rect x="16" y="16" width="13" height="7"/>
+            <rect x="16" y="28.5" width="11" height="7"/>
+            <rect x="16" y="41" width="13" height="7"/>
+            <rect x="35" y="16" width="7" height="32"/>
+            <path clip-path="url(#twLdSweep)" d="M42 16H44C51 16 55 20 55 27V37C55 44 51 48 44 48H42V41H44C46.8 41 48 39.6 48 36.5V27.5C48 24.4 46.8 23 44 23H42Z"/>
+          </g>
+        </svg>
+        <span class="tw-ld-glow" aria-hidden="true"></span>
+        <span class="tw-ld-name" aria-hidden="true">Erben Driessen</span>
+      </div>
+      <div class="tw-demo-ctrl">
+        <button class="tw-replay" type="button"><span class="ic" aria-hidden="true">↻</span><span class="tw-replay-t">Play again</span><span class="tw-sr">: the loader</span></button>
+        <ol class="tw-phases" aria-hidden="true"><li>write</li><li>wait</li><li>open</li></ol>
+      </div>
+      <figcaption>
+        <h3>The ED loader</h3>
+        <p>When you open the homepage, it first writes the ED from my favicon, stroke by stroke: first the E, then the D. It waits until the live portrait is ready, for two seconds at most. Then the letters become a window onto the page and zoom open until one stroke fills the screen.</p>
+        <p class="tw-demo-note">Every time you open or refresh the homepage at the top. A click, a key or a scroll hurries it along.</p>
+      </figcaption>
+    </figure>
+    <!-- the curtain: home (at Selected work) -> SlaapCampus, in SlaapCampus's colours from js/transitions.js -->
+    <figure class="tw-demo rev-in" data-demo="curtain" style="--ink:#d9cffb">
+      <div class="tw-demo-stage tw-ct" role="img" aria-label="Replay of the page transition: after a click on the SlaapCampus project, a dark purple panel with SlaapCampus on it slides up over my homepage. Then it lifts off the top and shows the SlaapCampus case study.">
+        <img class="tw-demo-img tw-ct-from" src="media/tw2-curtain-home-1280.webp" srcset="media/tw2-curtain-home-720.webp 720w, media/tw2-curtain-home-1280.webp 1280w" sizes="(max-width:860px) 92vw, 540px" width="1280" height="800" loading="lazy" decoding="async" alt="">
+        <img class="tw-demo-img tw-ct-to" src="media/tw2-curtain-slaap-1280.webp" srcset="media/tw2-curtain-slaap-720.webp 720w, media/tw2-curtain-slaap-1280.webp 1280w" sizes="(max-width:860px) 92vw, 540px" width="1280" height="800" loading="lazy" decoding="async" alt="">
+        <!-- where the click lands: "Read case study" on the SlaapCampus card (% of the 1440x900 still) -->
+        <span class="tw-ct-click" aria-hidden="true" style="left:63.96%;top:60.3%"></span>
+        <span class="tw-ct-panel" aria-hidden="true"><span class="tw-ct-name">SlaapCampus</span><span class="tw-ct-kind">case study</span></span>
+      </div>
+      <div class="tw-demo-ctrl">
+        <button class="tw-replay" type="button"><span class="ic" aria-hidden="true">↻</span><span class="tw-replay-t">Play again</span><span class="tw-sr">: the page transition</span></button>
+        <ol class="tw-phases" aria-hidden="true"><li>cover</li><li>load</li><li>lift</li></ol>
+      </div>
+      <figcaption>
+        <h3>The curtain</h3>
+        <p>Click a project and a panel in its colour slides up over the page, with its name on it. The next page starts under that same panel, before it has drawn anything, and lifts it away once the first screen has loaded.</p>
+        <p class="tw-demo-note">Going back to all work gets one too. With reduced motion turned on, neither plays.</p>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ 5 · LIGHT ON A PHONE ============================ -->
 <section class="pp-section tw-phone" id="phone" aria-labelledby="phoneTitle">
   <div class="tw-phone-grid">
     <div class="rev-in">
@@ -252,6 +320,120 @@
   </div>
 </section>
 
+<!-- ============================ 6 · HOW FAR IT HAS COME ============================ -->
+<!-- the homepage's versions, captured at 1440x900 (scroll 0; the close-ups: the same crop, cursor
+     on the right): 1. erbendriessen.nl/old/, the first version (the git history starts 8 June
+     2026). 2. the v1-final tag, live until 13 Oct 2026. 3. an early try at depth that
+     never went live (no date). 4. the live homepage, 15 Oct 2026. Each still also picks that
+     version for the window below it, where it runs live (versions/: archived copies, noindex). -->
+<section class="pp-section tw-evo" id="versions" aria-labelledby="evoTitle">
+  <div class="pp-sec-head rev-in">
+    <p class="pp-eyebrow">How far it has come</p>
+    <h2 class="pp-h2" id="evoTitle">It started as two photos.</h2>
+    <p class="pp-p tw-intro">The idea was there from the first version: me split down the middle, frontend on one side and backend on the other. What changed is the face.</p>
+  </div>
+  <ol class="tw-evo-list">
+    <li class="tw-evo-item rev-in">
+      <p class="tw-evo-when"><time datetime="2026-06">June 2026</time></p>
+      <div class="tw-evo-body">
+        <div class="tw-evo-img">
+          <img src="media/tw2-evo-1-june-1280.webp" srcset="media/tw2-evo-1-june-720.webp 720w, media/tw2-evo-1-june-1280.webp 1280w" sizes="(max-width:560px) 84vw, (max-width:980px) 46vw, 260px" width="1280" height="800" loading="lazy" decoding="async" alt="The first version of my homepage: two photos of me joined down the middle, a light frontend side on the left and a dark backend side on the right">
+          <button class="tw-evo-pick" type="button" data-ver="june" aria-pressed="false" aria-controls="twVerWin"><span class="tw-evo-pick-t">Show in the window<span class="tw-sr">: June 2026</span> <span aria-hidden="true">↓</span></span></button>
+        </div>
+        <div class="tw-evo-copy">
+          <h3>The first version</h3>
+          <p>Two still photos of me, one for each side, and a seam between them that followed your cursor.</p>
+        </div>
+      </div>
+    </li>
+    <li class="tw-evo-item rev-in">
+      <p class="tw-evo-when">Until <time datetime="2026-10-13">Oct 2026</time></p>
+      <div class="tw-evo-body">
+        <div class="tw-evo-img">
+          <img src="media/tw2-evo-2-v1-1280.webp" srcset="media/tw2-evo-2-v1-720.webp 720w, media/tw2-evo-2-v1-1280.webp 1280w" sizes="(max-width:560px) 84vw, (max-width:980px) 46vw, 260px" width="1280" height="800" loading="lazy" decoding="async" alt="The version before this one: a newer photo of me looking at the camera, still split down the middle">
+          <button class="tw-evo-pick" type="button" data-ver="october" aria-pressed="false" aria-controls="twVerWin"><span class="tw-evo-pick-t">Show in the window<span class="tw-sr">: until October 2026</span> <span aria-hidden="true">↓</span></span></button>
+        </div>
+        <div class="tw-evo-copy">
+          <h3>The one before this</h3>
+          <p>Newer photos, plus a third one looking straight at you until your cursor picked a side.</p>
+        </div>
+      </div>
+    </li>
+    <li class="tw-evo-item rev-in">
+      <p class="tw-evo-when">In between</p>
+      <div class="tw-evo-body">
+        <div class="tw-evo-img">
+          <img src="media/tw2-evo-3-creepy-close-1280.webp" srcset="media/tw2-evo-3-creepy-close-720.webp 720w, media/tw2-evo-3-creepy-close-1280.webp 1280w" sizes="(max-width:560px) 84vw, (max-width:980px) 46vw, 260px" width="1280" height="800" loading="lazy" decoding="async" alt="Close-up of my first try at depth, with the cursor in the bottom right corner: the head has turned and the eyes stare down to the side, with white showing above them">
+          <span class="tw-tag l" aria-hidden="true">cursor bottom right</span>
+          <button class="tw-evo-pick" type="button" data-ver="3d" aria-pressed="false" aria-controls="twVerWin"><span class="tw-evo-pick-t">Show in the window<span class="tw-sr">: the 3D attempt</span> <span aria-hidden="true">↓</span></span></button>
+        </div>
+        <div class="tw-evo-copy">
+          <h3>A first try at depth</h3>
+          <p>One photo on a depth map, with one iris image moved around in both eyes. When the head turned, the eyes stared. It looked creepy and never went live. It&rsquo;s why the face now has its own eyes and layers.</p>
+        </div>
+      </div>
+    </li>
+    <li class="tw-evo-item is-now rev-in">
+      <p class="tw-evo-when">Now</p>
+      <div class="tw-evo-body">
+        <div class="tw-evo-img">
+          <img src="media/tw2-evo-4-look-close-1280.webp" srcset="media/tw2-evo-4-look-close-720.webp 720w, media/tw2-evo-4-look-close-1280.webp 1280w" sizes="(max-width:560px) 84vw, (max-width:980px) 46vw, 260px" width="1280" height="800" loading="lazy" decoding="async" alt="The same close-up of the live portrait now, with the cursor on the right: my eyes look to the side and I smile a little">
+          <span class="tw-tag l" aria-hidden="true">cursor right</span>
+          <button class="tw-evo-pick" type="button" data-ver="now" aria-pressed="true" aria-controls="twVerWin"><span class="tw-evo-pick-t">Show in the window<span class="tw-sr">: now</span> <span aria-hidden="true">↓</span></span></button>
+        </div>
+        <div class="tw-evo-copy">
+          <h3>This one</h3>
+          <p>A live portrait with its own eyes, an ED that writes itself while the page loads, and a curtain between pages.</p>
+        </div>
+      </div>
+    </li>
+  </ol>
+  <!-- the versions, live: one window, a button per version (js/this-website-v2.js, section 6).
+       Each button holds its version: the page (data-src: an archived copy under versions/, or the
+       homepage), its still at 1440x900 (data-poster, -720/-1280.webp), what the window's address
+       bar says, and the caption with the cursor (data-live) or without it (data-still). Once the
+       window gets close, the chosen one loads in a frame laid out at 1440x900 and scaled to fit,
+       its still on top until it's ready. Hero only: nothing in it scrolls or follows a link.
+       Phones, touch and narrow windows get the stills, with their captions.
+       Without JS: the still of now. -->
+  <div class="tw-ver" data-versions>
+    <div class="tw-ver-tabs rev-in" role="group" aria-label="Version in the window">
+      <button class="tw-ver-tab" type="button" aria-pressed="false" aria-controls="twVerWin" data-ver="june"
+        data-src="versions/june/" data-poster="media/tw2-evo-1-june" data-ready="load" data-addr="erbendriessen.nl · June 2026"
+        data-alt="The first version of my homepage: two photos of me joined down the middle, a light frontend side on the left and a dark backend side on the right"
+        data-live="Two photos and a seam. Move your cursor over it and the seam follows you."
+        data-still="Two photos and a seam that followed the cursor.">June 2026</button>
+      <button class="tw-ver-tab" type="button" aria-pressed="false" aria-controls="twVerWin" data-ver="october"
+        data-src="versions/october/" data-poster="media/tw2-evo-2-v1" data-ready="load" data-addr="erbendriessen.nl · until Oct 2026"
+        data-alt="The version before this one: a newer photo of me looking at the camera, still split down the middle"
+        data-live="A third photo looks straight at you. Move your cursor to a side and I look that way."
+        data-still="A third photo looked straight at you until the cursor picked a side.">Until Oct 2026</button>
+      <button class="tw-ver-tab" type="button" aria-pressed="false" aria-controls="twVerWin" data-ver="3d"
+        data-src="versions/3d/" data-poster="media/tw2-evo-3-3d" data-ready="depth-on" data-addr="erbendriessen.nl · never went live"
+        data-alt="My first try at depth: one photo of me on a depth map, split down the middle like the version before it"
+        data-live="One photo on a depth map. Move your cursor to a corner and watch my eyes."
+        data-still="One photo on a depth map, with eyes that stared when the head turned.">3D attempt</button>
+      <button class="tw-ver-tab" type="button" aria-pressed="true" aria-controls="twVerWin" data-ver="now"
+        data-src="./" data-poster="media/tw2-evo-4-now" data-ready="depth-state" data-addr="erbendriessen.nl · now"
+        data-alt="The homepage now: the live portrait looking at the camera, a lavender frontend side on the left and a dark backend side on the right"
+        data-live="The homepage as it is now. Move your cursor over it and I look where it goes."
+        data-still="The homepage as it is now, with a face that looks where you point.">Now</button>
+    </div>
+    <figure class="tw-ver-win rev-in" id="twVerWin">
+      <div class="tw-ver-box">
+        <div class="tw-ver-bar">
+          <span class="tw-ver-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="tw-ver-addr" aria-hidden="true"><span class="tw-ver-state" data-state="still">screenshot</span><span class="tw-ver-url">erbendriessen.nl · now</span></span>
+        </div>
+        <div class="tw-ver-stage" role="img" aria-label="The homepage now: the live portrait looking at the camera, a lavender frontend side on the left and a dark backend side on the right">
+          <img class="tw-ver-poster" src="media/tw2-evo-4-now-1280.webp" srcset="media/tw2-evo-4-now-720.webp 720w, media/tw2-evo-4-now-1280.webp 1280w" sizes="(max-width:1160px) 92vw, 1080px" width="1280" height="800" loading="lazy" decoding="async" alt="">
+        </div>
+      </div>
+      <figcaption class="tw-ver-cap" aria-live="polite">The homepage as it is now, with a face that looks where you point.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <!-- ============================ STACK ============================ -->
 <section class="pp-section tw-stack" aria-label="Stack and tools">
   <div class="tw-stack-rows rev-in">
@@ -262,7 +444,7 @@
   </div>
 </section>
 
-<!-- ============================ 5 · CLOSE ============================ -->
+<!-- ============================ 7 · CLOSE ============================ -->
 <section class="pp-section pp-close tw-close" id="contact" aria-labelledby="closeTitle">
   <div class="rev-in">
     <p class="pp-eyebrow tw-center">What I learned</p>
@@ -289,7 +471,7 @@
 </footer>
 
 <script src="js/case-study.js?v=20261015-fx1"></script>
-<script src="js/this-website-v2.js?v=20261012-2"></script>
+<script src="js/this-website-v2.js?v=20261015-ver3"></script>
 <script src="js/transitions.js?v=20261015-fx3"></script>
 </body>
 </html>

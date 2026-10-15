@@ -1,0 +1,89 @@
+/* =================================================================
+   signature-scroll.css  —  v2 "zoom-out + signature write-on" hero
+   Loaded AFTER portfolio.css. Adds the pinned zoom-out scene around the
+   EXISTING v1 banner (the banner's own look is untouched).
+
+   STRUCTURE (see HTML):
+     .hero-track   ~240vh, reserves the scroll distance (no layout shift)
+       .hero-stage position:sticky; top:0; height:100svh  = the pin
+         .zo-marquee   (z1) text bands sliding behind the card
+         .hero-scaler  (z2) wraps the banner; JS scales/darkens it
+           header.hero (the v1 banner, unchanged)
+         .zo-label     (z4) small caption above
+         .zo-sign      (z5) the ED signature, written on via a pen-mask
+   One GSAP ScrollTrigger (scrub) maps track progress 0→1 onto a timeline
+   that (A) zooms the scaler out and (B) writes the signature.
+   ================================================================= */
+
+.hero-track{ position:relative; height:240vh; }
+.hero-stage{
+  position:sticky; top:0; height:100svh; overflow:hidden;
+  background:var(--be-bg); isolation:isolate;
+}
+
+/* the banner, wrapped so we can scale+darken it without touching its design */
+.hero-scaler{
+  position:absolute; inset:0; z-index:2;
+  transform-origin:center center; will-change:transform, filter, border-radius;
+  overflow:hidden; background:var(--be-bg);
+}
+.hero-scaler .hero{
+  height:100% !important; min-height:0 !important; width:100%;
+  cursor:default;
+}
+/* the scroll cue lives in the banner; it fades as we zoom (handled by the scaler filter) */
+
+/* ---------- marquee bands (behind the card) ---------- */
+.zo-marquee{
+  position:absolute; inset:0; z-index:1; opacity:0;
+  display:flex; flex-direction:column; justify-content:center; gap:1.5vh;
+  pointer-events:none; overflow:hidden;
+}
+.zo-band{ display:flex; white-space:nowrap; line-height:.92; will-change:transform; }
+.zo-band span{ padding-right:.45em; }
+.zo-band.b1{
+  font-family:"Poppins",sans-serif; font-weight:800; font-size:12vh; letter-spacing:-.02em;
+  color:rgba(0,255,156,.11);
+}
+.zo-band.b2{
+  font-family:"JetBrains Mono",monospace; font-weight:700; font-size:9vh; letter-spacing:.01em;
+  color:transparent; -webkit-text-stroke:1.4px rgba(234,242,233,.12);
+}
+
+/* ---------- small caption above the signature ---------- */
+.zo-label{
+  position:absolute; top:13vh; left:0; right:0; z-index:4; text-align:center;
+  opacity:0; pointer-events:none;
+  display:flex; flex-direction:column; align-items:center; gap:9px;
+}
+.zo-label .zo-mark{
+  font-family:"JetBrains Mono",monospace; font-weight:800; font-size:22px; letter-spacing:.04em;
+  color:var(--be-green); text-shadow:0 0 18px rgba(0,255,156,.45);
+}
+.zo-label .zo-cap{
+  font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--be-dim);
+}
+
+/* ---------- the signature overlay ---------- */
+.zo-sign{
+  position:absolute; z-index:5; left:50%; top:53%; transform:translate(-50%,-50%);
+  width:min(74vw,1020px); aspect-ratio:2892/1312; pointer-events:none;
+  filter:drop-shadow(0 0 26px rgba(0,255,156,.30));
+}
+.zo-guide{ fill:none; stroke:#fff; stroke-width:84; stroke-linecap:round; stroke-linejoin:round; }
+#zoSignSettle{ opacity:0; }
+
+/* ---------- static fallback (reduced-motion / touch / ≤1023px) ----------
+   body.zo-static = the effect is OFF; the hero is the normal v1 banner. */
+body.zo-static .hero-track{ height:auto; }
+body.zo-static .hero-stage{ position:relative; height:auto; overflow:visible; background:transparent; }
+body.zo-static .hero-scaler{ position:relative; inset:auto; }
+/* restore the v1 banner's own height (the pinned rules above zeroed it via height:100%) */
+body.zo-static .hero-scaler .hero{ height:calc(100svh - var(--nav-h)) !important; min-height:560px !important; }
+body.zo-static .zo-marquee,
+body.zo-static .zo-label{ display:none; }
+/* reduced-motion still shows the finished signature over the banner (the "end state") */
+body.zo-static .zo-sign{ display:none; }
+body.zo-reduced .zo-sign{ display:block; }
+body.zo-reduced #zoSignSettle{ opacity:1; }

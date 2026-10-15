@@ -4,7 +4,8 @@
    on launch day). Loaded after case-study.css: the pp-* shell stays,
    re-skinned azure / violet like v1's page, plus this page's blocks:
    the at-a-glance strip, the plate strip, the before/after sliders,
-   the live signature and the phone shot.
+   the live signature, the loader and curtain replays, the phone shot,
+   the timeline of versions and the window that runs each one live.
    ================================================================= */
 
 /* ---------- theme: azure -> violet (the frontend / backend identity) ---------- */
@@ -49,6 +50,9 @@ body.tw2{
 .tw-brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--tw-green); box-shadow:0 0 12px var(--tw-green); }
 .tw2 .pp-nav-right .gh{ color:#07101f; background:var(--pp-lime); }
 .tw2 .pp-nav-right .gh:hover{ box-shadow:0 8px 22px -8px rgba(91,157,255,.75); }
+/* five section links: fewer as the bar narrows (case-study.css drops them all below 560px) */
+@media (max-width:760px){ .tw2 .pp-nav-right a[href="#sides"], .tw2 .pp-nav-right a[href="#signature"]{ display:none; } }
+@media (max-width:640px){ .tw2 .pp-nav-right a[href="#motion"]{ display:none; } }
 
 /* ---------- 0 · hero ---------- */
 @media (min-width:761px){ .tw-hero{ grid-template-columns:.92fr 1.08fr; } }
@@ -197,7 +201,55 @@ html:not(.js) .rev-in{ opacity:1; transform:none; }
 /* without JS (or if the file can't load) the stroke-order plate tells it alone */
 html:not(.js) .tw-live-ctrl, .tw-live.is-off .tw-live-ctrl{ display:none; }
 
-/* ---------- 4 · light on a phone ---------- */
+/* ---------- 4 · the way in: the loader and curtain replays ----------
+   Each stage is a 16:10 stand-in for the screen. Type inside is sized in cqw (the
+   stage's own width), so it keeps the real thing's proportions at any size.
+   js/this-website-v2.js draws every frame; the markup's state is the key frame
+   (no JS, or reduced motion until Play). */
+.tw-demo{ margin:0; }
+.tw-demo-stage{ position:relative; aspect-ratio:16/10; border-radius:var(--tw-radius); overflow:hidden; background:#0D1117;
+  border:1px solid var(--pp-line); container-type:inline-size; isolation:isolate; }
+.tw-demo-img{ position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; }
+/* the loader: the dark is one path (the screen, minus the letters once they open). It runs
+   4 units past the svg's edges (overflow:visible; the stage clips), so no sub-pixel seam of
+   the page under it shows at the rim */
+.tw-ld{ position:absolute; inset:0; display:block; width:100%; height:100%; overflow:visible; }
+.tw-ld-veil{ fill:#0D1117; }
+.tw-ld-ink, .tw-ld-pens{ fill:#00FF9C; }
+/* the faint green light behind the mark and the name at the bottom, as in css/transitions.css
+   (stops in % of the gradient's reach: 80, 170 and 260px of a 960px-wide screen) */
+.tw-ld-glow{ position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(circle at 50% 50%, rgba(13,255,156,.055), rgba(13,255,156,.032) 14%, rgba(13,255,156,.012) 30%, rgba(13,255,156,0) 46%); }
+.tw-ld-name{ position:absolute; left:0; right:0; bottom:5%; padding-left:.34em; text-align:center; white-space:nowrap; pointer-events:none;
+  font:500 8px/1 "JetBrains Mono",ui-monospace,monospace; font-size:max(7.5px, 1.04cqw); letter-spacing:.34em; text-transform:uppercase;
+  color:rgba(232,237,243,.46); }
+/* the curtain: SlaapCampus's colours (js/transitions.js), its name 112px on a 1440px screen */
+.tw-ct-to{ visibility:hidden; }
+.tw-ct-panel{ position:absolute; inset:0; z-index:2; display:grid; place-items:center; padding:0 3cqw;
+  background:#17132f; color:#d9cffb; }
+.tw-demo.is-playing .tw-ct-panel{ will-change:transform; }
+.tw-ct-name{ display:block; max-width:100%; text-align:center; white-space:nowrap;
+  font:800 40px/1.02 "Poppins",system-ui,sans-serif; font-size:7.78cqw; letter-spacing:-.035em; }
+.tw-ct-kind{ position:absolute; left:0; right:0; bottom:3.33%; text-align:center;
+  font:400 8px/1 "JetBrains Mono",ui-monospace,monospace; font-size:max(7.5px, .76cqw); letter-spacing:.2em; text-transform:uppercase; opacity:.6; }
+/* the click on the project card */
+.tw-ct-click{ position:absolute; z-index:1; width:5cqw; height:5cqw; margin:-2.5cqw 0 0 -2.5cqw; border-radius:50%; pointer-events:none;
+  border:2px solid rgba(255,255,255,.92); box-shadow:0 0 12px rgba(0,0,0,.35); opacity:0; }
+/* Play again, and the three steps it goes through */
+.tw-demo-ctrl{ display:flex; align-items:center; flex-wrap:wrap; gap:12px 16px; margin-top:16px; }
+html:not(.js) .tw-demo-ctrl{ display:none; }
+.tw-demo:not(.is-ready) .tw-demo-ctrl{ visibility:hidden; }
+.tw-demo .tw-replay:hover:not(:disabled){ border-color:var(--ink); color:var(--ink); }
+.tw-phases{ list-style:none; margin:0; padding:0; display:flex; align-items:center; gap:6px; }
+.tw-phases li{ font:500 12px/1 "JetBrains Mono",monospace; padding:7px 11px; border-radius:999px; border:1px solid var(--pp-line);
+  color:var(--pp-dim); transition:color .2s, border-color .2s, background-color .2s; }
+.tw-phases li.on{ color:var(--ink); border-color:currentColor; background:rgba(255,255,255,.04); }
+.tw-demo figcaption{ margin-top:20px; }
+.tw-demo h3{ font-size:19px; font-weight:700; letter-spacing:-.01em; margin:0 0 8px; }
+.tw-demo figcaption p{ margin:0; font-size:15.5px; line-height:1.6; color:var(--pp-dim); max-width:54ch; }
+.tw-demo .tw-demo-note{ margin-top:12px; font:400 12.5px/1.55 "JetBrains Mono",monospace; }
+
+/* ---------- 5 · light on a phone ---------- */
 .tw-phone-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(36px,6vw,80px); align-items:center; }
 .tw-facts{ margin:28px 0 0; max-width:520px; }
 .tw-facts dd{ margin:0; }
@@ -209,6 +261,105 @@ html:not(.js) .tw-live-ctrl, .tw-live.is-off .tw-live-ctrl{ display:none; }
 @media (max-width:760px){
   .tw-phone-grid{ grid-template-columns:1fr; }
   .pp-fact{ font-size:13px; }
+}
+
+/* ---------- 6 · how far it has come: the timeline ----------
+   Four columns on a rail, a dot per version (the newest in green) and a line from each
+   dot to the next. From 980px down the rail runs down the left. */
+.tw-evo-list{ --dot:11px; --gap:clamp(18px,2.2vw,28px); list-style:none; margin:0; padding:0;
+  display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:var(--gap); }
+.tw-evo-item{ position:relative; padding-top:calc(var(--dot) + 18px); }
+.tw-evo-item::before{ content:""; position:absolute; left:0; top:0; width:var(--dot); height:var(--dot); border-radius:50%;
+  background:var(--pp-bg); box-shadow:inset 0 0 0 1.5px var(--pp-dim); }
+.tw-evo-item:not(:last-child)::after{ content:""; position:absolute; top:calc(var(--dot) / 2 - .5px); height:1px;
+  left:calc(var(--dot) + 8px); right:calc(8px - var(--gap)); background:var(--pp-line-strong); }
+.tw-evo-item:nth-last-child(2)::after{ background:linear-gradient(90deg, var(--pp-line-strong), rgba(0,255,156,.5)); }
+.tw-evo-item.is-now::before{ background:var(--tw-green); box-shadow:0 0 0 4px rgba(0,255,156,.12), 0 0 14px rgba(0,255,156,.55); }
+.tw-evo-when{ margin:0 0 14px; font:500 12px/1.2 "JetBrains Mono",monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--pp-dim); }
+.tw-evo-item.is-now .tw-evo-when{ color:var(--tw-green); }
+.tw-evo-img{ position:relative; aspect-ratio:16/10; border-radius:12px; overflow:hidden; background:#0b0e1a; border:1px solid var(--pp-line); }
+.tw-evo-img img{ display:block; width:100%; height:100%; object-fit:cover; }
+.tw-evo-img .tw-tag{ bottom:8px; padding:5px 7px; font-size:10.5px; }
+.tw-evo-img .tw-tag.l{ left:8px; }
+.tw-evo-copy h3{ font-size:17px; font-weight:700; letter-spacing:-.01em; line-height:1.3; margin:16px 0 6px; }
+.tw-evo-copy p{ margin:0; font-size:14.5px; line-height:1.6; color:var(--pp-dim); }
+/* each still picks its version for the window below (a button over the image; the chip
+   shows on hover / focus, the picked one gets a ring) */
+.tw-evo-img{ transition:border-color .2s, box-shadow .2s; }
+.tw-evo-pick{ position:absolute; inset:0; z-index:3; display:flex; align-items:flex-start; justify-content:flex-end; padding:8px;
+  margin:0; border:0; border-radius:inherit; background:transparent; color:inherit; font:inherit; cursor:pointer;
+  -webkit-tap-highlight-color:transparent; }
+.tw-evo-pick-t{ font:500 10.5px/1 "JetBrains Mono",monospace; letter-spacing:.04em; padding:5px 7px; border-radius:6px; white-space:nowrap;
+  background:rgba(11,14,26,.82); color:var(--pp-cream); opacity:0; transform:translateY(-3px); transition:opacity .2s, transform .2s; }
+.tw-evo-pick:hover .tw-evo-pick-t, .tw-evo-pick:focus-visible .tw-evo-pick-t{ opacity:1; transform:none; }
+.tw-evo-pick:focus-visible{ outline-offset:-2px; }
+.tw-evo-item.is-on .tw-evo-img{ border-color:rgba(134,184,255,.7); box-shadow:0 0 0 1px rgba(134,184,255,.3); }
+.tw-evo-item.is-on .tw-evo-pick{ cursor:default; }
+.tw-evo-item.is-on .tw-evo-pick-t{ opacity:0; }
+html:not(.js) .tw-evo-pick{ display:none; }
+@media (max-width:980px){
+  .tw-evo-list{ --rail:calc(var(--dot) + 20px); --gap:40px; grid-template-columns:minmax(0,1fr); padding-left:var(--rail); }
+  .tw-evo-item{ padding-top:0; }
+  .tw-evo-item::before{ left:calc(-1 * var(--rail)); top:2px; }
+  .tw-evo-item:not(:last-child)::after{ left:calc(var(--dot) / 2 - .5px - var(--rail)); right:auto; width:1px; height:auto;
+    top:calc(var(--dot) + 10px); bottom:calc(8px - var(--gap)); }
+  .tw-evo-item:nth-last-child(2)::after{ background:linear-gradient(180deg, var(--pp-line-strong), rgba(0,255,156,.5)); }
+  .tw-evo-body{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:28px; align-items:center; }
+  .tw-evo-copy h3{ margin-top:0; }
+  .tw-evo-copy p{ max-width:46ch; }
+}
+@media (max-width:560px){
+  .tw-evo-list{ --gap:36px; }
+  .tw-evo-body{ grid-template-columns:minmax(0,1fr); gap:0; }
+  .tw-evo-copy h3{ margin-top:14px; }
+}
+
+/* ---------- 6 · the versions, live: a button per version over one window ----------
+   The window is a quiet browser: a bar (three dots, an address with the state in it)
+   over a 16:10 stage. js/this-website-v2.js puts the version's
+   page in the stage as a frame laid out at 1440x900 and scaled by --s (the stage's width
+   / 1440), under its still until it's ready (.is-live fades the still out). */
+.tw-ver{ margin-top:clamp(56px,8vh,88px); }
+.tw-ver-tabs{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+html:not(.js) .tw-ver-tabs{ display:none; }
+.tw-ver-tab{ display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:10px 18px; border-radius:999px; cursor:pointer;
+  font:500 13px/1.2 "JetBrains Mono",monospace; letter-spacing:.02em; color:var(--pp-dim); background:transparent;
+  border:1px solid var(--pp-line-strong); transition:color .2s, border-color .2s, background-color .2s; }
+.tw-ver-tab:hover{ color:var(--pp-cream); border-color:rgba(134,184,255,.45); }
+.tw-ver-tab[aria-pressed="true"]{ color:var(--pp-cream); border-color:var(--pp-lime); background:rgba(91,157,255,.13); cursor:default; }
+.tw-ver-win{ margin:0; }
+.tw-ver-box{ border-radius:14px; overflow:hidden; background:#0b0e1a; border:1px solid var(--pp-line-strong);
+  box-shadow:0 50px 100px -50px rgba(0,0,0,.95); }
+.tw-ver-bar{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,auto) minmax(0,1fr); align-items:center; gap:12px;
+  min-height:42px; padding:0 8px 0 14px; background:#121827; border-bottom:1px solid var(--pp-line); }
+.tw-ver-dots{ display:flex; gap:7px; }
+.tw-ver-dots i{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,.12); }
+.tw-ver-addr{ display:flex; align-items:center; gap:10px; min-width:0; padding:6px 14px; border-radius:8px; background:rgba(255,255,255,.05);
+  font:500 12px/1.2 "JetBrains Mono",monospace; color:var(--pp-dim); white-space:nowrap; }
+.tw-ver-url{ min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.tw-ver-state{ flex:none; display:inline-flex; align-items:center; gap:6px; color:var(--pp-faint); }
+.tw-ver-state::before{ content:""; width:7px; height:7px; border-radius:50%; background:currentColor; }
+.tw-ver-state[data-state="load"]{ color:var(--pp-lime-bright); }
+.tw-ver-state[data-state="load"]::before{ animation:twPulse 1s ease-in-out infinite alternate; }
+.tw-ver-state[data-state="run"]{ color:var(--tw-green); }
+.tw-ver-state[data-state="run"]::before{ box-shadow:0 0 8px rgba(0,255,156,.6); }
+@keyframes twPulse{ from{ opacity:1; } to{ opacity:.25; } }
+.tw-ver-stage{ --s:.75; position:relative; aspect-ratio:16/10; overflow:hidden; background:#0b0e1a; }
+.tw-ver-poster{ position:absolute; inset:0; z-index:1; display:block; width:100%; height:100%; object-fit:cover; pointer-events:none; }
+.tw-ver-stage.is-live .tw-ver-poster{ opacity:0; visibility:hidden; transition:opacity .35s ease, visibility 0s linear .35s; }
+.tw-ver-frame{ position:absolute; left:0; top:0; display:block; width:1440px; height:900px; margin:0; border:0; background:#0b0e1a;
+  transform:scale(var(--s)); transform-origin:0 0; pointer-events:none; }
+.tw-ver-stage.is-live .tw-ver-frame{ pointer-events:auto; }
+.tw-ver-cap{ margin-top:16px; font-size:15.5px; line-height:1.6; color:var(--pp-dim); max-width:62ch; }
+@media (max-width:640px){
+  .tw-ver-bar{ grid-template-columns:minmax(0,1fr) auto; gap:6px; padding-left:8px; }
+  .tw-ver-dots{ display:none; }
+  .tw-ver-addr{ padding:6px 10px; font-size:11.5px; }
+}
+@media (max-width:560px){
+  .tw-ver-tabs{ display:grid; grid-template-columns:1fr 1fr; }
+  html:not(.js) .tw-ver-tabs{ display:none; }
+  .tw-ver-url{ display:none; }   /* the button above says which one it is */
 }
 
 /* ---------- stack ---------- */
@@ -254,5 +405,7 @@ html:not(.js) .tw-live-ctrl, .tw-live.is-off .tw-live-ctrl{ display:none; }
 
 @media (prefers-reduced-motion:reduce){
   .tw-strip{ scroll-behavior:auto; }
-  .tw-knob, .tw-cmp .tw-tag, .tw-live-stage #zoSignSettle, .tw-lands .d, .tw-lands .n, .tw-poster{ transition:none; }
+  .tw-knob, .tw-cmp .tw-tag, .tw-live-stage #zoSignSettle, .tw-lands .d, .tw-lands .n, .tw-poster, .tw-phases li,
+  .tw-evo-pick-t, .tw-ver-stage.is-live .tw-ver-poster{ transition:none; }
+  .tw-ver-state[data-state="load"]::before{ animation:none; }
 }
