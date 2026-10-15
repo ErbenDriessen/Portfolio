@@ -322,6 +322,17 @@
       if(history.replaceState) history.replaceState(null, '', h);
     });
 
+    /* scrolling back up into the hero after one of those links: drop the #hash
+       they left, so a refresh here counts as "at the hero" again and gets the ED
+       loader (index.html skips it for #work and the like). Only on the way up, so
+       the scroll cue's glide down keeps its #work */
+    var lastY = scrollY, mainEl = document.querySelector('main');
+    window.addEventListener('scroll', function(){
+      var y = scrollY, up = y < lastY; lastY = y;
+      if(!up || !location.hash || location.hash === '#top' || !mainEl || !history.replaceState) return;
+      if(mainEl.getBoundingClientRect().top >= innerHeight) history.replaceState(null, '', location.pathname + location.search);
+    }, { passive:true });
+
     window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
     window.__zoTL = tl; window.__lenis = lenis;
   }

@@ -26,16 +26,31 @@
       h.style.setProperty('--pt-name', JSON.stringify(String(c.n))); h.style.setProperty('--pt-kind', JSON.stringify(String(c.l)));
       h.style.backgroundColor = c.bg;
     }
-    /* the first-visit loader (top of <body>): once per session, a fresh visit to the
-       top of the page only (not back/forward, not to a #section, not in a background tab) */
-    var nav = performance.getEntriesByType ? (performance.getEntriesByType('navigation')[0] || {}).type : '';
-    if(calm && !ed.cover && k === 'home' && !location.hash && nav !== 'back_forward' &&
-       document.visibilityState === 'visible' && !s.getItem('ed:ld')){
-      s.setItem('ed:ld', '1');
+    /* the loader (top of <body>): every open or reload of this page that shows the hero.
+       Not on back / forward, after the curtain (above), in a background tab, or to a #section
+       (#top is the hero itself). A reload shows what the browser puts back: the scroll
+       restoration stays 'auto' here (Lenis and ScrollTrigger leave it be), so it restores the
+       position the page had, and the page noted then whether that was the hero (ed:y, below).
+       A reload to a #section stays out: WebKit jumps to the section, Chromium restores. */
+    var nav = performance.getEntriesByType && (performance.getEntriesByType('navigation')[0] || {}).type ||
+              ['navigate', 'reload', 'back_forward'][performance.navigation ? performance.navigation.type : -1],
+        was = JSON.parse(s.getItem('ed:y') || 'null');
+    if(calm && !ed.cover && k === 'home' && (!location.hash || location.hash === '#top') &&
+       document.visibilityState === 'visible' && (nav === 'navigate' || nav === 'reload' && was && was[0] <= was[1])){
       ed.cover = 'ld';
       h.classList.add('ld-on', 'cover-up', 'cover-load');
     }
   }catch(e){}
+  /* where this page was as it went (a reload, a link, a hidden tab the browser may discard):
+     [its scroll position, the last one where the hero still fills the screen]. The hero = the
+     top of the page down to where what follows it (<main>, the work first) comes into view:
+     on a desktop the whole pinned scroll scene (until the pin lets go: 265vh track - 100vh
+     stage = 165vh down), on an upright phone until the work's sheet comes up over the card */
+  function where(){ try{ var m = document.getElementById('main'), y = Math.round(scrollY);
+    if(m) sessionStorage.setItem('ed:y', JSON.stringify([y, Math.round(y + m.getBoundingClientRect().top - innerHeight)]));
+  }catch(e){} }
+  addEventListener('pagehide', where);
+  document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'hidden') where(); });
   if(!ed.cover) ed.q = null;
   /* failsafe: never stuck covered */
   else setTimeout(function(){ if(ed.q){ h.classList.remove('pt-in', 'ld-on'); ed.open(); } }, 5000);
@@ -74,7 +89,7 @@
 <body>
 <!-- the page-transition curtain (css/transitions.css, js/transitions.js) -->
 <div class="pt" aria-hidden="true"><span class="pt-name"></span><span class="pt-kind"></span></div>
-<!-- the first-visit loader, "the mark": the favicon's ED written on in green, stroke by
+<!-- the loader, "the mark": the favicon's ED written on in green, stroke by
      stroke, then the letters turn into a window onto the hero and zoom up until it
      fills the screen (the script below; shown only when the head snippet set html.ld-on;
      its styles: css/transitions.css). Glyph units = img/favicon.svg's 64x64 box (1em
@@ -825,7 +840,7 @@ docker run -d node</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="v2/js/signature-scroll.js?v=cue-slow-1"></script>
+<script src="v2/js/signature-scroll.js?v=20261015-hash1"></script>
 <script src="v2/js/more-projects.js?v=twolinks-1"></script>
 <script src="v2/js/site-ui.js?v=20261012-fx"></script>
 <script src="js/transitions.js?v=20261015-fx2"></script>
