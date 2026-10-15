@@ -5,6 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <style>html{background:#0D1117}</style>
+<!-- page transitions (css/transitions.css, js/transitions.js): a page opened through the
+     curtain starts covered, before its first paint. window.__ed.onOpen(fn) runs fn once
+     nothing covers the page any more (at once when nothing did). -->
+<script>
+(function(h){
+  var ed = window.__ed = { t0:performance.now(), cover:'', q:[],
+    onOpen:function(f){ if(ed.q) ed.q.push(f); else f(); },
+    open:function(){ var q = ed.q; if(!q) return; ed.q = null; h.classList.remove('cover-up');
+      q.forEach(function(f){ try{ f(); }catch(e){} }); } };
+  try{
+    var s = sessionStorage, c = JSON.parse(s.getItem('ed:pt') || 'null'), hex = /^#[0-9a-f]{3,8}$/i,
+        k = location.pathname.replace(/(\/index)?(\.html)?$/, '').split('/').pop() || 'home',
+        calm = window.top === window && !matchMedia('(prefers-reduced-motion:reduce)').matches;
+    s.removeItem('ed:pt');
+    if(calm && c && c.k === k && Date.now() - c.t < 8000 && hex.test(c.bg) && hex.test(c.fg)){
+      ed.cover = 'pt';
+      h.classList.add('pt-in', 'cover-up', 'cover-load');
+      h.style.setProperty('--pt-bg', c.bg); h.style.setProperty('--pt-fg', c.fg);
+      h.style.setProperty('--pt-name', JSON.stringify(String(c.n))); h.style.setProperty('--pt-kind', JSON.stringify(String(c.l)));
+      h.style.backgroundColor = c.bg;
+    }
+    /* the first-visit loader (top of <body>): once per session, a fresh visit to the
+       top of the page only (not back/forward, not to a #section, not in a background tab) */
+    var nav = performance.getEntriesByType ? (performance.getEntriesByType('navigation')[0] || {}).type : '';
+    if(calm && !ed.cover && k === 'home' && !location.hash && nav !== 'back_forward' &&
+       document.visibilityState === 'visible' && !s.getItem('ed:ld')){
+      s.setItem('ed:ld', '1');
+      ed.cover = 'ld';
+      h.classList.add('ld-on', 'cover-up', 'cover-load');
+    }
+  }catch(e){}
+  if(!ed.cover) ed.q = null;
+  /* failsafe: never stuck covered */
+  else setTimeout(function(){ if(ed.q){ h.classList.remove('pt-in', 'ld-on'); ed.open(); } }, 5000);
+})(document.documentElement);
+</script>
 <meta name="darkreader-lock">
 <title>Erben Driessen · Software Developer in Apeldoorn</title>
 <meta name="description" content="I&rsquo;m Erben, a 4th-year Software Development student in Apeldoorn. I build mobile apps, websites and the backend behind them. Open to internships and freelance work.">
@@ -29,12 +65,281 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="v2/css/portfolio.css?v=twolinks-1">
+<link rel="stylesheet" href="v2/css/portfolio.css?v=20261014-sc4">
 <link rel="stylesheet" href="v2/css/signature-scroll.css?v=20261012-wk">
 <!-- the static portrait is the LCP (and the no-WebGL / reduced-motion view): fetch it first -->
 <link rel="preload" as="image" type="image/avif" href="img/me-v2-portrait-c.avif" fetchpriority="high">
+<link rel="stylesheet" href="css/transitions.css?v=20261015-fx1">
 </head>
 <body>
+<!-- the page-transition curtain (css/transitions.css, js/transitions.js) -->
+<div class="pt" aria-hidden="true"><span class="pt-name"></span><span class="pt-kind"></span></div>
+<!-- the first-visit loader, "the mark": the favicon's ED written on in green, stroke by
+     stroke, then the letters turn into a window onto the hero and zoom up until it
+     fills the screen (the script below; shown only when the head snippet set html.ld-on;
+     its styles: css/transitions.css). Glyph units = img/favicon.svg's 64x64 box (1em
+     in .ld-mark). -->
+<div class="ld" id="ld" aria-hidden="true">
+  <svg class="ld-svg" xmlns="http://www.w3.org/2000/svg" focusable="false">
+    <path class="ld-veil" fill-rule="evenodd" d="M0 0H9999V9999H0Z"/>
+    <path class="ld-ink" fill-rule="evenodd" d=""/>
+  </svg>
+  <div class="ld-mark">
+    <i class="ld-pen ld-e0"></i><i class="ld-pen ld-e1"></i><i class="ld-pen ld-e2"></i><i class="ld-pen ld-e3"></i>
+    <i class="ld-pen ld-d0"></i>
+    <div class="ld-sweep"><div class="ld-bowl"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false"><path fill="#00FF9C" d="M42 16H44C51 16 55 20 55 27V37C55 44 51 48 44 48H42V41H44C46.8 41 48 39.6 48 36.5V27.5C48 24.4 46.8 23 44 23H42Z"/></svg></div></div>
+  </div>
+  <div class="ld-glow"></div>
+  <span class="ld-name">Erben Driessen</span>
+</div>
+<script>
+/* the loader's driver, inline so it runs from the first paint. The head snippet decided it
+   plays (html.ld-on). Ready = js/depth-banner.js's verdict: window.__depthState 'ready' (his
+   live face is up) or 'fail' (the static portrait stays), or no live portrait at all once the
+   page is parsed (then: the static img loaded).
+   1. the pens: the E's stem and arms and the D's stem grow out of their starting edge, the D's
+      bowl is swept round clockwise (a rotating half-plane over it). Transforms only, so they
+      run on the compositor. They start once frames flow: in its first second this page's
+      load (parsing, scripts, image decodes, the live portrait's textures) stalls the whole
+      rendering pipeline, compositor included, and a stroke started then would freeze
+      mid-way and jump to the end. A still dark screen hides that stall; a moving one can't.
+   2. once written and ready (not before OPEN_MIN, not after OPEN_MAX), and the frames are
+      calm again, the window: the dark is one svg path, the screen minus the letters
+      (evenodd), rebuilt in screen px each frame; the scale eases exponentially, so it reads
+      as an even push into the letters, and it ends the moment one stroke covers the screen.
+   A click, tap, key or wheel skips: the pens speed up and the zoom follows. The page can't
+   scroll meanwhile. */
+(function(){
+  var ed = window.__ed, h = document.documentElement, ld = document.getElementById('ld'), LATE = 1200;
+  if(!ld) return;
+  if(!ed || ed.cover !== 'ld' || !h.classList.contains('ld-on')){ ld.parentNode.removeChild(ld); return; }
+  /* a slow first paint (this runs once the head's stylesheets are in): the visitor has
+     waited long enough on a blank screen, so no loader on top of that. Nothing covered
+     the page then, so the hero plays its own entrance (cover-load would skip it) */
+  if(performance.now() - ed.t0 > LATE){ h.classList.remove('ld-on', 'cover-load'); ld.parentNode.removeChild(ld); ed.open(); return; }
+
+  /* TUNE (ms, from this script, ~ the first paint). The pens start after PEN_MIN once three
+     frames in a row came on time, and by PEN_CAP whatever; PENS: each stroke's [start, end]
+     from there, in writing order. The zoom waits BEAT after the last stroke, starts no
+     sooner than OPEN_MIN (and once ready) and no later than OPEN_MAX (the pens hurry
+     then), waits up to SETTLE for two calm frames, then runs a ZOOM-long curve
+     (ZOOM_FAST when skipped) that it leaves after ~75%: OVER = how far past "one stroke
+     covers the screen" the curve aims, so the last edges leave at speed instead of
+     creeping off. FADE: the share of the zoom over which the green dissolves into the
+     window. FAST: the pens' speed-up on a skip */
+  var PEN_MIN = 150, PEN_CAP = 1000, PENS = [[0, 190], [140, 280], [200, 330], [260, 400], [360, 530], [450, 720]];
+  var OPEN_MIN = 900, OPEN_MAX = 2000, BEAT = 100, SETTLE = 250, ZOOM = 900, ZOOM_FAST = 750,
+      OVER = 1.3, FADE = .15, FAST = 5;
+  /* the window's target: a rectangle of the E (glyph units) that one stroke fills; the one that
+     covers the screen soonest: the middle arm on a wide screen, the stem on a tall one */
+  var TARGETS = [{ x0:9, x1:27, y0:28.5, y1:35.5 }, { x0:9, x1:16, y0:16, y1:48 }];
+  /* the ED itself (img/favicon.svg): E, D, the D's counter (evenodd) */
+  var GLYPH = 'M9 16L29 16L29 23L16 23L16 28.5L27 28.5L27 35.5L16 35.5L16 41L29 41L29 48L9 48Z' +
+              'M35 16L44 16C51 16 55 20 55 27L55 37C55 44 51 48 44 48L35 48Z' +
+              'M42 23L42 41L44 41C46.8 41 48 39.6 48 36.5L48 27.5C48 24.4 46.8 23 44 23Z';
+  var G = GLYPH.match(/[MLCZ]|-?[\d.]+/g).map(function(s){ return /\d/.test(s) ? +s : s; });
+
+  var veil = ld.querySelector('.ld-veil'), ink = ld.querySelector('.ld-ink'), mark = ld.querySelector('.ld-mark');
+  var t0 = performance.now(), started = false, hurried = false, skipped = false, drawn = false, zs = 0, zd = ZOOM, done = false, raf = 0, anims = [];
+  var W, H, k0, ox, oy, rect, tg, P, kr, s0x, s0y;
+
+  /* cubic-bezier(x1,y1,x2,y2) as a function of time (bisection on x) */
+  function bez(x1, y1, x2, y2){
+    function c(a, b, u){ return 3*a*(1-u)*(1-u)*u + 3*b*(1-u)*u*u + u*u*u; }
+    return function(t){
+      if(t <= 0) return 0; if(t >= 1) return 1;
+      var lo = 0, hi = 1, u = t;
+      for(var i = 0; i < 20; i++){ u = (lo + hi) / 2; if(c(x1, x2, u) < t) lo = u; else hi = u; }
+      return c(y1, y2, u);
+    };
+  }
+  var zoomEase = bez(.76, 0, .24, 1);
+
+  /* the glyph at scale k, its (0,0) at x,y, as screen-px path data */
+  function glyph(k, x, y){
+    var s = '', n = 0;
+    for(var i = 0; i < G.length; i++){
+      var v = G[i];
+      s += typeof v === 'string' ? v : ' ' + (n++ % 2 ? y + k * v : x + k * v).toFixed(2);
+    }
+    return s;
+  }
+
+  function layout(){
+    W = ld.clientWidth || innerWidth; H = ld.clientHeight || innerHeight;
+    k0 = Math.min(W, H) < 600 ? 1.5 : 2;            /* the mark: 48px tall on a phone, 64 elsewhere */
+    /* centred, on whole device px (a multiple of 4 css px: whole at 1x, 1.25x, 1.5x, 2x) */
+    ox = Math.round((W / 2 - 32 * k0) / 4) * 4; oy = Math.round((H / 2 - 32 * k0) / 4) * 4;
+    mark.style.fontSize = k0 + 'px'; mark.style.left = ox + 'px'; mark.style.top = oy + 'px';
+    rect = 'M-4 -4H' + (W + 4) + 'V' + (H + 4) + 'H-4Z';
+    if(!zs){ veil.setAttribute('d', rect); if(drawn) ink.setAttribute('d', glyph(k0, ox, oy)); }
+  }
+
+  function ready(){
+    var s = window.__depthState;
+    if(s === 'ready' || s === 'fail') return true;
+    if(s === 'pending' || document.readyState === 'loading') return false;
+    /* no live portrait on its way: the static one */
+    var img = document.querySelector('.portrait-head img.portrait');
+    return !img || img.complete;
+  }
+
+  /* 1. the pens, once the frames come on time */
+  function waitForFrames(){
+    var last = 0, calm = 0;
+    function f(now){
+      if(started || done || gone()) return;
+      calm = last && now - last < 25 ? calm + 1 : 0; last = now;
+      if((calm >= 3 && now - t0 >= PEN_MIN) || now - t0 >= PEN_CAP) write();
+      else raf = requestAnimationFrame(f);
+    }
+    raf = requestAnimationFrame(f);
+    setTimeout(write, PEN_CAP + 150);   /* no frames at all (a hidden tab) */
+  }
+  function write(){
+    if(started || done) return; started = true;
+    var pens = mark.querySelectorAll('.ld-pen'), sweep = mark.querySelector('.ld-sweep'), bowl = mark.querySelector('.ld-bowl');
+    if(!mark.animate){ wrote(); return; }
+    var ease = 'cubic-bezier(.55,0,.25,1)';
+    function go(el, a, b, i){
+      var an = el.animate([{ transform:a }, { transform:b }],
+        { duration:PENS[i][1] - PENS[i][0], delay:PENS[i][0], easing:i === 5 ? 'cubic-bezier(.45,0,.3,1)' : ease, fill:'both' });
+      anims.push(an);
+    }
+    go(pens[0], 'scaleY(0)', 'scaleY(1)', 0);        /* E: stem, top down */
+    go(pens[1], 'scaleX(0)', 'scaleX(1)', 1);        /* its arms, left to right */
+    go(pens[2], 'scaleX(0)', 'scaleX(1)', 2);
+    go(pens[3], 'scaleX(0)', 'scaleX(1)', 3);
+    go(pens[4], 'scaleY(0)', 'scaleY(1)', 4);        /* D: stem */
+    go(sweep, 'rotate(-90deg)', 'rotate(90deg)', 5);     /* its bowl: the half-plane turns round */
+    go(bowl, 'rotate(90deg)', 'rotate(-90deg)', 5);      /* while the bowl under it stays put */
+    if(hurried){ hurried = false; hurry(); }
+    var left = anims.length;
+    anims.forEach(function(an){
+      var end = function(){ if(--left === 0) wrote(); };
+      if(an.finished) an.finished.then(end, end); else an.onfinish = end;
+    });
+  }
+  /* written: the pens give way to the one filled glyph, exactly the favicon's */
+  function wrote(){
+    if(drawn) return; drawn = true;
+    ink.setAttribute('d', glyph(k0, ox, oy));
+    mark.style.display = 'none';
+    anims.forEach(function(an){ try{ an.cancel(); }catch(e){} });
+    setTimeout(gate, hurried ? 30 : BEAT);
+  }
+  function hurry(){
+    if(hurried) return; hurried = true;
+    anims.forEach(function(an){ try{ an.updatePlaybackRate ? an.updatePlaybackRate(FAST) : an.playbackRate = FAST; }catch(e){} });
+  }
+
+  /* 2. the window */
+  function gate(){
+    if(zs || done || gone()) return;
+    var el = performance.now() - t0;
+    if(skipped || el >= OPEN_MAX || (el >= OPEN_MIN && ready())) settle();
+    else setTimeout(gate, 40);
+  }
+  /* page scripts still landing (long tasks) would stutter the zoom: wait for two calm frames */
+  function settle(){
+    var s0 = performance.now(), last = 0, calm = 0;
+    function f(now){
+      if(zs || done || gone()) return;
+      calm = last && now - last < 24 ? calm + 1 : 0; last = now;
+      if(calm >= 2 || skipped || now - s0 >= SETTLE) zoom(now);
+      else raf = requestAnimationFrame(f);
+    }
+    raf = requestAnimationFrame(f);
+  }
+  var zt = 0, zl = 0, za = 16.7;
+  function zoom(now){
+    if(zs || done) return;
+    zs = now; zl = now; zt = 0; zd = skipped ? ZOOM_FAST : ZOOM;
+    cancelAnimationFrame(raf);
+    if(!drawn) wrote();
+    var best = Infinity;
+    TARGETS.forEach(function(r){
+      var k = Math.max(W / (r.x1 - r.x0), H / (r.y1 - r.y0));
+      if(k < best){ best = k; tg = r; }
+    });
+    P = { x:(tg.x0 + tg.x1) / 2, y:(tg.y0 + tg.y1) / 2 };
+    kr = Math.max(1.01, best * OVER / k0);
+    s0x = ox + k0 * P.x; s0y = oy + k0 * P.y;
+    unblock();
+    ld.classList.add('open');
+    frame(now);
+    setTimeout(finish, zd + 400);   /* frames can stall (a hidden tab): finish anyway */
+  }
+  function frame(now){
+    if(done || gone()) return;
+    /* the zoom's own clock: a lone late frame moves it on by at most 50ms, so a hiccup
+       is a pause, not a jump; on a device that is slow throughout (za, the running
+       frame time) it follows the real clock, so the window still gets to grow */
+    var dt = now - zl; zl = now;
+    zt += Math.min(dt, Math.max(50, za * 2.5)); za = za * .7 + dt * .3;
+    var t = Math.min(1, zt / zd), e = zoomEase(t);
+    var k = k0 * Math.pow(kr, e),
+        x = s0x + (W / 2 - s0x) * e - k * P.x, y = s0y + (H / 2 - s0y) * e - k * P.y;
+    var g = glyph(k, x, y);
+    veil.setAttribute('d', rect + g);
+    ink.setAttribute('d', g);
+    var f = Math.min(1, t / FADE); ink.style.opacity = (1 - f * f * (3 - 2 * f)).toFixed(3);
+    /* one stroke covers the screen: the hero is all there is */
+    if(t >= 1 || (x + k * tg.x0 <= 0 && x + k * tg.x1 >= W && y + k * tg.y0 <= 0 && y + k * tg.y1 >= H)){ finish(); return; }
+    raf = requestAnimationFrame(frame);
+  }
+  /* the head's failsafe took the cover off (html.ld-on) behind our back: tidy up now */
+  function gone(){ if(!done && !h.classList.contains('ld-on')){ finish(); return true; } return false; }
+  function finish(){
+    if(done) return; done = true;
+    cancelAnimationFrame(raf);
+    unblock();
+    /* the hero's own entrance (its name line, labels, scroll cue) plays once the window
+       has opened: not during the zoom, where it would only be half seen and doubles the
+       work per frame (Firefox drops to ~10fps with both) */
+    ed.open();
+    h.classList.remove('ld-on');
+    window.removeEventListener('resize', layout);
+    if(ld.parentNode) ld.parentNode.removeChild(ld);
+  }
+  /* a click, tap, key or wheel: write the rest quickly and open */
+  function skip(){
+    if(skipped) return; skipped = true;
+    write(); hurry();
+    if(drawn && !zs) gate();
+    else setTimeout(wrote, 260);   /* a slow device: don't wait on its frames to finish the pens */
+  }
+
+  /* no scrolling while it shows: wheel + touch are stopped before Lenis
+     (signature-scroll.js) or the browser see them, and the scroll keys too */
+  var SCROLL_KEYS = { ' ':1, Spacebar:1, PageUp:1, PageDown:1, End:1, Home:1, ArrowUp:1, ArrowDown:1, ArrowLeft:1, ArrowRight:1, Up:1, Down:1 };
+  var opt = { passive:false, capture:true };
+  function stop(e){ if(e.cancelable) e.preventDefault(); e.stopPropagation(); skip(); }
+  function onKey(e){ if(SCROLL_KEYS[e.key] && e.cancelable) e.preventDefault(); skip(); }
+  function block(){
+    window.addEventListener('wheel', stop, opt);
+    window.addEventListener('touchmove', stop, opt);
+    window.addEventListener('keydown', onKey, true);
+    ld.addEventListener('pointerdown', skip);
+  }
+  function unblock(){
+    window.removeEventListener('wheel', stop, opt);
+    window.removeEventListener('touchmove', stop, opt);
+    window.removeEventListener('keydown', onKey, true);
+    ld.removeEventListener('pointerdown', skip);
+  }
+
+  layout();
+  window.addEventListener('resize', layout);
+  block();
+  waitForFrames();
+  /* frames can stall (a busy or hidden tab): hurry at OPEN_MAX, and open anyway soon after */
+  setTimeout(hurry, OPEN_MAX);
+  setTimeout(function(){ if(!zs && !done) zoom(performance.now()); }, OPEN_MAX + 400);
+  /* back to this page from the bfcache while it still showed: just open */
+  window.addEventListener('pageshow', function(e){ if(e.persisted) finish(); });
+})();
+</script>
 <a class="skip" href="#main">Skip to content</a>
 
 <!-- ============================ NAV ============================ -->
@@ -83,7 +388,7 @@
 <div class="hero-track" id="heroTrack">
 <div class="hero-stage" id="heroStage">
 
-  <!-- marquee bands (behind the card) — EDIT copy here; remove this block to drop them -->
+  <!-- marquee bands (behind the card) -->
   <div class="zo-marquee" id="zoMarquee" aria-hidden="true">
     <div class="zo-band b1" id="zoBand1"><span>Erben Driessen —</span><span>Software Developer —</span><span>Erben Driessen —</span><span>Software Developer —</span><span>Erben Driessen —</span><span>Software Developer —</span></div>
     <div class="zo-band b2" id="zoBand2"><span>frontend · backend · from pixel to packet ·</span><span>frontend · backend · from pixel to packet ·</span><span>frontend · backend · from pixel to packet ·</span><span>frontend · backend · from pixel to packet ·</span></div>
@@ -352,32 +657,35 @@ docker run -d node</div>
 
 <main id="main">
 <!-- ============================ WORK ============================ -->
-<!-- right after the hero: the proof first. "featured + two": PowerPlan(t) as one
-     wide card (three real app screens on the frontend paper), the other two as
-     half-width cards. Same card language as before (tags, year, CTA, hover lift). -->
+<!-- right after the hero: the proof first. "featured + two + featured": SlaapCampus as one
+     wide card (three screens of the built app on a night stage), the next two as half-width
+     cards, then PowerPlan(t) wide again, mirrored (text | stage) on the frontend paper.
+     Same card language throughout (tags, year, CTA, hover lift). -->
 <section class="section work" id="work">
   <div class="reveal">
     <p class="eyebrow">selected work</p>
     <h2 class="h2">Things I&rsquo;ve built.</h2>
   </div>
   <div class="work-grid">
-    <a class="card card-feature reveal" href="powerplant" aria-label="PowerPlan(t) — read the case study">
-      <div class="thumb thumb-phones">
+    <!-- featured: SlaapCampus on a night stage, with three screenshots of the built app
+         (a demo account): the night-mode lock, home, and the sleep stats -->
+    <a class="card card-feature reveal" href="slaapcampus" aria-label="SlaapCampus: read the case study">
+      <div class="thumb thumb-phones thumb-night">
         <div class="phones">
-          <img class="phone side" src="media/pp-phone-home-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="">
-          <img class="phone main" src="media/pp-phone-window-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="PowerPlan(t) app: the window view, a pixel landscape with your planted trees">
-          <img class="phone side" src="media/pp-phone-focus-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="">
+          <img class="phone side" src="media/sc-app2-night-441.webp" srcset="media/sc-app2-night-441.webp 441w, media/sc-app2-night-882.webp 882w" sizes="(max-width:600px) 30vw, (max-width:900px) 22.5vw, 160px" width="441" height="956" loading="lazy" decoding="async" alt="">
+          <img class="phone main" src="media/sc-app2-home-441.webp" srcset="media/sc-app2-home-441.webp 441w, media/sc-app2-home-882.webp 882w" sizes="(max-width:600px) 40vw, (max-width:900px) 28vw, 205px" width="441" height="956" loading="lazy" decoding="async" alt="The SlaapCampus app's home screen in the evening: a cartoon monkey avatar called Clever Monkey, with a streak and points">
+          <img class="phone side" src="media/sc-app2-stats-sleep-441.webp" srcset="media/sc-app2-stats-sleep-441.webp 441w, media/sc-app2-stats-sleep-882.webp 882w" sizes="(max-width:600px) 30vw, (max-width:900px) 22.5vw, 160px" width="441" height="956" loading="lazy" decoding="async" alt="">
         </div>
       </div>
       <div class="body">
         <div class="tags"><span>React Native</span><span>Expo</span><span class="yr">2026</span></div>
-        <h3>PowerPlan(t)</h3>
-        <p>A calm, wellness-first planner app that grows a forest as you focus, with an animated window that tracks the time of day.</p>
-        <dl class="role"><dt>role</dt><dd>Design + development, solo</dd></dl>
+        <h3>SlaapCampus</h3>
+        <p>A sleep app for mbo students, made with them, not for them. It tracks sleep and screen time and can block distracting apps. Now in its first pilot.</p>
+        <dl class="role"><dt>role</dt><dd>Development, with Max Klant</dd></dl>
         <span class="more">Read case study <span class="arr">→</span></span>
       </div>
     </a>
-    <a class="card reveal" href="this-website" aria-label="This website — read the case study">
+    <a class="card reveal" href="this-website" aria-label="This website: read the case study">
       <!-- the craft behind the hero: the depth map the live portrait is built on | the photo -->
       <div class="thumb thumb-img thumb-split">
         <img src="media/site-depth-split-1280.webp" srcset="media/site-depth-split-720.webp 720w, media/site-depth-split-1280.webp 1280w" sizes="(max-width:600px) 92vw, (max-width:1300px) 48vw, 610px" width="1280" height="800" loading="lazy" decoding="async" alt="The portrait from this site&rsquo;s banner, split down the middle: its depth map on the left, the photo on the right">
@@ -391,7 +699,7 @@ docker run -d node</div>
         <span class="more">Read case study <span class="arr">→</span></span>
       </div>
     </a>
-    <a class="card reveal" href="planetpod" aria-label="PlanetPod — read the case study">
+    <a class="card reveal" href="planetpod" aria-label="PlanetPod: read the case study">
       <div class="thumb thumb-img thumb-dash">
         <img src="media/planetpod-kpi-map-v3-1280.webp" srcset="media/planetpod-kpi-map-v3-720.webp 720w, media/planetpod-kpi-map-v3-1280.webp 1280w" sizes="(max-width:600px) 92vw, (max-width:1300px) 48vw, 610px" width="1280" height="800" loading="lazy" decoding="async" alt="PlanetPod fleet dashboard (recreation with sample data): status tiles and a map of the Netherlands with pod statuses">
       </div>
@@ -400,6 +708,24 @@ docker run -d node</div>
         <h3>PlanetPod fleet monitor</h3>
         <p>Internship dashboards that spot a failing home battery before the customer notices, with a fleet map and a per-pod deep-dive.</p>
         <dl class="role"><dt>role</dt><dd>Internship &middot; dashboards + queries</dd></dl>
+        <span class="more">Read case study <span class="arr">→</span></span>
+      </div>
+    </a>
+    <!-- second featured row, mirrored (text | stage): PowerPlan(t) on the frontend paper,
+         the day twin of SlaapCampus's night stage -->
+    <a class="card card-feature card-flip reveal" href="powerplant" aria-label="PowerPlan(t): read the case study">
+      <div class="thumb thumb-phones">
+        <div class="phones">
+          <img class="phone side" src="media/pp-phone-home-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="">
+          <img class="phone main" src="media/pp-phone-window-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="PowerPlan(t) app: the window view, a pixel landscape with your planted trees">
+          <img class="phone side" src="media/pp-phone-focus-520.webp" width="520" height="1127" loading="lazy" decoding="async" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="tags"><span>React Native</span><span>Expo</span><span class="yr">2026</span></div>
+        <h3>PowerPlan(t)</h3>
+        <p>A calm, wellness-first planner app that grows a forest as you focus, with an animated window that tracks the time of day.</p>
+        <dl class="role"><dt>role</dt><dd>Design + development, solo</dd></dl>
         <span class="more">Read case study <span class="arr">→</span></span>
       </div>
     </a>
@@ -422,14 +748,13 @@ docker run -d node</div>
   <p class="eyebrow reveal">about</p>
   <div class="about-intro reveal">
     <div class="about-head">
-      <!-- EDIT availability (the phone menu copies this pill). Once the start month is
-           known, make it e.g. "Available from February 2027 · internships &amp; freelance" -->
+      <!-- availability (the phone menu copies this pill) -->
       <span class="status" id="availability"><span class="pulse"></span>Available for internships &amp; freelance</span>
       <h2 class="h2">I build across the whole stack, from the <span class="grad-text">pixel</span> to the <span class="mono packet">packet</span>.</h2>
     </div>
     <p class="lead">Hi, I&rsquo;m Erben, a <span class="hl">4th-year Software Development student</span> at ROC Aventus in Apeldoorn. I like building things that solve a real problem: mobile apps, web pages, the occasional game. I&rsquo;m curious to learn, a bit of a perfectionist, and happiest when something I made actually gets used.</p>
   </div>
-  <!-- EDIT: quick facts -->
+  <!-- quick facts -->
   <dl class="facts reveal">
     <div class="fact"><dt>internship</dt><dd>PlanetPod&nbsp;·&nbsp;2025</dd></div>
     <div class="fact"><dt>focus</dt><dd>React&nbsp;Native · Python</dd></div>
@@ -453,7 +778,7 @@ docker run -d node</div>
       <ul class="side-list">
         <li>React Native</li><li>Expo</li><li>React</li><li>JavaScript</li><li>HTML</li><li>CSS</li><li>GSAP</li>
       </ul>
-      <p class="seen">seen in <span aria-hidden="true">→</span> <a href="powerplant">PowerPlan(t)</a> <span class="dot" aria-hidden="true">·</span> <a href="this-website">This website</a></p>
+      <p class="seen">seen in <span aria-hidden="true">→</span> <a href="powerplant">PowerPlan(t)</a> <span class="dot" aria-hidden="true">·</span> <a href="slaapcampus">SlaapCampus</a> <span class="dot" aria-hidden="true">·</span> <a href="this-website">This website</a></p>
     </div>
     <div class="sides-seam" aria-hidden="true"></div>
     <div class="side be">
@@ -493,7 +818,7 @@ docker run -d node</div>
   <span class="foot-line"><span>© <span id="year"></span> Erben Driessen</span><span class="sep" aria-hidden="true">·</span><a class="totop" href="#top">back to top <span aria-hidden="true">↑</span></a></span>
 </footer>
 
-<script src="v2/js/banner.js?v=20261012-fx"></script>
+<script src="v2/js/banner.js?v=20261014-pt1"></script>
 <script src="v2/js/depth-banner.js?v=dpr-fix-1"></script>
 
 <!-- ===================== zoom-out + signature write-on ===================== -->
@@ -503,5 +828,6 @@ docker run -d node</div>
 <script src="v2/js/signature-scroll.js?v=cue-slow-1"></script>
 <script src="v2/js/more-projects.js?v=twolinks-1"></script>
 <script src="v2/js/site-ui.js?v=20261012-fx"></script>
+<script src="js/transitions.js?v=20261015-fx1"></script>
 </body>
 </html>

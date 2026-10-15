@@ -187,14 +187,22 @@
   mqReduce.addEventListener('change', applyMode);
   render(); applyMode();
   if(mqMobile.matches || matchMedia('(hover:none)').matches){
+    /* under the first-visit loader or the page-transition curtain (the head
+       snippet's window.__ed), the sweep waits till the cover has opened, plus
+       a beat while it slides off */
+    const ed = window.__ed;
+    const sweep = function(live){
+      if(!ed || !ed.q){ introSweep(live); return; }
+      ed.onOpen(function(){ setTimeout(function(){ introSweep(live); }, 450); });
+    };
     /* depth-banner.js (a later script) flags a live portrait on its way
        (window.__depthState): by DOMContentLoaded it has run, so wait for its
        face or its give-up */
     const decide = function(){
       const s = window.__depthState;   /* 'pending' | 'ready' | 'fail' | undefined (none on this page) */
-      if(s !== 'pending'){ introSweep(s === 'ready'); return; }
+      if(s !== 'pending'){ sweep(s === 'ready'); return; }
       let done = false;
-      const go = function(live){ if(!done){ done = true; introSweep(live); } };
+      const go = function(live){ if(!done){ done = true; sweep(live); } };
       hero.addEventListener('depth:ready', function(){ go(true); }, {once:true});
       hero.addEventListener('depth:fail', function(){ go(false); }, {once:true});
     };

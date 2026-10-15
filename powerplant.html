@@ -5,6 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <style>html{background:#0b1310}</style>
+<!-- page transitions (css/transitions.css, js/transitions.js): a page opened through the
+     curtain starts covered, before its first paint. window.__ed.onOpen(fn) runs fn once
+     nothing covers the page any more (at once when nothing did). -->
+<script>
+(function(h){
+  var ed = window.__ed = { t0:performance.now(), cover:'', q:[],
+    onOpen:function(f){ if(ed.q) ed.q.push(f); else f(); },
+    open:function(){ var q = ed.q; if(!q) return; ed.q = null; h.classList.remove('cover-up');
+      q.forEach(function(f){ try{ f(); }catch(e){} }); } };
+  try{
+    var s = sessionStorage, c = JSON.parse(s.getItem('ed:pt') || 'null'), hex = /^#[0-9a-f]{3,8}$/i,
+        k = location.pathname.replace(/(\/index)?(\.html)?$/, '').split('/').pop() || 'home',
+        calm = window.top === window && !matchMedia('(prefers-reduced-motion:reduce)').matches;
+    s.removeItem('ed:pt');
+    if(calm && c && c.k === k && Date.now() - c.t < 8000 && hex.test(c.bg) && hex.test(c.fg)){
+      ed.cover = 'pt';
+      h.classList.add('pt-in', 'cover-up', 'cover-load');
+      h.style.setProperty('--pt-bg', c.bg); h.style.setProperty('--pt-fg', c.fg);
+      h.style.setProperty('--pt-name', JSON.stringify(String(c.n))); h.style.setProperty('--pt-kind', JSON.stringify(String(c.l)));
+      h.style.backgroundColor = c.bg;
+    }
+  }catch(e){}
+  if(!ed.cover) ed.q = null;
+  /* failsafe: never stuck covered */
+  else setTimeout(function(){ if(ed.q){ h.classList.remove('pt-in', 'ld-on'); ed.open(); } }, 5000);
+})(document.documentElement);
+</script>
 <meta name="darkreader-lock">
 <title>PowerPlan(t) · Case study · Erben Driessen</title>
 <meta name="description" content="PowerPlan(t): a calm, wellness-first planner that grows a forest as you focus. Case study by Erben Driessen.">
@@ -30,8 +57,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/case-study.css?v=20261013-cs2">
 <link rel="preload" as="image" href="media/powerplant-poster.webp" fetchpriority="high">
+<link rel="stylesheet" href="css/transitions.css?v=20261015-fx1">
 </head>
 <body>
+<!-- the page-transition curtain (css/transitions.css, js/transitions.js) -->
+<div class="pt" aria-hidden="true"><span class="pt-name"></span><span class="pt-kind"></span></div>
 
 <!-- ============================ NAV ============================ -->
 <nav class="pp-nav" id="ppnav">
@@ -223,7 +253,7 @@
   </div>
 </footer>
 
-<script src="js/case-study.js?v=20261012-cs"></script>
+<script src="js/case-study.js?v=20261015-fx1"></script>
 <script>
 (function(){
   // respect reduced motion: don't autoplay the ambient loop
@@ -233,5 +263,6 @@
   }
 })();
 </script>
+<script src="js/transitions.js?v=20261015-fx1"></script>
 </body>
 </html>

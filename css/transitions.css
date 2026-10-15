@@ -1,0 +1,98 @@
+/* =================================================================
+   transitions.css: the page-transition curtain (every page) and the
+   homepage's first-visit loader, "the mark". Driven by js/transitions.js
+   and the loader's inline script in index.html; the inline head snippet sets the
+   covered state before the first paint (html.pt-in / html.ld-on).
+   Both overlays are aria-hidden and never take focus.
+   ================================================================= */
+
+/* ---------------- 1. the curtain ----------------
+   A full-screen panel in the TARGET page's colour, its name big in the middle.
+   Out: it slides up from the bottom over the page (.is-cover), then the browser
+   navigates. In: the new page starts covered (html.pt-in, set in its head) and
+   the panel carries on upward, off screen (.is-leave).
+   Colours + name come in as custom properties: --pt-bg, --pt-fg and the
+   strings --pt-name, --pt-kind (on <html> when arriving, on .pt when leaving). */
+.pt{ position:fixed; inset:0; z-index:1001; pointer-events:none;
+  display:grid; place-items:center; padding:0 16px;
+  background:var(--pt-bg,#0D1117); color:var(--pt-fg,#e8edf3);
+  transform:translateY(100%); visibility:hidden; }   /* 2D at rest: no layer of its own while hidden */
+.pt-name{ display:block; margin:0; max-width:100%; text-align:center; text-wrap:balance;
+  font:800 clamp(38px,8vw,112px)/1.02 "Poppins",system-ui,sans-serif; letter-spacing:-.035em;
+  opacity:0; transform:translateY(26px); }
+.pt-name::before{ content:var(--pt-name,""); }
+.pt-kind{ position:absolute; left:0; right:0; bottom:30px; text-align:center;
+  font:400 11px/1 "JetBrains Mono",ui-monospace,monospace; letter-spacing:.2em; text-transform:uppercase; opacity:.6; }
+.pt-kind::before{ content:var(--pt-kind,""); }
+
+/* out: up over the page */
+.pt.is-cover{ visibility:visible; transform:none; transition:transform .6s cubic-bezier(.76,0,.24,1); }
+/* the name lands within the cover's .6s, so the new page takes it over exactly where it is */
+.pt.is-cover .pt-name{ opacity:1; transform:none;
+  transition:opacity .4s .18s, transform .48s .12s cubic-bezier(.22,1,.36,1); }
+/* in: covered from the first paint, no transition */
+html.pt-in .pt{ visibility:visible; transform:none; }
+html.pt-in .pt-name{ opacity:1; transform:none; }
+/* and off the top */
+.pt.is-leave{ visibility:visible; transform:translateY(-100%); transition:transform .7s cubic-bezier(.76,0,.24,1); }
+.pt.is-leave .pt-name{ opacity:0; transform:translateY(-26px);
+  transition:opacity .25s, transform .5s cubic-bezier(.76,0,.24,1); }
+/* on screen, it takes the clicks and taps (hits follow its slide: where it has moved
+   off, the page is usable again), so nothing hidden under it can be hit */
+.pt.is-cover, .pt.is-leave, html.pt-in .pt{ pointer-events:auto; }
+
+/* ---------------- 2. the first-visit loader (index.html only): "the mark" ----------------
+   The favicon's ED, written on in green on the dark, stroke by stroke (E: stem, then
+   the arms; D: stem, then the bowl), the name small at the bottom. Once the page is
+   ready the letters turn into a window onto the hero and zoom up until one stroke
+   fills the screen. Driven by the script in index.html:
+   - the pens (.ld-mark, 1em = one favicon unit): solid blocks that grow from their
+     starting edge, and the bowl, swept round by a turning half-plane (.ld-sweep turns,
+     .ld-bowl inside turns back, so the bowl stays put and only the edge moves).
+     Transforms only, run by the compositor; started once the page's frames flow.
+   - the window: the dark (.ld-veil) is ONE svg path, the screen with the letters cut
+     out (evenodd), redrawn in screen px every frame: sharp at every size, no mask layers.
+   No background on .ld itself: the veil's first frame is a plain full-screen path, so
+   the browser doesn't count the hero as hidden and skip painting it (it would all
+   have to be painted the moment the window opens, a stall right as the zoom starts). */
+.ld{ display:none; }
+html.ld-on .ld{ display:block; position:fixed; inset:0; z-index:1000; overflow:hidden;
+  pointer-events:auto; cursor:progress; }
+html.ld-on .ld.open{ pointer-events:none; cursor:auto; }
+.ld-svg{ position:absolute; left:0; top:0; width:100%; height:100%; overflow:hidden; }
+.ld-veil{ fill:#0D1117; }
+.ld-ink{ fill:#00FF9C; }
+.ld-mark{ position:absolute; left:calc(50% - 64px); top:calc(50% - 64px); width:64em; height:64em; font-size:2px; }
+.ld-pen{ position:absolute; display:block; background:#00FF9C; transform-origin:0 0; transform:scale(0); }
+.ld-e0{ left:9em;  top:16em;   width:7em;  height:32em; }   /* E: stem */
+.ld-e1{ left:16em; top:16em;   width:13em; height:7em; }    /*    arms */
+.ld-e2{ left:16em; top:28.5em; width:11em; height:7em; }
+.ld-e3{ left:16em; top:41em;   width:13em; height:7em; }
+.ld-d0{ left:35em; top:16em;   width:7em;  height:32em; }   /* D: stem */
+/* D: bowl. The half-plane above (42,32), the stem's inner edge: turned from -90deg (the
+   stem's side, nothing of the bowl) to 90deg (the whole bowl), clockwise */
+.ld-sweep{ position:absolute; left:24em; top:14em; width:36em; height:18em; overflow:hidden;
+  transform-origin:50% 100%; transform:rotate(-90deg); }
+.ld-bowl{ position:absolute; left:-24em; top:-14em; width:64em; height:64em; transform-origin:42em 32em; transform:rotate(90deg); }
+.ld-bowl svg{ display:block; width:100%; height:100%; }
+/* a faint green light behind the mark, and the name: both there from the first frame (a
+   fade-in would stall with the page's first-second load and then pop) */
+.ld-glow{ position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(circle at 50% 50%, rgba(13,255,156,.055), rgba(13,255,156,.032) 80px, rgba(13,255,156,.012) 170px, rgba(13,255,156,0) 260px);
+  transition:opacity .4s ease-out; }
+.ld-name{ position:absolute; left:0; right:0; bottom:30px; padding-left:.34em; text-align:center; white-space:nowrap;
+  font:500 10px/1 "JetBrains Mono",ui-monospace,monospace; letter-spacing:.34em; text-transform:uppercase;
+  color:rgba(232,237,243,.46); transition:opacity .3s; }
+.ld.open .ld-glow, .ld.open .ld-name{ opacity:0; }
+
+/* ---------------- 3. the hero's entrance under a cover (index.html) ----------------
+   html.cover-up: the loader or the curtain is still over the page. The hero's own
+   entrance (name line, labels, scroll cue) waits, paused at its first frame, and
+   plays once the cover is off (the head snippet's __ed.open() drops the class: the
+   curtain calls it as it lifts, the loader once its window has fully opened).
+   html.cover-load: the page loaded under a cover. The opening is the portrait's
+   entrance then, so its own rise is skipped (and the live portrait, which waits
+   for that rise, can swap in underneath); the seam is simply there. */
+html.cover-up .hero-intro, html.cover-up .hero .label, html.cover-up .hero .scrollcue,
+html.cover-up .hero .scrollcue *{ animation-play-state:paused; }
+html.cover-load .hero .portrait, html.cover-load .hero .divider{ animation:none; }

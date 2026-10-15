@@ -21,7 +21,9 @@
      (same origin, path / or /index.html or /v2/ or /v2/index.html), go
      back in history instead, so they land on the exact spot they left.
      Jumps to in-page anchors add history entries, so we count them
-     (csDepth in history.state) and step back past all of them. */
+     (csDepth in history.state) and step back past all of them. Only when
+     that entry is really there: in a tab opened from the homepage there is
+     none, and history.length also counts the entries ahead of this one. */
   /* /v2/ stays in the list for old bookmarks (it redirects to /) */
   var HOME = ['/', '/index.html', '/v2/', '/v2/index.html'];
   function fromHome(){
@@ -31,23 +33,42 @@
       return r.origin === location.origin && HOME.indexOf(r.pathname) >= 0;
     }catch(e){ return false; }
   }
-  var depth = 0;
+  /* csLen: history.length when this page was opened, i.e. the entries up to and
+     including its first one: more than 1 = there is one before it */
+  var depth = 0, baseLen = 0;
   try{
-    if(history.state && typeof history.state.csDepth === 'number') depth = history.state.csDepth;
-    else history.replaceState({csDepth:0}, '');
+    var st = history.state;
+    if(st && typeof st.csDepth === 'number'){ depth = st.csDepth; baseLen = st.csLen || 0; }
+    else { baseLen = history.length; history.replaceState({csDepth:0, csLen:baseLen}, ''); }
   }catch(e){}
   window.addEventListener('hashchange', function(){
     try{
       if(history.state && typeof history.state.csDepth === 'number'){ depth = history.state.csDepth; }
-      else { depth = depth + 1; history.replaceState({csDepth:depth}, ''); }
+      else { depth = depth + 1; history.replaceState({csDepth:depth, csLen:baseLen}, ''); }
     }catch(e){}
   });
+  /* the homepage, `steps` entries back? The Navigation API can look (Chromium,
+     recent Safari and Firefox); without it, count */
+  function homeBehind(steps){
+    try{
+      var n = window.navigation, cur = n && n.currentEntry;
+      if(cur && cur.index >= 0){
+        var en = n.entries()[cur.index - steps];
+        if(!en) return false;
+        return !en.url || HOME.indexOf(new URL(en.url).pathname) >= 0;
+      }
+    }catch(err){}
+    return history.length >= steps + 1 && (!baseLen || baseLen > 1);
+  }
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[data-back]');
     if(!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    if(!fromHome() || history.length < depth + 2) return;   // opened in a new tab etc.: follow the link
+    var steps = depth + 1;
+    if(!fromHome() || !homeBehind(steps)) return;   // opened in a new tab etc.: follow the link
     e.preventDefault();
-    history.go(-(depth + 1));
+    /* js/transitions.js: the curtain first, then back */
+    if(window.__pt && window.__pt.go(a.href, function(){ history.go(-steps); })) return;
+    history.go(-steps);
   });
 
   /* ---------------- reveal on scroll (bounding-rect, robust) ---------------- */

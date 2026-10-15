@@ -517,7 +517,7 @@ main a:focus-visible, main button:focus-visible, .footer a:focus-visible{
   .seen{ margin-top:22px; padding-top:0; }   /* stacked: each line right under its own list */
 }
 
-/* ---------- selected work: featured + two ---------- */
+/* ---------- selected work: featured + two + featured (mirrored) ---------- */
 .work-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:46px; }
 /* the thumb clips the image to the top corners (not the card), so the hover strip below can sit outside it */
 .card{ display:flex; flex-direction:column; text-decoration:none; border-radius:18px; position:relative; background:var(--be-slate);
@@ -543,13 +543,16 @@ main a:focus-visible, main button:focus-visible, .footer a:focus-visible{
   border-top:1px solid var(--be-line); border-bottom:1px solid var(--be-line); font-family:"JetBrains Mono",monospace; font-size:12.5px; }
 .card .role dt{ color:var(--be-dim); }
 .card .role dd{ margin:0; color:#fff; text-align:right; text-wrap:balance; }
+/* while a card image is still on its way, browsers (Firefox most of all) paint its alt text in
+   the box; keep it for screen readers but invisible, so the stage just reads as empty a moment */
+.work-grid img{ color:transparent; }
 .card .more{ padding-top:16px; align-self:flex-start; font-family:"JetBrains Mono",monospace; font-size:13px; color:var(--be-green);
   display:inline-flex; align-items:center; gap:7px; }
 .card .more .arr{ transition:transform .25s var(--ease); }
 .card:focus-visible .more .arr{ transform:translateX(5px); }
 
-/* featured: PowerPlan(t) spans the row, stage | text. The stage is the frontend
-   paper (lavender → mint) with three real app screens rising from its bottom edge.
+/* featured: a card that spans the row, stage | text. The default stage is the frontend
+   paper (lavender → mint, PowerPlan(t)) with three real app screens rising from its bottom edge.
    The phones are sized in container units (cqw) of the stage, px before as the fallback */
 .card-feature{ grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); }
 .work-grid .card-feature .thumb{ aspect-ratio:auto; min-height:clamp(340px,33vw,440px); border-radius:17px 0 0 17px;
@@ -586,11 +589,38 @@ main a:focus-visible, main button:focus-visible, .footer a:focus-visible{
 /* PlanetPod: the KPI tiles + map, read from the top-left */
 .card .thumb.thumb-dash img{ object-position:left top; }
 
+/* a featured card can be mirrored (text | stage): .card-flip. PowerPlan(t) sits that way at
+   the end of the grid, under SlaapCampus, which leads */
+.card-flip{ grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); }
+.work-grid .card-flip .thumb{ order:2; border-radius:0 17px 17px 0; }
+/* SlaapCampus: the night twin of PowerPlan(t)'s day paper: deep indigo, a lavender glow
+   behind the main screen, a faint field of stars. Same phones, same sizes (the .phones rules
+   above), here three screenshots of the built app (demo account): the night-mode lock, home,
+   and the sleep stats */
+.work-grid .card-feature .thumb.thumb-night{
+  background:
+    radial-gradient(44% 58% at 50% 34%, rgba(167,139,250,.30), transparent 72%),
+    radial-gradient(60% 80% at 4% 104%, rgba(124,92,252,.24), transparent 64%),
+    radial-gradient(48% 64% at 98% 0%, rgba(78,205,196,.09), transparent 62%),
+    linear-gradient(160deg,#221b47 0%,#17132f 50%,#0f0d21 100%); }
+.card-feature .thumb.thumb-night::before{ opacity:.75;
+  background-image:
+    radial-gradient(circle at 23px 31px, rgba(255,255,255,.75) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 131px 87px, rgba(255,255,255,.5) 0 .8px, transparent 1.4px),
+    radial-gradient(circle at 71px 152px, rgba(214,204,255,.6) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 178px 19px, rgba(214,204,255,.45) 0 .8px, transparent 1.4px),
+    radial-gradient(circle at 52px 61px, rgba(255,255,255,.4) 0 .7px, transparent 1.3px),
+    radial-gradient(circle at 151px 133px, rgba(255,255,255,.35) 0 .7px, transparent 1.3px);
+  background-size:197px 173px, 197px 173px, 197px 173px, 241px 211px, 241px 211px, 241px 211px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.7) 45%,transparent 85%); mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.7) 45%,transparent 85%); }
+.thumb-night .phone{ box-shadow:0 44px 70px -30px rgba(4,3,14,.85), 0 0 0 1px rgba(167,139,250,.24); }
+
 /* portrait tablets + phones: the featured card stacks (stage over text) so the phones keep
    their size. Phones held sideways keep stage | text: stacked, the stage outgrows the screen */
 @media (max-width:700px), (max-width:900px) and (orientation:portrait){
   .card-feature{ display:flex; }
   .work-grid .card-feature .thumb{ min-height:0; aspect-ratio:16/10; border-radius:17px 17px 0 0; }
+  .work-grid .card-flip .thumb{ order:0; }   /* stacked, the stage goes back on top */
   .card-feature > .body{ align-self:stretch; padding:22px 24px 24px; }
 }
 @media (max-height:500px) and (orientation:landscape){
