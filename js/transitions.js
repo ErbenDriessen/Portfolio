@@ -218,15 +218,21 @@
   window.addEventListener('pageshow', function(e){
     if(!e.persisted) return;
     /* restored from the bfcache, maybe still covered as it was left. Came here
-       through the curtain ("All work" going back): cover in this page's own
-       colour and lift it; otherwise just show the page */
+       through the curtain ("All work" going back), or it left under one (then the
+       browser's own Back brought it here): cover in this page's own colour and
+       lift it; otherwise just show the page.
+       The page's own memory decides first: Firefox hands a restored page the
+       sessionStorage it had when it was hidden, so the key the other page left
+       ("going home") isn't visible here yet; Chromium's is */
+    var leftCovered = sent || pt.classList.contains('is-cover');
     var c = null;
     try{
       c = JSON.parse(sessionStorage.getItem(KEY) || 'null');
       sessionStorage.removeItem(KEY);
     }catch(err){}
     reset();
-    if(c && c.k === here && Date.now() - c.t < 8000 && PAGES[here] && !reduce.matches){
+    var cameBack = leftCovered || (c && c.k === here && Date.now() - c.t < 8000);
+    if(cameBack && PAGES[here] && !reduce.matches){
       css(h, PAGES[here]);
       h.classList.add('pt-in');
       ed.t0 = performance.now();
